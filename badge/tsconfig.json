@@ -1,0 +1,15 @@
+{
+  "compilerOptions": {
+    "noImplicitAny": false,
+    "noEmitOnError": true,
+    "removeComments": false,
+    "sourceMap": true,
+    "outFile": "./build/badge.js",
+    "target": "es6"
+  },
+  "files": [
+        "./badge.ts",
+        "./colors.ts",
+        "./interfaces/IBadgeData.ts"
+    ]
+}
