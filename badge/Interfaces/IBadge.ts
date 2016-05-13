@@ -1,0 +1,5 @@
+﻿interface IBadge {
+    targetSvg: HTMLElement;
+
+
+}

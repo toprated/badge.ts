@@ -1,5 +1,7 @@
-﻿/// <reference path="colors.ts"/>
+﻿/// <reference path="./common/Colors.ts"/>
+/// <reference path="./common/UrlHelper.ts"/>
 /// <reference path="./interfaces/IBadgeData.ts"/>
+/// <reference path="./interfaces/IBadge.ts"/>
 
 function getParameter(name: string) {
     name = name.replace(/[\[]/, "\\\[").replace(/[\]]/, "\\\]");
@@ -81,4 +83,4 @@ function onLoadFunc() {
     }
 }
 
-window.onload = onLoadFunc;
+//window.onload = onLoadFunc;

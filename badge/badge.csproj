@@ -22,13 +22,23 @@
     <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />
   </ItemGroup>
   <ItemGroup>
-    <TypeScriptCompile Include="badge.ts" />
-    <TypeScriptCompile Include="colors.ts" />
-    <TypeScriptCompile Include="interfaces\IBadgeData.ts" />
+    <TypeScriptCompile Include="Badge.ts" />
+    <TypeScriptCompile Include="Common\Colors.ts" />
+    <TypeScriptCompile Include="Enums\Color.ts" />
+    <TypeScriptCompile Include="Enums\Themes.ts" />
+    <TypeScriptCompile Include="Interfaces\IBadge.ts" />
+    <TypeScriptCompile Include="Interfaces\IBadgeData.ts" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="index.html" />
     <Content Include="svg.js" />
     <Content Include="tsconfig.json" />
+  </ItemGroup>
+  <ItemGroup>
+    <TypeScriptCompile Include="Common\UrlHelper.ts" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="data.json" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">12.0</VisualStudioVersion>

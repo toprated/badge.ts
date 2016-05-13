@@ -6,6 +6,7 @@ var Color;
     Color[Color["White"] = 3] = "White";
     Color[Color["Gray"] = 4] = "Gray";
 })(Color || (Color = {}));
+/// <reference path="./../enums/Color.ts"/>
 var Colors;
 (function (Colors) {
     const silver = "#C0C0C0";
@@ -31,8 +32,18 @@ var Colors;
     }
     Colors.get = get;
 })(Colors || (Colors = {}));
-/// <reference path="colors.ts"/>
+var badge;
+(function (badge) {
+    var Common;
+    (function (Common) {
+        class UrlHelper {
+        }
+    })(Common = badge.Common || (badge.Common = {}));
+})(badge || (badge = {}));
+/// <reference path="./common/Colors.ts"/>
+/// <reference path="./common/UrlHelper.ts"/>
 /// <reference path="./interfaces/IBadgeData.ts"/>
+/// <reference path="./interfaces/IBadge.ts"/>
 function getParameter(name) {
     name = name.replace(/[\[]/, "\\\[").replace(/[\]]/, "\\\]");
     const regexS = `[\\?&]${name}=([^&#]*)`;
@@ -102,5 +113,5 @@ function onLoadFunc() {
         }
     };
 }
-window.onload = onLoadFunc;
+//window.onload = onLoadFunc;
 //# sourceMappingURL=badge.js.map

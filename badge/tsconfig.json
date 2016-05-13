@@ -8,8 +8,9 @@
     "target": "es6"
   },
   "files": [
+        "./interfaces/IBadgeData.ts",
+        "./interfaces/IBadge.ts",
         "./badge.ts",
-        "./colors.ts",
-        "./interfaces/IBadgeData.ts"
+        "./common/colors.ts"
     ]
 }
