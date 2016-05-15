@@ -32,27 +32,37 @@ var Colors;
     }
     Colors.get = get;
 })(Colors || (Colors = {}));
+/// <reference path="./../interfaces/IUrlHelper.ts"/>
 var badge;
 (function (badge) {
     var Common;
     (function (Common) {
         class UrlHelper {
+            getParameter(name) {
+                name = name.replace(/[\[]/, "\\\[").replace(/[\]]/, "\\\]");
+                const regexS = `[\\?&]${name}=([^&#]*)`;
+                const regex = new RegExp(regexS);
+                const results = regex.exec(window.location.href);
+                if (results == null)
+                    return "";
+                else
+                    return results[1];
+            }
         }
     })(Common = badge.Common || (badge.Common = {}));
 })(badge || (badge = {}));
+/// <reference path="./IFontStyle.ts"/>
 /// <reference path="./common/Colors.ts"/>
 /// <reference path="./common/UrlHelper.ts"/>
 /// <reference path="./interfaces/IBadgeData.ts"/>
+/// <reference path="./interfaces/IBadgeStyle.ts"/>
 /// <reference path="./interfaces/IBadge.ts"/>
-function getParameter(name) {
-    name = name.replace(/[\[]/, "\\\[").replace(/[\]]/, "\\\]");
-    const regexS = `[\\?&]${name}=([^&#]*)`;
-    const regex = new RegExp(regexS);
-    const results = regex.exec(window.location.href);
-    if (results == null)
-        return "";
-    else
-        return results[1];
+class Badge {
+    constructor(element) {
+        this.targetElement = element;
+    }
+    buildBadge(badgeData) {
+    }
 }
 function buildSvg(repoData) {
     const repoName = repoData.name;

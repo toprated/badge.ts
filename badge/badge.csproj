@@ -24,10 +24,14 @@
   <ItemGroup>
     <TypeScriptCompile Include="Badge.ts" />
     <TypeScriptCompile Include="Common\Colors.ts" />
+    <TypeScriptCompile Include="Common\SvgHelper.ts" />
     <TypeScriptCompile Include="Enums\Color.ts" />
     <TypeScriptCompile Include="Enums\Themes.ts" />
     <TypeScriptCompile Include="Interfaces\IBadge.ts" />
     <TypeScriptCompile Include="Interfaces\IBadgeData.ts" />
+    <TypeScriptCompile Include="Interfaces\IBadgeStyle.ts" />
+    <TypeScriptCompile Include="Interfaces\IFontStyle.ts" />
+    <TypeScriptCompile Include="Interfaces\IUrlHelper.ts" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="index.html" />
