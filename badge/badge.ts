@@ -1,18 +1,23 @@
 ﻿/// <reference path="./common/Colors.ts"/>
 /// <reference path="./common/UrlHelper.ts"/>
 /// <reference path="./interfaces/IBadgeData.ts"/>
+/// <reference path="./interfaces/IBadgeStyle.ts"/>
 /// <reference path="./interfaces/IBadge.ts"/>
 
-function getParameter(name: string) {
-    name = name.replace(/[\[]/, "\\\[").replace(/[\]]/, "\\\]");
-    const regexS = `[\\?&]${name}=([^&#]*)`;
-    const regex = new RegExp(regexS);
-    const results = regex.exec(window.location.href);
-    if (results == null)
-        return "";
-    else
-        return results[1];
+
+class Badge implements IBadge{
+    targetElement: HTMLElement;
+    style: IBadgeStyle;
+
+    constructor(element: HTMLElement) {
+        this.targetElement = element;
+    }
+
+    buildBadge(badgeData: IBadgeData): void {
+        
+    }
 }
+
 
 // ReSharper disable once InconsistentNaming
 declare function SVG(name: string): any;

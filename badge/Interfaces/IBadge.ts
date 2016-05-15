@@ -1,5 +1,6 @@
 ﻿interface IBadge {
-    targetSvg: HTMLElement;
+    targetElement: HTMLElement;
 
+    buildBadge(badgeData: IBadgeData): void;
 
 }
