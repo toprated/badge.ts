@@ -1,6 +1,5 @@
-﻿/// <reference path="./IFontStyle.ts"/>
+﻿/// <reference path="./ISectionStyle.ts"/>
 
 interface IBadgeStyle {
-    fontStyle: IFontStyle;
-    backgroundColor: string;
+    sectionsStyles: ISectionStyle[];
 }

@@ -13,5 +13,17 @@ namespace badge.Common
             else
                 return results[1];
         }
+
+        getTheme(): Theme {
+            const themeString = this.getParameter("theme");
+            switch (themeString) {
+                case "dark":
+                    return Theme.Dark;
+                case "light":
+                    return Theme.Light;
+                default:
+                    return Theme.Light;
+            }
+        }
     }
 }

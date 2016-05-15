@@ -16,6 +16,8 @@ class Badge implements IBadge{
     buildBadge(badgeData: IBadgeData): void {
         
     }
+
+    getStyle(): IBadgeStyle { throw new Error("Not implemented"); }
 }
 
 

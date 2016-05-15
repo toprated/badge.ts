@@ -3,4 +3,5 @@
 
     buildBadge(badgeData: IBadgeData): void;
 
+    getStyle(): IBadgeStyle;
 }

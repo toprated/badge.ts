@@ -32,6 +32,12 @@ var Colors;
     }
     Colors.get = get;
 })(Colors || (Colors = {}));
+var Theme;
+(function (Theme) {
+    Theme[Theme["Light"] = 0] = "Light";
+    Theme[Theme["Dark"] = 1] = "Dark";
+})(Theme || (Theme = {}));
+/// <reference path="./../enums/Theme.ts"/>
 /// <reference path="./../interfaces/IUrlHelper.ts"/>
 var badge;
 (function (badge) {
@@ -48,10 +54,22 @@ var badge;
                 else
                     return results[1];
             }
+            getTheme() {
+                const themeString = this.getParameter("theme");
+                switch (themeString) {
+                    case "dark":
+                        return Theme.Dark;
+                    case "light":
+                        return Theme.Light;
+                    default:
+                        return Theme.Light;
+                }
+            }
         }
     })(Common = badge.Common || (badge.Common = {}));
 })(badge || (badge = {}));
 /// <reference path="./IFontStyle.ts"/>
+/// <reference path="./ISectionStyle.ts"/>
 /// <reference path="./common/Colors.ts"/>
 /// <reference path="./common/UrlHelper.ts"/>
 /// <reference path="./interfaces/IBadgeData.ts"/>
@@ -63,6 +81,7 @@ class Badge {
     }
     buildBadge(badgeData) {
     }
+    getStyle() { throw new Error("Not implemented"); }
 }
 function buildSvg(repoData) {
     const repoName = repoData.name;
