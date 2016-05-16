@@ -1,4 +1,5 @@
 ﻿enum Theme {
     Light,
-    Dark
+    Dark,
+    Custom
 }

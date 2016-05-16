@@ -36,6 +36,7 @@ var Theme;
 (function (Theme) {
     Theme[Theme["Light"] = 0] = "Light";
     Theme[Theme["Dark"] = 1] = "Dark";
+    Theme[Theme["Custom"] = 2] = "Custom";
 })(Theme || (Theme = {}));
 /// <reference path="./../enums/Theme.ts"/>
 /// <reference path="./../interfaces/IUrlHelper.ts"/>
@@ -78,6 +79,7 @@ class Badge {
     getStyle() {
         let style;
         const urlHelper = new UrlHelper();
+        const theme = urlHelper.getTheme();
         return style;
     }
 }

@@ -21,6 +21,9 @@ class Badge implements IBadge{
         let style: IBadgeStyle;
 
         const urlHelper = new UrlHelper();
+        const theme = urlHelper.getTheme();
+
+
 
         return style;
     }
