@@ -17,7 +17,13 @@ class Badge implements IBadge{
         
     }
 
-    getStyle(): IBadgeStyle { throw new Error("Not implemented"); }
+    getStyle(): IBadgeStyle {
+        let style: IBadgeStyle;
+
+        const urlHelper = new UrlHelper();
+
+        return style;
+    }
 }
 
 

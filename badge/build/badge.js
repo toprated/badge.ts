@@ -39,35 +39,29 @@ var Theme;
 })(Theme || (Theme = {}));
 /// <reference path="./../enums/Theme.ts"/>
 /// <reference path="./../interfaces/IUrlHelper.ts"/>
-var badge;
-(function (badge) {
-    var Common;
-    (function (Common) {
-        class UrlHelper {
-            getParameter(name) {
-                name = name.replace(/[\[]/, "\\\[").replace(/[\]]/, "\\\]");
-                const regexS = `[\\?&]${name}=([^&#]*)`;
-                const regex = new RegExp(regexS);
-                const results = regex.exec(window.location.href);
-                if (results == null)
-                    return "";
-                else
-                    return results[1];
-            }
-            getTheme() {
-                const themeString = this.getParameter("theme");
-                switch (themeString) {
-                    case "dark":
-                        return Theme.Dark;
-                    case "light":
-                        return Theme.Light;
-                    default:
-                        return Theme.Light;
-                }
-            }
+class UrlHelper {
+    getParameter(name) {
+        name = name.replace(/[\[]/, "\\\[").replace(/[\]]/, "\\\]");
+        const regexS = `[\\?&]${name}=([^&#]*)`;
+        const regex = new RegExp(regexS);
+        const results = regex.exec(window.location.href);
+        if (results == null)
+            return "";
+        else
+            return results[1];
+    }
+    getTheme() {
+        const themeString = this.getParameter("theme");
+        switch (themeString) {
+            case "dark":
+                return Theme.Dark;
+            case "light":
+                return Theme.Light;
+            default:
+                return Theme.Light;
         }
-    })(Common = badge.Common || (badge.Common = {}));
-})(badge || (badge = {}));
+    }
+}
 /// <reference path="./IFontStyle.ts"/>
 /// <reference path="./ISectionStyle.ts"/>
 /// <reference path="./common/Colors.ts"/>
@@ -81,7 +75,11 @@ class Badge {
     }
     buildBadge(badgeData) {
     }
-    getStyle() { throw new Error("Not implemented"); }
+    getStyle() {
+        let style;
+        const urlHelper = new UrlHelper();
+        return style;
+    }
 }
 function buildSvg(repoData) {
     const repoName = repoData.name;
