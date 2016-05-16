@@ -2,5 +2,4 @@
 
 interface IBadgeStyle {
     commonTextStyle: ISectionStyle;
-    progLangStyle: ISectionStyle;
 }

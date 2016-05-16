@@ -1,9 +1,8 @@
-﻿/// <reference path="./common/Colors.ts"/>
-/// <reference path="./common/UrlHelper.ts"/>
+﻿/// <reference path="./common/UrlHelper.ts"/>
+/// <reference path="./common/Color.ts"/>
 /// <reference path="./interfaces/IBadgeData.ts"/>
 /// <reference path="./interfaces/IBadgeStyle.ts"/>
 /// <reference path="./interfaces/IBadge.ts"/>
-
 
 class Badge implements IBadge{
     targetElement: HTMLElement;
@@ -49,7 +48,7 @@ function buildSvg(repoData: IBadgeData) {
     const txtRepoName = draw.text(str);
     txtRepoName.size(textSize);
     txtRepoName.x(5);
-    txtRepoName.fill(Colors.get(Color.Black));
+    txtRepoName.fill(Color.black);
     txtRepoName.font({
         family: fontFamily,
         y: 0
@@ -58,14 +57,14 @@ function buildSvg(repoData: IBadgeData) {
     const txtRepoNameShadow = draw.text(str);
     txtRepoNameShadow.size(textSize);
     txtRepoNameShadow.x(5);
-    txtRepoNameShadow.fill(Colors.get(Color.White));
+    txtRepoNameShadow.fill(Color.white);
     txtRepoNameShadow.font({
         family: fontFamily,
         y: 1
     });
 
     const rectRepoName = draw.rect(txtRepoName.length() + 10, h);
-    rectRepoName.attr({ fill: Colors.get(Color.Silver) });
+    rectRepoName.attr({ fill: Color.silver });
     rectRepoName.radius(r);
 
     const txt = draw.text(test);
