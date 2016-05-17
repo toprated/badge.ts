@@ -23,6 +23,7 @@
   </ItemGroup>
   <ItemGroup>
     <TypeScriptCompile Include="Badge.ts" />
+    <TypeScriptCompile Include="Common\BadgeStyle.ts" />
     <TypeScriptCompile Include="Common\Color.ts" />
     <TypeScriptCompile Include="Common\DarkBadgeStyle.ts" />
     <TypeScriptCompile Include="Common\FontStyle.ts" />

@@ -1,4 +1,6 @@
 ﻿/// <reference path="./common/UrlHelper.ts"/>
+/// <reference path="./common/DarkBadgeStyle.ts"/>
+/// <reference path="./common/LightBadgeStyle.ts"/>
 /// <reference path="./common/Color.ts"/>
 /// <reference path="./interfaces/IBadgeData.ts"/>
 /// <reference path="./interfaces/IBadgeStyle.ts"/>
@@ -22,7 +24,13 @@ class Badge implements IBadge{
         const urlHelper = new UrlHelper();
         const theme = urlHelper.getTheme();
 
-
+        switch (theme) {
+            case Theme.Dark:
+                style = new DarkBadgeStyle();
+            case Theme.Light:
+                style = new LightBadgeStyle();
+            default:
+        }
 
         return style;
     }

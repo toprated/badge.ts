@@ -1,10 +1,9 @@
-﻿/// <reference path="./Color.ts"/>
+﻿/// <reference path="./../interfaces/IBadgeStyle.ts"/>
+/// <reference path="./Color.ts"/>
 /// <reference path="./FontStyle.ts"/>
-/// <reference path="./BadgeStyle.ts"/>
 /// <reference path="./SectionStyle.ts"/>
-/// <reference path="./../interfaces/IBadgeStyle.ts"/>
 
-class LightBadgeStyle implements BadgeStyle {
+class BadgeStyle implements IBadgeStyle {
     commonTextStyle: ISectionStyle;
 
     constructor() {

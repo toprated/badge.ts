@@ -1,37 +1,63 @@
-var Color;
-(function (Color) {
-    Color[Color["Gold"] = 0] = "Gold";
-    Color[Color["Silver"] = 1] = "Silver";
-    Color[Color["Black"] = 2] = "Black";
-    Color[Color["White"] = 3] = "White";
-    Color[Color["Gray"] = 4] = "Gray";
-})(Color || (Color = {}));
-/// <reference path="./../enums/Color.ts"/>
-var Colors;
-(function (Colors) {
-    const silver = "#C0C0C0";
-    const gray = "#808080";
-    const white = "#FFF";
-    const black = "#000";
-    const gold = "#FFD700";
-    function get(color) {
-        switch (color) {
-            case Color.Gold:
-                return gold;
-            case Color.Silver:
-                return silver;
-            case Color.Black:
-                return black;
-            case Color.White:
-                return white;
-            case Color.Gray:
-                return gray;
-            default:
-                return null;
-        }
+/// <reference path="./IFontStyle.ts"/>
+/// <reference path="./ISectionStyle.ts"/>
+class Color {
+}
+Color.silver = "#C0C0C0";
+Color.gray = "#808080";
+Color.white = "#FFF";
+Color.black = "#000";
+Color.gold = "#FFD700";
+/// <reference path="./../interfaces/IFontStyle.ts"/>
+class FontStyle {
+    constructor(fFamily, fSize, fColor, fShadowColor) {
+        this.fontFamily = fFamily;
+        this.fontSize = fSize;
+        this.fontColor = fColor;
+        this.fontShadowColor = fShadowColor;
     }
-    Colors.get = get;
-})(Colors || (Colors = {}));
+}
+/// <reference path="./../interfaces/ISectionStyle.ts"/>
+class SectionStyle {
+    constructor(fStyle, bcgColor) {
+        this.fontStyle = fStyle;
+        this.backgroundColor = bcgColor;
+    }
+}
+/// <reference path="./../interfaces/IBadgeStyle.ts"/>
+/// <reference path="./Color.ts"/>
+/// <reference path="./FontStyle.ts"/>
+/// <reference path="./SectionStyle.ts"/>
+class BadgeStyle {
+    constructor() {
+        const commonFontStyle = new FontStyle("Verdana", 11, Color.black, Color.gray);
+        const commonBcgColor = Color.silver;
+        this.commonTextStyle = new SectionStyle(commonFontStyle, commonBcgColor);
+    }
+}
+/// <reference path="./Color.ts"/>
+/// <reference path="./FontStyle.ts"/>
+/// <reference path="./BadgeStyle.ts"/>
+/// <reference path="./SectionStyle.ts"/>
+/// <reference path="./../interfaces/IBadgeStyle.ts"/>
+class DarkBadgeStyle {
+    constructor() {
+        const commonFontStyle = new FontStyle("Verdana", 11, Color.white, Color.gray);
+        const commonBcgColor = Color.black;
+        this.commonTextStyle = new SectionStyle(commonFontStyle, commonBcgColor);
+    }
+}
+/// <reference path="./Color.ts"/>
+/// <reference path="./FontStyle.ts"/>
+/// <reference path="./BadgeStyle.ts"/>
+/// <reference path="./SectionStyle.ts"/>
+/// <reference path="./../interfaces/IBadgeStyle.ts"/>
+class LightBadgeStyle {
+    constructor() {
+        const commonFontStyle = new FontStyle("Verdana", 11, Color.black, Color.gray);
+        const commonBcgColor = Color.silver;
+        this.commonTextStyle = new SectionStyle(commonFontStyle, commonBcgColor);
+    }
+}
 var Theme;
 (function (Theme) {
     Theme[Theme["Light"] = 0] = "Light";
@@ -63,10 +89,10 @@ class UrlHelper {
         }
     }
 }
-/// <reference path="./IFontStyle.ts"/>
-/// <reference path="./ISectionStyle.ts"/>
-/// <reference path="./common/Colors.ts"/>
 /// <reference path="./common/UrlHelper.ts"/>
+/// <reference path="./common/DarkBadgeStyle.ts"/>
+/// <reference path="./common/LightBadgeStyle.ts"/>
+/// <reference path="./common/Color.ts"/>
 /// <reference path="./interfaces/IBadgeData.ts"/>
 /// <reference path="./interfaces/IBadgeStyle.ts"/>
 /// <reference path="./interfaces/IBadge.ts"/>
@@ -80,6 +106,13 @@ class Badge {
         let style;
         const urlHelper = new UrlHelper();
         const theme = urlHelper.getTheme();
+        switch (theme) {
+            case Theme.Dark:
+                style = new DarkBadgeStyle();
+            case Theme.Light:
+                style = new LightBadgeStyle();
+            default:
+        }
         return style;
     }
 }
@@ -96,7 +129,7 @@ function buildSvg(repoData) {
     const txtRepoName = draw.text(str);
     txtRepoName.size(textSize);
     txtRepoName.x(5);
-    txtRepoName.fill(Colors.get(Color.Black));
+    txtRepoName.fill(Color.black);
     txtRepoName.font({
         family: fontFamily,
         y: 0
@@ -104,13 +137,13 @@ function buildSvg(repoData) {
     const txtRepoNameShadow = draw.text(str);
     txtRepoNameShadow.size(textSize);
     txtRepoNameShadow.x(5);
-    txtRepoNameShadow.fill(Colors.get(Color.White));
+    txtRepoNameShadow.fill(Color.white);
     txtRepoNameShadow.font({
         family: fontFamily,
         y: 1
     });
     const rectRepoName = draw.rect(txtRepoName.length() + 10, h);
-    rectRepoName.attr({ fill: Colors.get(Color.Silver) });
+    rectRepoName.attr({ fill: Color.silver });
     rectRepoName.radius(r);
     const txt = draw.text(test);
     txt.x(rectRepoName.width());

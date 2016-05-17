@@ -8,9 +8,21 @@
     "target": "es6"
   },
   "files": [
-        "./interfaces/IBadgeData.ts",
+        "./common/BadgeStyle.ts",
+        "./common/Color.ts",
+        "./common/DarkBadgeStyle.ts",
+        "./common/FontStyle.ts",
+        "./common/LightBadgeStyle.ts",
+        "./common/SectionStyle.ts",
+        "./common/UrlHelper.ts",
         "./interfaces/IBadge.ts",
+        "./interfaces/IBadgeData.ts",
+        "./interfaces/IBadgeStyle.ts",
+        "./interfaces/IFontStyle.ts",
+        "./interfaces/ISectionStyle.ts",
+        "./interfaces/IUrlHelper.ts",
+        "./enums/Theme.ts",
         "./badge.ts",
-        "./common/colors.ts"
+        "./common/color.ts"
     ]
 }
