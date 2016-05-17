@@ -8,6 +8,7 @@
     "target": "es6"
   },
   "files": [
+        "./common/BadgeSection.ts",
         "./common/BadgeStyle.ts",
         "./common/Color.ts",
         "./common/DarkBadgeStyle.ts",
@@ -17,6 +18,8 @@
         "./common/UrlHelper.ts",
         "./interfaces/IBadge.ts",
         "./interfaces/IBadgeData.ts",
+        "./interfaces/IBadgeDataSmall.ts",
+        "./interfaces/IBadgeSection.ts",
         "./interfaces/IBadgeStyle.ts",
         "./interfaces/IFontStyle.ts",
         "./interfaces/ISectionStyle.ts",

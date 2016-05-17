@@ -1,9 +1,8 @@
 ﻿/// <reference path="./common/UrlHelper.ts"/>
 /// <reference path="./common/DarkBadgeStyle.ts"/>
 /// <reference path="./common/LightBadgeStyle.ts"/>
-/// <reference path="./common/Color.ts"/>
+/// <reference path="./interfaces/IBadgeDataSmall.ts"/>
 /// <reference path="./interfaces/IBadgeData.ts"/>
-/// <reference path="./interfaces/IBadgeStyle.ts"/>
 /// <reference path="./interfaces/IBadge.ts"/>
 
 class Badge implements IBadge{
@@ -13,28 +12,8 @@ class Badge implements IBadge{
     constructor(element: HTMLElement) {
         this.targetElement = element;
         const badgeStyle = this.getStyle();
-
+        this.style = badgeStyle;
     }
-
-    buildBadge(badgeStyle: IBadgeStyle, badgeDataPath: string): void {
-        let data: IBadgeData;
-
-        const req = new XMLHttpRequest();
-        req.open("get", "./data.json", true);
-        req.send();
-        req.onreadystatechange = () => {
-            if (req.readyState !== 4) return;
-            if (req.status !== 200) {
-                console.log(req.status + ": " + req.statusText);
-            } else {
-                data = JSON.parse(req.responseText);
-                buildSvg(data);
-            }
-        }
-
-
-    }
-    
 
     getStyle(): IBadgeStyle {
         let style: IBadgeStyle;
@@ -56,13 +35,37 @@ class Badge implements IBadge{
 
         return style;
     }
-}
 
+    buildSvg(badgeStyle: IBadgeStyle, badgeData: IBadgeData): void {
+        this.targetElement.innerHTML = "test!!";//document.createElementNS("http://www.w3.org/2000/svg", "svg").toString();
+        //for (let section in badgeData.sections) {
+            
+        //}
+    }
+
+    buildBadge(badgeDataPath: string): void {
+
+        let data: IBadgeData;
+
+        const req = new XMLHttpRequest();
+        req.open("get", badgeDataPath, true);
+        req.send();
+        req.onreadystatechange = () => {
+            if (req.readyState !== 4) return;
+            if (req.status !== 200) {
+                console.log(`Error while loading .json data! Request status: ${req.status} : ${req.statusText}`);
+            } else {
+                data = JSON.parse(req.responseText);
+                this.buildSvg(this.style, data);
+            }
+        }
+    }
+}
 
 // ReSharper disable once InconsistentNaming
 declare function SVG(name: string): any;
 
-function buildSvg(repoData: IBadgeData) {
+function buildSvgBadge(repoData: IBadgeDataSmall) {
     const repoName = repoData.name;
     const place = repoData.place;
     const r = 3;
@@ -114,7 +117,7 @@ function buildSvg(repoData: IBadgeData) {
 
 function onLoadFunc() {
     const req = new XMLHttpRequest();
-    var data: IBadgeData;
+    var data: IBadgeDataSmall;
     req.open("get", "./data.json", true);
     req.send();
     req.onreadystatechange = () => {
@@ -123,9 +126,17 @@ function onLoadFunc() {
             console.log(req.status + ": " + req.statusText);
         } else {
             data = JSON.parse(req.responseText);
-            buildSvg(data);
+            buildSvgBadge(data);
         }
     }
+}
+
+function buildBadgeById(id: string) {
+    console.log("id: " + id);
+    //var target = document.getElementById(id);
+    //console.log("tar: " + target.innerHTML);
+    //const badge = new Badge(target);
+    //badge.buildBadge("./data.json");
 }
 
 //window.onload = onLoadFunc;

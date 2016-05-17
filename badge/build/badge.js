@@ -1,3 +1,10 @@
+/// <reference path="./../interfaces/IBadgeSection.ts"/>
+class BadgeSection {
+    constructor(text, bcgColor) {
+        this.textSection = text;
+        this.bcgColor = bcgColor;
+    }
+}
 /// <reference path="./IFontStyle.ts"/>
 /// <reference path="./ISectionStyle.ts"/>
 class Color {
@@ -89,34 +96,18 @@ class UrlHelper {
         }
     }
 }
+/// <reference path="./IBadgeSection.ts"/>
 /// <reference path="./common/UrlHelper.ts"/>
 /// <reference path="./common/DarkBadgeStyle.ts"/>
 /// <reference path="./common/LightBadgeStyle.ts"/>
-/// <reference path="./common/Color.ts"/>
+/// <reference path="./interfaces/IBadgeDataSmall.ts"/>
 /// <reference path="./interfaces/IBadgeData.ts"/>
-/// <reference path="./interfaces/IBadgeStyle.ts"/>
 /// <reference path="./interfaces/IBadge.ts"/>
 class Badge {
     constructor(element) {
         this.targetElement = element;
         const badgeStyle = this.getStyle();
-    }
-    buildBadge(badgeStyle, badgeDataPath) {
-        let data;
-        const req = new XMLHttpRequest();
-        req.open("get", "./data.json", true);
-        req.send();
-        req.onreadystatechange = () => {
-            if (req.readyState !== 4)
-                return;
-            if (req.status !== 200) {
-                console.log(req.status + ": " + req.statusText);
-            }
-            else {
-                data = JSON.parse(req.responseText);
-                buildSvg(data);
-            }
-        };
+        this.style = badgeStyle;
     }
     getStyle() {
         let style;
@@ -135,8 +126,30 @@ class Badge {
         }
         return style;
     }
+    buildSvg(badgeStyle, badgeData) {
+        this.targetElement.innerHTML = "test!!"; //document.createElementNS("http://www.w3.org/2000/svg", "svg").toString();
+        //for (let section in badgeData.sections) {
+        //}
+    }
+    buildBadge(badgeDataPath) {
+        let data;
+        const req = new XMLHttpRequest();
+        req.open("get", badgeDataPath, true);
+        req.send();
+        req.onreadystatechange = () => {
+            if (req.readyState !== 4)
+                return;
+            if (req.status !== 200) {
+                console.log(`Error while loading .json data! Request status: ${req.status} : ${req.statusText}`);
+            }
+            else {
+                data = JSON.parse(req.responseText);
+                this.buildSvg(this.style, data);
+            }
+        };
+    }
 }
-function buildSvg(repoData) {
+function buildSvgBadge(repoData) {
     const repoName = repoData.name;
     const place = repoData.place;
     const r = 3;
@@ -191,9 +204,16 @@ function onLoadFunc() {
         }
         else {
             data = JSON.parse(req.responseText);
-            buildSvg(data);
+            buildSvgBadge(data);
         }
     };
+}
+function buildBadgeById(id) {
+    console.log("id: " + id);
+    //var target = document.getElementById(id);
+    //console.log("tar: " + target.innerHTML);
+    //const badge = new Badge(target);
+    //badge.buildBadge("./data.json");
 }
 //window.onload = onLoadFunc;
 //# sourceMappingURL=badge.js.map

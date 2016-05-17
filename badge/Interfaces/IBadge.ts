@@ -1,7 +1,9 @@
 ﻿interface IBadge {
     targetElement: HTMLElement;
 
-    buildBadge(badgeStyle: IBadgeStyle, badgeDataPath: string): void;
+    buildBadge(badgeDataPath: string): void;
 
     getStyle(): IBadgeStyle;
+
+    buildSvg(badgeStyle: IBadgeStyle, badgeData: IBadgeData): void;
 }
