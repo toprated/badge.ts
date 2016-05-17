@@ -1,7 +1,7 @@
 /// <reference path="./../interfaces/IBadgeSection.ts"/>
 class BadgeSection {
     constructor(text, bcgColor) {
-        this.textSection = text;
+        this.text = text;
         this.bcgColor = bcgColor;
     }
 }
@@ -128,8 +128,10 @@ class Badge {
     }
     buildSvg(badgeStyle, badgeData) {
         const badge = document.createElementNS("http://www.w3.org/2000/svg", "svg");
-        //for (let section in badgeData.sections) {
-        //}
+        for (let section of badgeData.sections) {
+            //var s = JSON.parse(section);
+            console.log("s: " + section.text);
+        }
         this.targetElement.appendChild(badge);
     }
     buildBadge(badgeDataPath) {
@@ -213,7 +215,7 @@ function buildBadgeById(id) {
     console.log("id: " + id);
     var target = document.getElementById(id);
     const badge = new Badge(target);
-    badge.buildBadge("./data.json");
+    badge.buildBadge("./badgeData.json");
 }
 //window.onload = onLoadFunc;
 //# sourceMappingURL=badge.js.map

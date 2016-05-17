@@ -1,11 +1,11 @@
 ﻿/// <reference path="./../interfaces/IBadgeSection.ts"/>
 
 class BadgeSection implements IBadgeSection {
-    textSection: string;
+    text: string;
     bcgColor: string;
 
     constructor(text: string, bcgColor: string) {
-        this.textSection = text;
+        this.text = text;
         this.bcgColor = bcgColor;
     }
 }

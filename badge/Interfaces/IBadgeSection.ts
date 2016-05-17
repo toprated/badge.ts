@@ -1,4 +1,4 @@
 ﻿interface IBadgeSection {
-    textSection: string;
+    text: string;
     bcgColor: string;
 }

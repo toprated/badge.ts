@@ -38,9 +38,10 @@ class Badge implements IBadge{
 
     buildSvg(badgeStyle: IBadgeStyle, badgeData: IBadgeData): void {
         const badge = document.createElementNS("http://www.w3.org/2000/svg", "svg");
-        //for (let section in badgeData.sections) {
-            
-        //}
+        for (let section of badgeData.sections) {
+            //var s = JSON.parse(section);
+            console.log("s: " + section.text);    
+        }
         this.targetElement.appendChild(badge);
     }
 
@@ -136,7 +137,7 @@ function buildBadgeById(id: string) {
     console.log("id: " + id);
     var target = document.getElementById(id);
     const badge = new Badge(target);
-    badge.buildBadge("./data.json");
+    badge.buildBadge("./badgeData.json");
 }
 
 //window.onload = onLoadFunc;
