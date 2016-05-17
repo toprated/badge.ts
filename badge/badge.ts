@@ -12,11 +12,29 @@ class Badge implements IBadge{
 
     constructor(element: HTMLElement) {
         this.targetElement = element;
+        const badgeStyle = this.getStyle();
+
     }
 
-    buildBadge(badgeData: IBadgeData): void {
-        
+    buildBadge(badgeStyle: IBadgeStyle, badgeDataPath: string): void {
+        let data: IBadgeData;
+
+        const req = new XMLHttpRequest();
+        req.open("get", "./data.json", true);
+        req.send();
+        req.onreadystatechange = () => {
+            if (req.readyState !== 4) return;
+            if (req.status !== 200) {
+                console.log(req.status + ": " + req.statusText);
+            } else {
+                data = JSON.parse(req.responseText);
+                buildSvg(data);
+            }
+        }
+
+
     }
+    
 
     getStyle(): IBadgeStyle {
         let style: IBadgeStyle;
@@ -27,9 +45,13 @@ class Badge implements IBadge{
         switch (theme) {
             case Theme.Dark:
                 style = new DarkBadgeStyle();
+                break;
             case Theme.Light:
                 style = new LightBadgeStyle();
+                break;
             default:
+                style = new BadgeStyle();
+                break;
         }
 
         return style;

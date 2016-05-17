@@ -99,8 +99,24 @@ class UrlHelper {
 class Badge {
     constructor(element) {
         this.targetElement = element;
+        const badgeStyle = this.getStyle();
     }
-    buildBadge(badgeData) {
+    buildBadge(badgeStyle, badgeDataPath) {
+        let data;
+        const req = new XMLHttpRequest();
+        req.open("get", "./data.json", true);
+        req.send();
+        req.onreadystatechange = () => {
+            if (req.readyState !== 4)
+                return;
+            if (req.status !== 200) {
+                console.log(req.status + ": " + req.statusText);
+            }
+            else {
+                data = JSON.parse(req.responseText);
+                buildSvg(data);
+            }
+        };
     }
     getStyle() {
         let style;
@@ -109,9 +125,13 @@ class Badge {
         switch (theme) {
             case Theme.Dark:
                 style = new DarkBadgeStyle();
+                break;
             case Theme.Light:
                 style = new LightBadgeStyle();
+                break;
             default:
+                style = new BadgeStyle();
+                break;
         }
         return style;
     }
