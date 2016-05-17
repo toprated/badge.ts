@@ -127,9 +127,10 @@ class Badge {
         return style;
     }
     buildSvg(badgeStyle, badgeData) {
-        this.targetElement.innerHTML = "test!!"; //document.createElementNS("http://www.w3.org/2000/svg", "svg").toString();
+        const badge = document.createElementNS("http://www.w3.org/2000/svg", "svg");
         //for (let section in badgeData.sections) {
         //}
+        this.targetElement.appendChild(badge);
     }
     buildBadge(badgeDataPath) {
         let data;
@@ -210,10 +211,9 @@ function onLoadFunc() {
 }
 function buildBadgeById(id) {
     console.log("id: " + id);
-    //var target = document.getElementById(id);
-    //console.log("tar: " + target.innerHTML);
-    //const badge = new Badge(target);
-    //badge.buildBadge("./data.json");
+    var target = document.getElementById(id);
+    const badge = new Badge(target);
+    badge.buildBadge("./data.json");
 }
 //window.onload = onLoadFunc;
 //# sourceMappingURL=badge.js.map

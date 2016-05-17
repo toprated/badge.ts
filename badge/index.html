@@ -5,14 +5,14 @@
     <title>Testing page</title>
     <script type="text/javascript" src="svg.js"></script>
     <script type="text/javascript" src="build/badge.js"></script>
-    <script type="text/javascript">window.onload = buildBadgeById('badge');</script>
+    
 </head>
 <body>
     <h1>Test Page</h1>
     <svg id="mysvg" xmlns="http://www.w3.org/2000/svg" onload="onLoadFunc()">
     </svg>
     <div id="badge1">1</div>
-    <div id="badge">2</div>
+    <div id="badge"><script type="text/javascript">document.onload = buildBadgeById('badge');</script></div>
     <div id="badge2">3</div>
 </body>
 </html>

@@ -37,10 +37,11 @@ class Badge implements IBadge{
     }
 
     buildSvg(badgeStyle: IBadgeStyle, badgeData: IBadgeData): void {
-        this.targetElement.innerHTML = "test!!";//document.createElementNS("http://www.w3.org/2000/svg", "svg").toString();
+        const badge = document.createElementNS("http://www.w3.org/2000/svg", "svg");
         //for (let section in badgeData.sections) {
             
         //}
+        this.targetElement.appendChild(badge);
     }
 
     buildBadge(badgeDataPath: string): void {
@@ -133,10 +134,9 @@ function onLoadFunc() {
 
 function buildBadgeById(id: string) {
     console.log("id: " + id);
-    //var target = document.getElementById(id);
-    //console.log("tar: " + target.innerHTML);
-    //const badge = new Badge(target);
-    //badge.buildBadge("./data.json");
+    var target = document.getElementById(id);
+    const badge = new Badge(target);
+    badge.buildBadge("./data.json");
 }
 
 //window.onload = onLoadFunc;
