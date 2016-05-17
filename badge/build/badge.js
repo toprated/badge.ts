@@ -128,10 +128,22 @@ class Badge {
     }
     buildSvg(badgeStyle, badgeData) {
         const badge = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+        const badgeMainGroup = document.createElement("g");
+        badgeMainGroup.id = "mainGroup";
         for (let section of badgeData.sections) {
-            //var s = JSON.parse(section);
             console.log("s: " + section.text);
+            const sectionRect = document.createElement("rect");
+            sectionRect.setAttribute("fill", badgeStyle.commonTextStyle.backgroundColor);
+            const sectionText = document.createElement("text");
+            sectionText.innerText = section.text;
+            badgeMainGroup.appendChild(sectionRect);
+            badgeMainGroup.appendChild(sectionText);
         }
+        badge.appendChild(badgeMainGroup);
+        badge.setAttribute("xmlns", "http://www.w3.org/2000/svg");
+        badge.setAttribute("width", "200");
+        badge.setAttribute("height", "20");
+        badge.setAttribute("fill", badgeStyle.commonTextStyle.backgroundColor);
         this.targetElement.appendChild(badge);
     }
     buildBadge(badgeDataPath) {
@@ -212,10 +224,8 @@ function onLoadFunc() {
     };
 }
 function buildBadgeById(id) {
-    console.log("id: " + id);
-    var target = document.getElementById(id);
+    const target = document.getElementById(id);
     const badge = new Badge(target);
     badge.buildBadge("./badgeData.json");
 }
-//window.onload = onLoadFunc;
 //# sourceMappingURL=badge.js.map
