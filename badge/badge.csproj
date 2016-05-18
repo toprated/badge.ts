@@ -39,6 +39,7 @@
     <TypeScriptCompile Include="Interfaces\ISectionStyle.ts" />
     <TypeScriptCompile Include="Interfaces\IFontStyle.ts" />
     <TypeScriptCompile Include="Interfaces\IUrlHelper.ts" />
+    <TypeScriptCompile Include="Utils\SvgTextElementHelper.ts" />
     <TypeScriptCompile Include="Utils\HtmlElementHelper.ts" />
   </ItemGroup>
   <ItemGroup>

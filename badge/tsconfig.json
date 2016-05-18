@@ -26,6 +26,7 @@
         "./Interfaces/ISectionStyle.ts",
         "./Interfaces/IUrlHelper.ts",
         "./Utils/HtmlElementHelper.ts",
+        "./Utils/SvgTextElementHelper.ts",
         "./badge.ts"
     ]
 }

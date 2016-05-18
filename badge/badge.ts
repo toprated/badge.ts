@@ -5,6 +5,7 @@
 /// <reference path="./interfaces/IBadgeData.ts"/>
 /// <reference path="./interfaces/IBadge.ts"/>
 /// <reference path="./Utils/HtmlElementHelper.ts"/>
+/// <reference path="./Utils/SvgTextElementHelper.ts"/>
 
 class Badge implements IBadge{
     targetElement: HTMLElement;
@@ -39,7 +40,7 @@ class Badge implements IBadge{
     
     buildSvg(badgeStyle: IBadgeStyle, badgeData: IBadgeData): void {
         const badge = document.createElementNS("http://www.w3.org/2000/svg", "svg");
-        const badgeMainGroup = document.createElement("g");
+        const badgeMainGroup = document.createElementNS("http://www.w3.org/2000/svg", "g");
         badgeMainGroup.id = "mainGroup";
 
         let badgeWidth = 0;
@@ -51,8 +52,7 @@ class Badge implements IBadge{
             let sectionHeight = 0;
             console.log("section text: " + section.text);    
 
-            //const sectionText = document.createElementNS("http://www.w3.org/2000/svg", "text");
-            const sectionText = document.createElement("text");
+            const sectionText = document.createElementNS("http://www.w3.org/2000/svg", "text");
             sectionText.textContent = section.text;
             sectionText.setAttribute("font-family", badgeStyle.commonTextStyle.fontStyle.fontFamily);
             sectionText.setAttribute("font-size", badgeStyle.commonTextStyle.fontStyle.fontSize.toString());
@@ -60,22 +60,22 @@ class Badge implements IBadge{
             sectionText.setAttribute("x", badgeStyle.indent.toString() + badgeWidth);
             sectionText.setAttribute("y", (badgeWidth + 1).toString() + badgeHeight);
 
-            const sectionTextShadow = document.createElement("text");
-            sectionTextShadow.innerText = section.text;
+            const sectionTextShadow = document.createElementNS("http://www.w3.org/2000/svg", "text");
+            sectionTextShadow.textContent = section.text;
             sectionTextShadow.setAttribute("font-family", badgeStyle.commonTextStyle.fontStyle.fontFamily);
             sectionTextShadow.setAttribute("font-size", badgeStyle.commonTextStyle.fontStyle.fontSize.toString());
             sectionTextShadow.setAttribute("fill", badgeStyle.commonTextStyle.fontStyle.fontShadowColor);
             sectionTextShadow.setAttribute("x", badgeStyle.indent.toString() + badgeWidth);
             sectionTextShadow.setAttribute("y", badgeWidth.toString() + badgeHeight);
 
-            var sectionTextHelper = new HtmlElementHelper(sectionText);
+            var sectionTextHelper = new SvgTextElementHelper(sectionText);
 
             sectionWidth = badgeStyle.indent * 2 + sectionTextHelper.getWidthOfText();
             sectionHeight = badgeStyle.indent * 2 + badgeStyle.commonTextStyle.fontStyle.fontSize;
             
             console.log("s test: " + sectionTextHelper.getWidthOfText());
 
-            const sectionRect = document.createElement("rect");
+            const sectionRect = document.createElementNS("http://www.w3.org/2000/svg", "rect");
             sectionRect.setAttribute("fill", badgeStyle.commonTextStyle.backgroundColor);
             sectionRect.setAttribute("width", sectionWidth.toString());
             sectionRect.setAttribute("height", sectionHeight.toString());
@@ -89,11 +89,11 @@ class Badge implements IBadge{
             badgeMainGroup.appendChild(sectionTextShadow);
             badgeMainGroup.appendChild(sectionText);
         }
+
         badge.appendChild(badgeMainGroup);
         
         badge.setAttribute("width", "200");
         badge.setAttribute("height", "20");
-        badge.setAttribute("fill", badgeStyle.commonTextStyle.backgroundColor);
 
         this.targetElement.appendChild(badge);
     }
