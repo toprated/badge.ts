@@ -96,12 +96,28 @@ class UrlHelper {
     }
 }
 /// <reference path="./IBadgeSection.ts"/>
+class HtmlElementHelper {
+    constructor(el) {
+        this.e = el;
+        this.txt = el.innerText;
+        this.fontname = el.getAttribute("font-family");
+        this.fontsize = el.getAttribute("font-size");
+    }
+    getWidthOfText() {
+        const c = document.createElement("canvas");
+        const ctx = c.getContext("2d");
+        ctx.font = this.fontsize + "px" + this.fontname;
+        const length = ctx.measureText(this.txt).width;
+        return length;
+    }
+}
 /// <reference path="./common/UrlHelper.ts"/>
 /// <reference path="./common/DarkBadgeStyle.ts"/>
 /// <reference path="./common/LightBadgeStyle.ts"/>
 /// <reference path="./interfaces/IBadgeDataSmall.ts"/>
 /// <reference path="./interfaces/IBadgeData.ts"/>
 /// <reference path="./interfaces/IBadge.ts"/>
+/// <reference path="./Utils/HtmlElementHelper.ts"/>
 class Badge {
     constructor(element) {
         this.targetElement = element;
@@ -134,29 +150,32 @@ class Badge {
         for (let section of badgeData.sections) {
             let sectionWidth = 0;
             let sectionHeight = 0;
-            console.log("s: " + section.text);
+            console.log("section text: " + section.text);
+            //const sectionText = document.createElementNS("http://www.w3.org/2000/svg", "text");
             const sectionText = document.createElement("text");
-            sectionText.innerText = section.text;
+            sectionText.textContent = section.text;
             sectionText.setAttribute("font-family", badgeStyle.commonTextStyle.fontStyle.fontFamily);
+            sectionText.setAttribute("font-size", badgeStyle.commonTextStyle.fontStyle.fontSize.toString());
             sectionText.setAttribute("fill", badgeStyle.commonTextStyle.fontStyle.fontColor);
-            sectionText.setAttribute("x", badgeStyle.indent.toString());
-            sectionText.setAttribute("y", (badgeWidth + 1).toString());
+            sectionText.setAttribute("x", badgeStyle.indent.toString() + badgeWidth);
+            sectionText.setAttribute("y", (badgeWidth + 1).toString() + badgeHeight);
             const sectionTextShadow = document.createElement("text");
             sectionTextShadow.innerText = section.text;
             sectionTextShadow.setAttribute("font-family", badgeStyle.commonTextStyle.fontStyle.fontFamily);
+            sectionTextShadow.setAttribute("font-size", badgeStyle.commonTextStyle.fontStyle.fontSize.toString());
             sectionTextShadow.setAttribute("fill", badgeStyle.commonTextStyle.fontStyle.fontShadowColor);
-            sectionTextShadow.setAttribute("x", badgeStyle.indent.toString());
-            sectionTextShadow.setAttribute("y", badgeWidth.toString());
-            sectionWidth = badgeStyle.indent * 2 + sectionText.clientWidth; //.getBoundingClientRect().width;
-            sectionHeight = badgeStyle.indent * 2 + sectionText.getBoundingClientRect().height;
-            console.log("s w: " + sectionWidth);
-            console.log("s h: " + sectionHeight);
+            sectionTextShadow.setAttribute("x", badgeStyle.indent.toString() + badgeWidth);
+            sectionTextShadow.setAttribute("y", badgeWidth.toString() + badgeHeight);
+            var sectionTextHelper = new HtmlElementHelper(sectionText);
+            sectionWidth = badgeStyle.indent * 2 + sectionTextHelper.getWidthOfText();
+            sectionHeight = badgeStyle.indent * 2 + badgeStyle.commonTextStyle.fontStyle.fontSize;
+            console.log("s test: " + sectionTextHelper.getWidthOfText());
             const sectionRect = document.createElement("rect");
             sectionRect.setAttribute("fill", badgeStyle.commonTextStyle.backgroundColor);
             sectionRect.setAttribute("width", sectionWidth.toString());
             sectionRect.setAttribute("height", sectionHeight.toString());
-            sectionRect.setAttribute("x", sectionWidth.toString());
-            sectionRect.setAttribute("y", sectionHeight.toString());
+            sectionRect.setAttribute("x", badgeWidth.toString());
+            sectionRect.setAttribute("y", badgeHeight.toString());
             badgeWidth += sectionWidth;
             badgeHeight += sectionHeight;
             badgeMainGroup.appendChild(sectionRect);
