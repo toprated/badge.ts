@@ -126,6 +126,20 @@ class SvgTextElementHelper {
         return length;
     }
 }
+class SvgTagsHelper {
+    static svg() {
+        return document.createElementNS("http://www.w3.org/2000/svg", "svg");
+    }
+    static rect() {
+        return document.createElementNS("http://www.w3.org/2000/svg", "rect");
+    }
+    static text() {
+        return document.createElementNS("http://www.w3.org/2000/svg", "text");
+    }
+    static g() {
+        return document.createElementNS("http://www.w3.org/2000/svg", "g");
+    }
+}
 /// <reference path="./common/UrlHelper.ts"/>
 /// <reference path="./common/DarkBadgeStyle.ts"/>
 /// <reference path="./common/LightBadgeStyle.ts"/>
@@ -134,6 +148,7 @@ class SvgTextElementHelper {
 /// <reference path="./interfaces/IBadge.ts"/>
 /// <reference path="./Utils/HtmlElementHelper.ts"/>
 /// <reference path="./Utils/SvgTextElementHelper.ts"/>
+/// <reference path="./Utils/SvgTagsHelper.ts"/>
 class Badge {
     constructor(element) {
         this.targetElement = element;
@@ -158,8 +173,8 @@ class Badge {
         return style;
     }
     buildSvg(badgeStyle, badgeData) {
-        const badge = document.createElementNS("http://www.w3.org/2000/svg", "svg");
-        const badgeMainGroup = document.createElementNS("http://www.w3.org/2000/svg", "g");
+        const badge = SvgTagsHelper.svg();
+        const badgeMainGroup = SvgTagsHelper.g();
         badgeMainGroup.id = "mainGroup";
         let badgeWidth = 0;
         let badgeHeight = 0;
@@ -167,14 +182,14 @@ class Badge {
             let sectionWidth = 0;
             let sectionHeight = 0;
             console.log("section text: " + section.text);
-            const sectionText = document.createElementNS("http://www.w3.org/2000/svg", "text");
+            const sectionText = SvgTagsHelper.text();
             sectionText.textContent = section.text;
             sectionText.setAttribute("font-family", badgeStyle.commonTextStyle.fontStyle.fontFamily);
             sectionText.setAttribute("font-size", badgeStyle.commonTextStyle.fontStyle.fontSize.toString());
             sectionText.setAttribute("fill", badgeStyle.commonTextStyle.fontStyle.fontColor);
             sectionText.setAttribute("x", badgeStyle.indent.toString() + badgeWidth);
             sectionText.setAttribute("y", (badgeWidth + 1).toString() + badgeHeight);
-            const sectionTextShadow = document.createElementNS("http://www.w3.org/2000/svg", "text");
+            const sectionTextShadow = SvgTagsHelper.text();
             sectionTextShadow.textContent = section.text;
             sectionTextShadow.setAttribute("font-family", badgeStyle.commonTextStyle.fontStyle.fontFamily);
             sectionTextShadow.setAttribute("font-size", badgeStyle.commonTextStyle.fontStyle.fontSize.toString());
@@ -185,7 +200,7 @@ class Badge {
             sectionWidth = badgeStyle.indent * 2 + sectionTextHelper.getWidthOfText();
             sectionHeight = badgeStyle.indent * 2 + badgeStyle.commonTextStyle.fontStyle.fontSize;
             console.log("s test: " + sectionTextHelper.getWidthOfText());
-            const sectionRect = document.createElementNS("http://www.w3.org/2000/svg", "rect");
+            const sectionRect = SvgTagsHelper.rect();
             sectionRect.setAttribute("fill", badgeStyle.commonTextStyle.backgroundColor);
             sectionRect.setAttribute("width", sectionWidth.toString());
             sectionRect.setAttribute("height", sectionHeight.toString());
