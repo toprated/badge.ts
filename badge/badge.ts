@@ -40,14 +40,22 @@ class Badge implements IBadge{
         const badge = document.createElementNS("http://www.w3.org/2000/svg", "svg");
         const badgeMainGroup = document.createElement("g");
         badgeMainGroup.id = "mainGroup";
+
+        let badgeWidth = 0;
+        let badgeHeight = 0;
+
         for (let section of badgeData.sections) {
+
+            let sectionWidth = 0;
             console.log("s: " + section.text);    
+
+            const sectionText = document.createElement("text");
+            sectionText.innerText = section.text;
+
 
             const sectionRect = document.createElement("rect");
             sectionRect.setAttribute("fill", badgeStyle.commonTextStyle.backgroundColor);
 
-            const sectionText = document.createElement("text");
-            sectionText.innerText = section.text;
 
             badgeMainGroup.appendChild(sectionRect);
             badgeMainGroup.appendChild(sectionText);

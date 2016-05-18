@@ -5,10 +5,12 @@
 
 class BadgeStyle implements IBadgeStyle {
     commonTextStyle: ISectionStyle;
-
+    indent = 5;
+    
     constructor() {
         const commonFontStyle = new FontStyle("Verdana", 11, Color.black, Color.gray);
         const commonBcgColor = Color.silver;
         this.commonTextStyle = new SectionStyle(commonFontStyle, commonBcgColor);
     }
+    
 }
