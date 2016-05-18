@@ -25,7 +25,6 @@
         "./interfaces/ISectionStyle.ts",
         "./interfaces/IUrlHelper.ts",
         "./enums/Theme.ts",
-        "./badge.ts",
-        "./common/color.ts"
+        "./badge.ts"
     ]
 }

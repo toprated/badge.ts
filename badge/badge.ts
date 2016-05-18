@@ -47,17 +47,40 @@ class Badge implements IBadge{
         for (let section of badgeData.sections) {
 
             let sectionWidth = 0;
+            let sectionHeight = 0;
             console.log("s: " + section.text);    
 
             const sectionText = document.createElement("text");
             sectionText.innerText = section.text;
+            sectionText.setAttribute("font-family", badgeStyle.commonTextStyle.fontStyle.fontFamily);
+            sectionText.setAttribute("fill", badgeStyle.commonTextStyle.fontStyle.fontColor);
+            sectionText.setAttribute("x", badgeStyle.indent.toString());
+            sectionText.setAttribute("y", (badgeWidth + 1).toString());
 
+            const sectionTextShadow = document.createElement("text");
+            sectionTextShadow.innerText = section.text;
+            sectionTextShadow.setAttribute("font-family", badgeStyle.commonTextStyle.fontStyle.fontFamily);
+            sectionTextShadow.setAttribute("fill", badgeStyle.commonTextStyle.fontStyle.fontShadowColor);
+            sectionTextShadow.setAttribute("x", badgeStyle.indent.toString());
+            sectionTextShadow.setAttribute("y", badgeWidth.toString());
+
+            sectionWidth = badgeStyle.indent * 2 + sectionText.getBoundingClientRect().width;
+            sectionHeight = badgeStyle.indent * 2 + sectionText.getBoundingClientRect().height;
+            console.log("s w: " + sectionWidth); 
+            console.log("s h: " + sectionHeight); 
 
             const sectionRect = document.createElement("rect");
             sectionRect.setAttribute("fill", badgeStyle.commonTextStyle.backgroundColor);
+            sectionRect.setAttribute("width", sectionWidth.toString());
+            sectionRect.setAttribute("height", sectionHeight.toString());
+            sectionRect.setAttribute("x", sectionWidth.toString());
+            sectionRect.setAttribute("y", sectionHeight.toString());
 
+            badgeWidth += sectionWidth;
+            badgeHeight += sectionHeight;
 
             badgeMainGroup.appendChild(sectionRect);
+            badgeMainGroup.appendChild(sectionTextShadow);
             badgeMainGroup.appendChild(sectionText);
         }
         badge.appendChild(badgeMainGroup);

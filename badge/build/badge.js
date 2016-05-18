@@ -36,6 +36,7 @@ class SectionStyle {
 /// <reference path="./SectionStyle.ts"/>
 class BadgeStyle {
     constructor() {
+        this.indent = 5;
         const commonFontStyle = new FontStyle("Verdana", 11, Color.black, Color.gray);
         const commonBcgColor = Color.silver;
         this.commonTextStyle = new SectionStyle(commonFontStyle, commonBcgColor);
@@ -44,10 +45,9 @@ class BadgeStyle {
 /// <reference path="./Color.ts"/>
 /// <reference path="./FontStyle.ts"/>
 /// <reference path="./BadgeStyle.ts"/>
-/// <reference path="./SectionStyle.ts"/>
-/// <reference path="./../interfaces/IBadgeStyle.ts"/>
 class DarkBadgeStyle {
     constructor() {
+        this.indent = 5;
         const commonFontStyle = new FontStyle("Verdana", 11, Color.white, Color.gray);
         const commonBcgColor = Color.black;
         this.commonTextStyle = new SectionStyle(commonFontStyle, commonBcgColor);
@@ -56,10 +56,9 @@ class DarkBadgeStyle {
 /// <reference path="./Color.ts"/>
 /// <reference path="./FontStyle.ts"/>
 /// <reference path="./BadgeStyle.ts"/>
-/// <reference path="./SectionStyle.ts"/>
-/// <reference path="./../interfaces/IBadgeStyle.ts"/>
 class LightBadgeStyle {
     constructor() {
+        this.indent = 5;
         const commonFontStyle = new FontStyle("Verdana", 11, Color.black, Color.gray);
         const commonBcgColor = Color.silver;
         this.commonTextStyle = new SectionStyle(commonFontStyle, commonBcgColor);
@@ -130,17 +129,41 @@ class Badge {
         const badge = document.createElementNS("http://www.w3.org/2000/svg", "svg");
         const badgeMainGroup = document.createElement("g");
         badgeMainGroup.id = "mainGroup";
+        let badgeWidth = 0;
+        let badgeHeight = 0;
         for (let section of badgeData.sections) {
+            let sectionWidth = 0;
+            let sectionHeight = 0;
             console.log("s: " + section.text);
-            const sectionRect = document.createElement("rect");
-            sectionRect.setAttribute("fill", badgeStyle.commonTextStyle.backgroundColor);
             const sectionText = document.createElement("text");
             sectionText.innerText = section.text;
+            sectionText.setAttribute("font-family", badgeStyle.commonTextStyle.fontStyle.fontFamily);
+            sectionText.setAttribute("fill", badgeStyle.commonTextStyle.fontStyle.fontColor);
+            sectionText.setAttribute("x", badgeStyle.indent.toString());
+            sectionText.setAttribute("y", (badgeWidth + 1).toString());
+            const sectionTextShadow = document.createElement("text");
+            sectionTextShadow.innerText = section.text;
+            sectionTextShadow.setAttribute("font-family", badgeStyle.commonTextStyle.fontStyle.fontFamily);
+            sectionTextShadow.setAttribute("fill", badgeStyle.commonTextStyle.fontStyle.fontShadowColor);
+            sectionTextShadow.setAttribute("x", badgeStyle.indent.toString());
+            sectionTextShadow.setAttribute("y", badgeWidth.toString());
+            sectionWidth = badgeStyle.indent * 2 + sectionText.clientWidth; //.getBoundingClientRect().width;
+            sectionHeight = badgeStyle.indent * 2 + sectionText.getBoundingClientRect().height;
+            console.log("s w: " + sectionWidth);
+            console.log("s h: " + sectionHeight);
+            const sectionRect = document.createElement("rect");
+            sectionRect.setAttribute("fill", badgeStyle.commonTextStyle.backgroundColor);
+            sectionRect.setAttribute("width", sectionWidth.toString());
+            sectionRect.setAttribute("height", sectionHeight.toString());
+            sectionRect.setAttribute("x", sectionWidth.toString());
+            sectionRect.setAttribute("y", sectionHeight.toString());
+            badgeWidth += sectionWidth;
+            badgeHeight += sectionHeight;
             badgeMainGroup.appendChild(sectionRect);
+            badgeMainGroup.appendChild(sectionTextShadow);
             badgeMainGroup.appendChild(sectionText);
         }
         badge.appendChild(badgeMainGroup);
-        badge.setAttribute("xmlns", "http://www.w3.org/2000/svg");
         badge.setAttribute("width", "200");
         badge.setAttribute("height", "20");
         badge.setAttribute("fill", badgeStyle.commonTextStyle.backgroundColor);
