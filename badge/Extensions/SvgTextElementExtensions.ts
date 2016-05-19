@@ -1,24 +1,18 @@
 ﻿interface SVGTextElement {
-    setX(value: string): SVGTextElement;
-    setY(value: string): this;
+    setX(value: number): SVGTextElement;
+    setY(value: number): SVGTextElement;
     getComputedWidth(): number;
 }
 
-SVGTextElement.prototype.setX = (value: string): SVGTextElement => {
-    //var el: SVGTextElement = this;
-    //el.setAttribute("x", value);
-
-    console.log("x");
-
+SVGTextElement.prototype.setX = function (value: number): SVGTextElement {
+    const el: SVGTextElement = this;
+    el.setAttribute("x", String(value));
     return this;
 }
 
-SVGTextElement.prototype.setY = (value: string): SVGTextElement => {
-    var el: SVGTextElement = this as SVGTextElement;
-    console.log("v: " + value);
-    console.log("t: " + this);
-    console.log("e: " + el);
-    //el.setAttribute("y", value);
+SVGTextElement.prototype.setY = (value: number): SVGTextElement => {
+    var el: SVGTextElement = this;
+    el.setAttribute("y", String(value));
     return el;
 }
 

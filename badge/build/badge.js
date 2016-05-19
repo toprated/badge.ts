@@ -78,15 +78,14 @@ class UrlHelper {
         }
     }
 }
-SVGTextElement.prototype.setX = (value) => {
-    console.log("x");
+SVGTextElement.prototype.setX = function (value) {
+    const el = this;
+    el.setAttribute("x", String(value));
     return this;
 };
 SVGTextElement.prototype.setY = (value) => {
     var el = this;
-    console.log("v: " + value);
-    console.log("t: " + this);
-    console.log("e: " + el);
+    el.setAttribute("y", String(value));
     return el;
 };
 SVGTextElement.prototype.getComputedWidth = () => {
@@ -124,8 +123,9 @@ class SvgTextElementHelper {
     getWidthOfText() {
         const c = document.createElement("canvas");
         const ctx = c.getContext("2d");
-        ctx.font = this.fontsize + "px" + this.fontname;
+        ctx.font = this.fontsize + " " + this.fontname;
         const length = ctx.measureText(this.txt).width;
+        console.log("w = " + length);
         return length;
     }
 }
@@ -170,9 +170,9 @@ class Badge {
     }
     buildSvg(badgeStyle, badgeData) {
         const badge = SvgTagsHelper.svg();
+        badge.id = "svg-badge";
         const badgeMainGroup = SvgTagsHelper.g();
-        badgeMainGroup.setAttribute("text-anchor", "middle");
-        badgeMainGroup.id = "mainGroup";
+        badgeMainGroup.id = "main-group";
         let badgeWidth = 0;
         let badgeHeight = 0;
         for (let section of badgeData.sections) {
@@ -183,15 +183,15 @@ class Badge {
             sectionText.setAttribute("font-family", badgeStyle.commonTextStyle.fontStyle.fontFamily);
             sectionText.setAttribute("font-size", badgeStyle.commonTextStyle.fontStyle.fontSize.toString());
             sectionText.setAttribute("fill", badgeStyle.commonTextStyle.fontStyle.fontColor);
-            sectionText.setX(badgeStyle.indent.toString() + badgeWidth);
-            sectionText.setY((badgeWidth + 1).toString() + badgeHeight);
+            sectionText.setAttribute("y", String(badgeStyle.commonTextStyle.fontStyle.fontSize));
+            sectionText.setX(badgeStyle.indent + badgeWidth);
             const sectionTextShadow = SvgTagsHelper.text();
             sectionTextShadow.textContent = section.text;
             sectionTextShadow.setAttribute("font-family", badgeStyle.commonTextStyle.fontStyle.fontFamily);
             sectionTextShadow.setAttribute("font-size", badgeStyle.commonTextStyle.fontStyle.fontSize.toString());
             sectionTextShadow.setAttribute("fill", badgeStyle.commonTextStyle.fontStyle.fontShadowColor);
-            sectionTextShadow.setAttribute("x", badgeStyle.indent.toString() + badgeWidth);
-            sectionTextShadow.setAttribute("y", badgeWidth.toString() + badgeHeight);
+            sectionTextShadow.setAttribute("x", String(badgeStyle.indent + badgeWidth));
+            sectionTextShadow.setAttribute("y", String(badgeStyle.commonTextStyle.fontStyle.fontSize + 1));
             var sectionTextHelper = new SvgTextElementHelper(sectionText);
             sectionWidth = badgeStyle.indent * 2 + sectionTextHelper.getWidthOfText();
             sectionHeight = badgeStyle.indent * 2 + badgeStyle.commonTextStyle.fontStyle.fontSize;
@@ -200,7 +200,9 @@ class Badge {
             sectionRect.setAttribute("width", sectionWidth.toString());
             sectionRect.setAttribute("height", sectionHeight.toString());
             sectionRect.setAttribute("x", badgeWidth.toString());
-            sectionRect.setAttribute("y", badgeHeight.toString());
+            sectionRect.setAttribute("y", "0");
+            sectionRect.setAttribute("rx", "3");
+            sectionRect.setAttribute("ry", "3");
             badgeWidth += sectionWidth;
             badgeHeight += sectionHeight;
             badgeMainGroup.appendChild(sectionRect);
@@ -208,8 +210,8 @@ class Badge {
             badgeMainGroup.appendChild(sectionText);
         }
         badge.appendChild(badgeMainGroup);
-        badge.setAttribute("width", "200");
-        badge.setAttribute("height", "20");
+        badge.setAttribute("width", String(badgeWidth));
+        badge.setAttribute("height", String(badgeHeight));
         this.targetElement.appendChild(badge);
     }
     buildBadge(badgeDataPath) {
