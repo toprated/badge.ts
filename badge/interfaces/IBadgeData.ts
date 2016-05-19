@@ -2,6 +2,4 @@
 
 interface IBadgeData {
     sections: IBadgeSection[];
-    //name: string;
-    //place: number;
 }
