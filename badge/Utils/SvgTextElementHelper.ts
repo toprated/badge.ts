@@ -15,7 +15,7 @@
     getWidthOfText(): number {
         const c = document.createElement("canvas");
         const ctx = c.getContext("2d");
-        ctx.font = this.fontsize + " " + this.fontname;
+        ctx.font = this.fontsize + "px" + this.fontname;
         const length = ctx.measureText(this.txt).width;
         console.log("w = " + length);
         return length;

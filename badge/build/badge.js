@@ -83,12 +83,23 @@ SVGTextElement.prototype.setX = function (value) {
     el.setAttribute("x", String(value));
     return this;
 };
-SVGTextElement.prototype.setY = (value) => {
-    var el = this;
-    el.setAttribute("y", String(value));
-    return el;
+SVGTextElement.prototype.setY = function (value) {
+    this.setAttribute("y", String(value));
+    return this;
 };
-SVGTextElement.prototype.getComputedWidth = () => {
+SVGTextElement.prototype.fontFamily = function (value) {
+    this.setAttribute("font-family", value);
+    return this;
+};
+SVGTextElement.prototype.fontSize = function (value) {
+    this.setAttribute("font-size", String(value));
+    return this;
+};
+SVGTextElement.prototype.fill = function (value) {
+    this.setAttribute("fill", value);
+    return this;
+};
+SVGTextElement.prototype.getComputedWidth = function () {
     const txt = this.textContent;
     const fontname = this.getAttribute("font-family");
     const fontsize = this.getAttribute("font-size");
@@ -123,7 +134,7 @@ class SvgTextElementHelper {
     getWidthOfText() {
         const c = document.createElement("canvas");
         const ctx = c.getContext("2d");
-        ctx.font = this.fontsize + " " + this.fontname;
+        ctx.font = this.fontsize + "px" + this.fontname;
         const length = ctx.measureText(this.txt).width;
         console.log("w = " + length);
         return length;
@@ -178,13 +189,14 @@ class Badge {
         for (let section of badgeData.sections) {
             let sectionWidth = 0;
             let sectionHeight = 0;
-            const sectionText = SvgTagsHelper.text();
-            sectionText.textContent = section.text;
-            sectionText.setAttribute("font-family", badgeStyle.commonTextStyle.fontStyle.fontFamily);
-            sectionText.setAttribute("font-size", badgeStyle.commonTextStyle.fontStyle.fontSize.toString());
-            sectionText.setAttribute("fill", badgeStyle.commonTextStyle.fontStyle.fontColor);
-            sectionText.setAttribute("y", String(badgeStyle.commonTextStyle.fontStyle.fontSize));
-            sectionText.setX(badgeStyle.indent + badgeWidth);
+            const fontStyle = badgeStyle.commonTextStyle.fontStyle;
+            const sectionText = SvgTagsHelper.text(section.text);
+            sectionText
+                .fontFamily(fontStyle.fontFamily)
+                .fontSize(fontStyle.fontSize)
+                .fill(fontStyle.fontColor)
+                .setX(badgeStyle.indent + badgeWidth)
+                .setY(fontStyle.fontSize);
             const sectionTextShadow = SvgTagsHelper.text();
             sectionTextShadow.textContent = section.text;
             sectionTextShadow.setAttribute("font-family", badgeStyle.commonTextStyle.fontStyle.fontFamily);
@@ -192,8 +204,7 @@ class Badge {
             sectionTextShadow.setAttribute("fill", badgeStyle.commonTextStyle.fontStyle.fontShadowColor);
             sectionTextShadow.setAttribute("x", String(badgeStyle.indent + badgeWidth));
             sectionTextShadow.setAttribute("y", String(badgeStyle.commonTextStyle.fontStyle.fontSize + 1));
-            var sectionTextHelper = new SvgTextElementHelper(sectionText);
-            sectionWidth = badgeStyle.indent * 2 + sectionTextHelper.getWidthOfText();
+            sectionWidth = badgeStyle.indent * 2 + sectionText.getComputedWidth();
             sectionHeight = badgeStyle.indent * 2 + badgeStyle.commonTextStyle.fontStyle.fontSize;
             const sectionRect = SvgTagsHelper.rect();
             sectionRect.setAttribute("fill", badgeStyle.commonTextStyle.backgroundColor);
