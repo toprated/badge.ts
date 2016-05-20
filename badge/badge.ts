@@ -77,14 +77,15 @@ class Badge implements IBadge{
             sectionTextShadow.setAttribute("text-anchor", "middle");
             sectionTextShadow.setAttribute("alignment-baseline", "central");
                 
-            const sectionRect = SvgTagsHelper.createRect();
+            const sectionRect = SvgTagsHelper.createRoundedRect(badgeWidth, 0, sectionWidth, sectionHeight, 1, 3, 5, 7, section.bcgColor);
+            /*const sectionRect = SvgTagsHelper.createRect();
             sectionRect
                 .fill(section.bcgColor)
                 .setWidth(sectionWidth)
                 .setHeight(sectionHeight)
                 .setX(badgeWidth)
                 .setY(0)
-                .setR(3);
+                .setR(3);*/
 
             badgeWidth += sectionWidth;
             if (badgeHeight < sectionHeight) {

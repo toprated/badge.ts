@@ -196,6 +196,21 @@ class SvgTagsHelper {
         }
         return el;
     }
+    static p(x, y) {
+        return x + " " + y + " ";
+    }
+    static createRoundedRect(x, y, w, h, r1, r2, r3, r4, color) {
+        const el = document.createElementNS("http://www.w3.org/2000/svg", "path");
+        let path = "M" + this.p(x + r1, y);
+        path += "L" + this.p(x + w - r2, y) + "Q" + this.p(x + w, y) + this.p(x + w, y + r2);
+        path += "L" + this.p(x + w, y + h - r3) + "Q" + this.p(x + w, y + h) + this.p(x + w - r3, y + h);
+        path += "L" + this.p(x + r4, y + h) + "Q" + this.p(x, y + h) + this.p(x, y + h - r4);
+        path += "L" + this.p(x, y + r1) + "Q" + this.p(x, y) + this.p(x + r1, y);
+        path += "Z";
+        el.setAttribute("d", path);
+        el.setAttribute("fill", color);
+        return el;
+    }
     static createText(text = "") {
         const el = document.createElementNS("http://www.w3.org/2000/svg", "text");
         if (text !== "") {
@@ -271,14 +286,7 @@ class Badge {
                 .setY(sectionHeight / 2 + 1);
             sectionTextShadow.setAttribute("text-anchor", "middle");
             sectionTextShadow.setAttribute("alignment-baseline", "central");
-            const sectionRect = SvgTagsHelper.createRect();
-            sectionRect
-                .fill(section.bcgColor)
-                .setWidth(sectionWidth)
-                .setHeight(sectionHeight)
-                .setX(badgeWidth)
-                .setY(0)
-                .setR(3);
+            const sectionRect = SvgTagsHelper.createRoundedRect(badgeWidth, 0, sectionWidth, sectionHeight, 1, 3, 5, 7, section.bcgColor);
             badgeWidth += sectionWidth;
             if (badgeHeight < sectionHeight) {
                 badgeHeight = sectionHeight;
