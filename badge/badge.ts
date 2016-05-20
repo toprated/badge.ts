@@ -2,6 +2,7 @@
 /// <reference path="./Common/DarkBadgeStyle.ts"/>
 /// <reference path="./Common/LightBadgeStyle.ts"/>
 /// <reference path="./Extensions/SvgTextElementExtensions.ts"/>
+/// <reference path="./Extensions/SvgRectElementExtensions.ts"/>
 /// <reference path="./Interfaces/IBadgeDataSmall.ts"/>
 /// <reference path="./Interfaces/IBadgeData.ts"/>
 /// <reference path="./Interfaces/IBadge.ts"/>
@@ -41,11 +42,9 @@ class Badge implements IBadge{
     }
     
     buildSvg(badgeStyle: IBadgeStyle, badgeData: IBadgeData): void {
-        const badge = SvgTagsHelper.createSvg();
-        badge.id = "svg-badge";
 
-        const badgeMainGroup = SvgTagsHelper.createG();
-        badgeMainGroup.id = "main-group";
+        const badge = SvgTagsHelper.createSvg("svg-badge");
+        const badgeMainGroup = SvgTagsHelper.createG("main-group");
 
         let badgeWidth = 0;
         let badgeHeight = 0;
@@ -74,13 +73,14 @@ class Badge implements IBadge{
             const sectionHeight = badgeStyle.indent * 2 + badgeStyle.commonTextStyle.fontStyle.fontSize;
             
             const sectionRect = SvgTagsHelper.createRect();
-            sectionRect.setAttribute("fill", badgeStyle.commonTextStyle.backgroundColor);
-            sectionRect.setAttribute("width", sectionWidth.toString());
-            sectionRect.setAttribute("height", sectionHeight.toString());
-            sectionRect.setAttribute("x", badgeWidth.toString());
-            sectionRect.setAttribute("y", "0");
-            sectionRect.setAttribute("rx", "3");
-            sectionRect.setAttribute("ry", "3");
+            sectionRect
+                //.fill(badgeStyle.commonTextStyle.backgroundColor)
+                .fill(section.bcgColor)
+                .setWidth(sectionWidth)
+                .setHeight(sectionHeight)
+                .setX(badgeWidth)
+                .setY(0)
+                .setR(3);
 
             badgeWidth += sectionWidth;
             badgeHeight += sectionHeight;

@@ -79,8 +79,7 @@ class UrlHelper {
     }
 }
 SVGTextElement.prototype.setX = function (value) {
-    const el = this;
-    el.setAttribute("x", String(value));
+    this.setAttribute("x", String(value));
     return this;
 };
 SVGTextElement.prototype.setY = function (value) {
@@ -108,6 +107,40 @@ SVGTextElement.prototype.getComputedWidth = function () {
     ctx.font = fontsize + "px" + fontname;
     const length = ctx.measureText(txt).width;
     return length;
+};
+SVGRectElement.prototype.setX = function (value) {
+    this.setAttribute("x", String(value));
+    return this;
+};
+SVGRectElement.prototype.setY = function (value) {
+    this.setAttribute("y", String(value));
+    return this;
+};
+SVGRectElement.prototype.setRx = function (value) {
+    this.setAttribute("rx", String(value));
+    return this;
+};
+SVGRectElement.prototype.setRy = function (value) {
+    this.setAttribute("ry", String(value));
+    return this;
+};
+SVGRectElement.prototype.setR = function (value) {
+    this
+        .setRx(value)
+        .setRy(value);
+    return this;
+};
+SVGRectElement.prototype.setWidth = function (value) {
+    this.setAttribute("width", String(value));
+    return this;
+};
+SVGRectElement.prototype.setHeight = function (value) {
+    this.setAttribute("height", String(value));
+    return this;
+};
+SVGRectElement.prototype.fill = function (value) {
+    this.setAttribute("fill", value);
+    return this;
 };
 class HtmlElementHelper {
     constructor(el) {
@@ -194,10 +227,8 @@ class Badge {
         return style;
     }
     buildSvg(badgeStyle, badgeData) {
-        const badge = SvgTagsHelper.createSvg();
-        badge.id = "svg-badge";
-        const badgeMainGroup = SvgTagsHelper.createG();
-        badgeMainGroup.id = "main-group";
+        const badge = SvgTagsHelper.createSvg("svg-badge");
+        const badgeMainGroup = SvgTagsHelper.createG("main-group");
         let badgeWidth = 0;
         let badgeHeight = 0;
         for (let section of badgeData.sections) {
@@ -219,13 +250,13 @@ class Badge {
             const sectionWidth = badgeStyle.indent * 2 + sectionText.getComputedWidth();
             const sectionHeight = badgeStyle.indent * 2 + badgeStyle.commonTextStyle.fontStyle.fontSize;
             const sectionRect = SvgTagsHelper.createRect();
-            sectionRect.setAttribute("fill", badgeStyle.commonTextStyle.backgroundColor);
-            sectionRect.setAttribute("width", sectionWidth.toString());
-            sectionRect.setAttribute("height", sectionHeight.toString());
-            sectionRect.setAttribute("x", badgeWidth.toString());
-            sectionRect.setAttribute("y", "0");
-            sectionRect.setAttribute("rx", "3");
-            sectionRect.setAttribute("ry", "3");
+            sectionRect
+                .fill(section.bcgColor)
+                .setWidth(sectionWidth)
+                .setHeight(sectionHeight)
+                .setX(badgeWidth)
+                .setY(0)
+                .setR(3);
             badgeWidth += sectionWidth;
             badgeHeight += sectionHeight;
             badgeMainGroup.appendChild(sectionRect);

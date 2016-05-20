@@ -8,8 +8,7 @@
 }
 
 SVGTextElement.prototype.setX = function (value: number): SVGTextElement {
-    const el: SVGTextElement = this;
-    el.setAttribute("x", String(value));
+    this.setAttribute("x", String(value));
     return this;
 }
 

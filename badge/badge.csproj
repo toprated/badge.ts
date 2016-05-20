@@ -31,6 +31,7 @@
     <TypeScriptCompile Include="Common\LightBadgeStyle.ts" />
     <TypeScriptCompile Include="Common\SectionStyle.ts" />
     <TypeScriptCompile Include="Enums\Theme.ts" />
+    <TypeScriptCompile Include="Extensions\SvgRectElementExtensions.ts" />
     <TypeScriptCompile Include="Extensions\SvgTextElementExtensions.ts" />
     <TypeScriptCompile Include="Interfaces\IBadge.ts" />
     <TypeScriptCompile Include="Interfaces\IBadgeDataSmall.ts" />

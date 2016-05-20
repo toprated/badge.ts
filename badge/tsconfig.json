@@ -18,6 +18,7 @@
         "./Common/UrlHelper.ts",
         "./Enums/Theme.ts",
         "./Extensions/SvgTextElementExtensions.ts",
+        "./Extensions/SvgRectElementExtensions.ts",
         "./Interfaces/IBadge.ts",
         "./Interfaces/IBadgeData.ts",
         "./Interfaces/IBadgeDataSmall.ts",
