@@ -141,19 +141,33 @@ class SvgTextElementHelper {
     }
 }
 class SvgTagsHelper {
-    static svg() {
-        return document.createElementNS("http://www.w3.org/2000/svg", "svg");
-    }
-    static rect() {
-        return document.createElementNS("http://www.w3.org/2000/svg", "rect");
-    }
-    static text(text = "") {
-        const el = document.createElementNS("http://www.w3.org/2000/svg", "text");
-        el.textContent = text;
+    static createSvg(id = "") {
+        const el = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+        if (id !== "") {
+            el.id = id;
+        }
         return el;
     }
-    static g() {
-        return document.createElementNS("http://www.w3.org/2000/svg", "g");
+    static createRect(id = "") {
+        const el = document.createElementNS("http://www.w3.org/2000/svg", "rect");
+        if (id !== "") {
+            el.id = id;
+        }
+        return el;
+    }
+    static createText(text = "") {
+        const el = document.createElementNS("http://www.w3.org/2000/svg", "text");
+        if (text !== "") {
+            el.textContent = text;
+        }
+        return el;
+    }
+    static createG(id = "") {
+        const el = document.createElementNS("http://www.w3.org/2000/svg", "g");
+        if (id !== "") {
+            el.id = id;
+        }
+        return el;
     }
 }
 class Badge {
@@ -180,33 +194,31 @@ class Badge {
         return style;
     }
     buildSvg(badgeStyle, badgeData) {
-        const badge = SvgTagsHelper.svg();
+        const badge = SvgTagsHelper.createSvg();
         badge.id = "svg-badge";
-        const badgeMainGroup = SvgTagsHelper.g();
+        const badgeMainGroup = SvgTagsHelper.createG();
         badgeMainGroup.id = "main-group";
         let badgeWidth = 0;
         let badgeHeight = 0;
         for (let section of badgeData.sections) {
-            let sectionWidth = 0;
-            let sectionHeight = 0;
             const fontStyle = badgeStyle.commonTextStyle.fontStyle;
-            const sectionText = SvgTagsHelper.text(section.text);
+            const sectionText = SvgTagsHelper.createText(section.text);
             sectionText
                 .fontFamily(fontStyle.fontFamily)
                 .fontSize(fontStyle.fontSize)
                 .fill(fontStyle.fontColor)
                 .setX(badgeStyle.indent + badgeWidth)
                 .setY(fontStyle.fontSize);
-            const sectionTextShadow = SvgTagsHelper.text();
-            sectionTextShadow.textContent = section.text;
-            sectionTextShadow.setAttribute("font-family", badgeStyle.commonTextStyle.fontStyle.fontFamily);
-            sectionTextShadow.setAttribute("font-size", badgeStyle.commonTextStyle.fontStyle.fontSize.toString());
-            sectionTextShadow.setAttribute("fill", badgeStyle.commonTextStyle.fontStyle.fontShadowColor);
-            sectionTextShadow.setAttribute("x", String(badgeStyle.indent + badgeWidth));
-            sectionTextShadow.setAttribute("y", String(badgeStyle.commonTextStyle.fontStyle.fontSize + 1));
-            sectionWidth = badgeStyle.indent * 2 + sectionText.getComputedWidth();
-            sectionHeight = badgeStyle.indent * 2 + badgeStyle.commonTextStyle.fontStyle.fontSize;
-            const sectionRect = SvgTagsHelper.rect();
+            const sectionTextShadow = SvgTagsHelper.createText(section.text);
+            sectionTextShadow
+                .fontFamily(fontStyle.fontFamily)
+                .fontSize(fontStyle.fontSize)
+                .fill(fontStyle.fontShadowColor)
+                .setX(badgeStyle.indent + badgeWidth)
+                .setY(fontStyle.fontSize + 1);
+            const sectionWidth = badgeStyle.indent * 2 + sectionText.getComputedWidth();
+            const sectionHeight = badgeStyle.indent * 2 + badgeStyle.commonTextStyle.fontStyle.fontSize;
+            const sectionRect = SvgTagsHelper.createRect();
             sectionRect.setAttribute("fill", badgeStyle.commonTextStyle.backgroundColor);
             sectionRect.setAttribute("width", sectionWidth.toString());
             sectionRect.setAttribute("height", sectionHeight.toString());
