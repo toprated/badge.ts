@@ -1,5 +1,5 @@
 ﻿interface IBadge {
-    targetElement: HTMLElement;
+    targetHtmlElement: HTMLElement;
 
     buildBadge(badgeDataPath: string): void;
 

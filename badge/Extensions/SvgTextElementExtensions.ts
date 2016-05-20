@@ -4,7 +4,6 @@
     fontFamily(value: string): SVGTextElement;
     fontSize(value: number): SVGTextElement;
     fill(value: string): SVGTextElement;
-    getComputedWidth(): number;
     getTextRect(): SVGRect;
 }
 
@@ -31,17 +30,6 @@ SVGTextElement.prototype.fontSize = function (value: number): SVGTextElement {
 SVGTextElement.prototype.fill = function (value: string): SVGTextElement {
     this.setAttribute("fill", value);
     return this;
-}
-
-SVGTextElement.prototype.getComputedWidth = function (): number {
-    const txt = this.textContent;
-    const fontname = this.getAttribute("font-family");
-    const fontsize = this.getAttribute("font-size");
-    const c = document.createElement("canvas");
-    const ctx = c.getContext("2d");
-    ctx.font = fontsize + "px" + fontname;
-    const length = ctx.measureText(txt).width;
-    return length;
 }
 
 SVGTextElement.prototype.getTextRect = function (): SVGRect {

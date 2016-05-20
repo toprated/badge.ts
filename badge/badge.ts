@@ -12,11 +12,11 @@
 /// <reference path="./Utils/SvgTagsHelper.ts"/>
 
 class Badge implements IBadge{
-    targetElement: HTMLElement;
+    targetHtmlElement: HTMLElement;
     style: IBadgeStyle;
 
     constructor(element: HTMLElement) {
-        this.targetElement = element;
+        this.targetHtmlElement = element;
         const badgeStyle = this.getStyle();
         this.style = badgeStyle;
     }
@@ -53,27 +53,30 @@ class Badge implements IBadge{
         for (let section of badgeData.sections) {
 
             const fontStyle = badgeStyle.commonTextStyle.fontStyle;
+            const sectionTextRect = SvgTagsHelper.getRectText(section.text, fontStyle);
+            const sectionWidth = badgeStyle.indent * 2 + sectionTextRect.width;
+            const sectionHeight = badgeStyle.indent * 2 + sectionTextRect.height;
 
             const sectionText = SvgTagsHelper.createText(section.text);
             sectionText
                 .fontFamily(fontStyle.fontFamily)
                 .fontSize(fontStyle.fontSize)
                 .fill(fontStyle.fontColor)
-                .setX(badgeStyle.indent + badgeWidth)
-                .setY(fontStyle.fontSize);
+                .setX(badgeWidth + sectionWidth / 2)
+                .setY(sectionHeight / 2);
+            sectionText.setAttribute("text-anchor", "middle");
+            sectionText.setAttribute("alignment-baseline", "central");
 
             const sectionTextShadow = SvgTagsHelper.createText(section.text);
             sectionTextShadow
                 .fontFamily(fontStyle.fontFamily)
                 .fontSize(fontStyle.fontSize)
                 .fill(fontStyle.fontShadowColor)
-                .setX(badgeStyle.indent + badgeWidth)
-                .setY(fontStyle.fontSize + 1);
-
-            //const sectionWidth = badgeStyle.indent * 2 + sectionText.getComputedWidth();
-            const sectionWidth = badgeStyle.indent * 2 + sectionText.getTextRect().width;
-            const sectionHeight = badgeStyle.indent * 2 + badgeStyle.commonTextStyle.fontStyle.fontSize;
-            
+                .setX(badgeWidth + sectionWidth / 2)
+                .setY(sectionHeight / 2 + 1);
+            sectionTextShadow.setAttribute("text-anchor", "middle");
+            sectionTextShadow.setAttribute("alignment-baseline", "central");
+                
             const sectionRect = SvgTagsHelper.createRect();
             sectionRect
                 .fill(section.bcgColor)
@@ -84,8 +87,10 @@ class Badge implements IBadge{
                 .setR(3);
 
             badgeWidth += sectionWidth;
-            badgeHeight += sectionHeight;
-
+            if (badgeHeight < sectionHeight) {
+                badgeHeight = sectionHeight;
+            } 
+            
             badgeMainGroup.appendChild(sectionRect);
             badgeMainGroup.appendChild(sectionTextShadow);
             badgeMainGroup.appendChild(sectionText);
@@ -97,7 +102,7 @@ class Badge implements IBadge{
             .setWidth(badgeWidth)
             .setHeight(badgeHeight);
 
-        this.targetElement.appendChild(badge);
+        this.targetHtmlElement.appendChild(badge);
     }
 
     buildBadge(badgeDataPath: string): void {
