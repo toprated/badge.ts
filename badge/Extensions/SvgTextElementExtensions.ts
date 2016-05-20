@@ -5,6 +5,7 @@
     fontSize(value: number): SVGTextElement;
     fill(value: string): SVGTextElement;
     getComputedWidth(): number;
+    getTextRect(): SVGRect;
 }
 
 SVGTextElement.prototype.setX = function (value: number): SVGTextElement {
@@ -41,5 +42,20 @@ SVGTextElement.prototype.getComputedWidth = function (): number {
     ctx.font = fontsize + "px" + fontname;
     const length = ctx.measureText(txt).width;
     return length;
+}
+
+SVGTextElement.prototype.getTextRect = function (): SVGRect {
+
+    const el = this;
+    const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+    svg.id = "svg-id";
+    svg.appendChild(el);
+    document.body.appendChild(svg);
+
+    const rect = el.getBBox();
+    
+    document.body.removeChild(svg);
+
+    return rect;
 }
 

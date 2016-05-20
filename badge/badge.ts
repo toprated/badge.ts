@@ -1,6 +1,7 @@
 ﻿/// <reference path="./Common/UrlHelper.ts"/>
 /// <reference path="./Common/DarkBadgeStyle.ts"/>
 /// <reference path="./Common/LightBadgeStyle.ts"/>
+/// <reference path="./Extensions/SvgElementExtensions.ts"/>
 /// <reference path="./Extensions/SvgTextElementExtensions.ts"/>
 /// <reference path="./Extensions/SvgRectElementExtensions.ts"/>
 /// <reference path="./Interfaces/IBadgeDataSmall.ts"/>
@@ -69,12 +70,12 @@ class Badge implements IBadge{
                 .setX(badgeStyle.indent + badgeWidth)
                 .setY(fontStyle.fontSize + 1);
 
-            const sectionWidth = badgeStyle.indent * 2 + sectionText.getComputedWidth();
+            //const sectionWidth = badgeStyle.indent * 2 + sectionText.getComputedWidth();
+            const sectionWidth = badgeStyle.indent * 2 + sectionText.getTextRect().width;
             const sectionHeight = badgeStyle.indent * 2 + badgeStyle.commonTextStyle.fontStyle.fontSize;
             
             const sectionRect = SvgTagsHelper.createRect();
             sectionRect
-                //.fill(badgeStyle.commonTextStyle.backgroundColor)
                 .fill(section.bcgColor)
                 .setWidth(sectionWidth)
                 .setHeight(sectionHeight)
@@ -91,9 +92,10 @@ class Badge implements IBadge{
         }
 
         badge.appendChild(badgeMainGroup);
-        
-        badge.setAttribute("width", String(badgeWidth));
-        badge.setAttribute("height", String(badgeHeight));
+
+        badge
+            .setWidth(badgeWidth)
+            .setHeight(badgeHeight);
 
         this.targetElement.appendChild(badge);
     }

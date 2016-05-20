@@ -78,6 +78,14 @@ class UrlHelper {
         }
     }
 }
+SVGSVGElement.prototype.setWidth = function (value) {
+    this.setAttribute("width", String(value));
+    return this;
+};
+SVGSVGElement.prototype.setHeight = function (value) {
+    this.setAttribute("height", String(value));
+    return this;
+};
 SVGTextElement.prototype.setX = function (value) {
     this.setAttribute("x", String(value));
     return this;
@@ -107,6 +115,16 @@ SVGTextElement.prototype.getComputedWidth = function () {
     ctx.font = fontsize + "px" + fontname;
     const length = ctx.measureText(txt).width;
     return length;
+};
+SVGTextElement.prototype.getTextRect = function () {
+    const el = this;
+    const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+    svg.id = "svg-id";
+    svg.appendChild(el);
+    document.body.appendChild(svg);
+    const rect = el.getBBox();
+    document.body.removeChild(svg);
+    return rect;
 };
 SVGRectElement.prototype.setX = function (value) {
     this.setAttribute("x", String(value));
@@ -247,7 +265,7 @@ class Badge {
                 .fill(fontStyle.fontShadowColor)
                 .setX(badgeStyle.indent + badgeWidth)
                 .setY(fontStyle.fontSize + 1);
-            const sectionWidth = badgeStyle.indent * 2 + sectionText.getComputedWidth();
+            const sectionWidth = badgeStyle.indent * 2 + sectionText.getTextRect().width;
             const sectionHeight = badgeStyle.indent * 2 + badgeStyle.commonTextStyle.fontStyle.fontSize;
             const sectionRect = SvgTagsHelper.createRect();
             sectionRect
@@ -264,8 +282,9 @@ class Badge {
             badgeMainGroup.appendChild(sectionText);
         }
         badge.appendChild(badgeMainGroup);
-        badge.setAttribute("width", String(badgeWidth));
-        badge.setAttribute("height", String(badgeHeight));
+        badge
+            .setWidth(badgeWidth)
+            .setHeight(badgeHeight);
         this.targetElement.appendChild(badge);
     }
     buildBadge(badgeDataPath) {
