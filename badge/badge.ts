@@ -91,6 +91,10 @@ class Badge implements IBadge {
             sectionTextShadow.setAttribute("text-anchor", "middle");
             sectionTextShadow.setAttribute("alignment-baseline", "central");
 
+            if (section.bcgColor === undefined) {
+                section.bcgColor = badgeStyle.commonTextStyle.backgroundColor;
+            }
+
             const sectionRect = SvgTagsHelper.createSection(sectionType, badgeWidth, 0, sectionWidth, sectionHeight, badgeStyle.radius, section.bcgColor);
 
             badgeWidth += sectionWidth;
