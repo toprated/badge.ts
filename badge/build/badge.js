@@ -193,6 +193,25 @@ class SvgTagsHelper {
     static p(x, y) {
         return x + " " + y + " ";
     }
+    static createLinearGradient(id, x1, y1, x2, y2, offset1, offset2, stopColor1, stopColor2, opacity = "0.2") {
+        const el = document.createElementNS("http://www.w3.org/2000/svg", "linearGradient");
+        el.setAttribute("id", id);
+        el.setAttribute("x1", x1);
+        el.setAttribute("x2", x2);
+        el.setAttribute("y1", y1);
+        el.setAttribute("y2", y2);
+        const stop1 = document.createElementNS("http://www.w3.org/2000/svg", "stop");
+        stop1.setAttribute("offset", offset1);
+        stop1.setAttribute("stop-color", stopColor1);
+        stop1.setAttribute("stop-opacity", opacity);
+        const stop2 = document.createElementNS("http://www.w3.org/2000/svg", "stop");
+        stop2.setAttribute("offset", offset2);
+        stop2.setAttribute("stop-color", stopColor2);
+        stop2.setAttribute("stop-opacity", opacity);
+        el.appendChild(stop1);
+        el.appendChild(stop2);
+        return el;
+    }
     static createSection(sectionType, x, y, w, h, r, color) {
         switch (sectionType) {
             case SectionType.Left:
@@ -204,6 +223,9 @@ class SvgTagsHelper {
             default:
                 throw Error("Unknown SectionType!");
         }
+    }
+    static createSimpleRoundedRect(x, y, w, h, r, color) {
+        return this.createRoundedRect(x, y, w, h, r, r, r, r, color);
     }
     static createRoundedRect(x, y, w, h, r1, r2, r3, r4, color) {
         const el = document.createElementNS("http://www.w3.org/2000/svg", "path");
@@ -287,7 +309,7 @@ class Badge {
         let currentSection = 0;
         for (let section of badgeData.sections) {
             currentSection++;
-            let sectionType = BadgeSectionHelper.getSectionType(currentSection, sectionsCount);
+            const sectionType = BadgeSectionHelper.getSectionType(currentSection, sectionsCount);
             const fontStyle = badgeStyle.commonTextStyle.fontStyle;
             const sectionTextRect = SvgTagsHelper.getRectText(section.text, fontStyle);
             const sectionWidth = badgeStyle.indent * 2 + sectionTextRect.width;
@@ -319,6 +341,11 @@ class Badge {
             badgeMainGroup.appendChild(sectionTextShadow);
             badgeMainGroup.appendChild(sectionText);
         }
+        const gradienId = "badge-gradient-id";
+        const badgeGradient = SvgTagsHelper.createLinearGradient(gradienId, "0%", "0%", "0%", "90%", "0%", "90%", "white", "black");
+        const badgeGradientRect = SvgTagsHelper.createSimpleRoundedRect(0, 0, badgeWidth, badgeHeight, badgeStyle.radius, `url(#${gradienId})`);
+        badgeMainGroup.appendChild(badgeGradientRect);
+        badge.appendChild(badgeGradient);
         badge.appendChild(badgeMainGroup);
         badge
             .setWidth(badgeWidth)

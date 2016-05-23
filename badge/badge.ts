@@ -56,7 +56,7 @@ class Badge implements IBadge{
         for (let section of badgeData.sections) {
 
             currentSection++;
-            let sectionType = BadgeSectionHelper.getSectionType(currentSection, sectionsCount);
+            const sectionType = BadgeSectionHelper.getSectionType(currentSection, sectionsCount);
 
             const fontStyle = badgeStyle.commonTextStyle.fontStyle;
             const sectionTextRect = SvgTagsHelper.getRectText(section.text, fontStyle);
@@ -84,7 +84,6 @@ class Badge implements IBadge{
             sectionTextShadow.setAttribute("alignment-baseline", "central");
 
             const sectionRect = SvgTagsHelper.createSection(sectionType, badgeWidth, 0, sectionWidth, sectionHeight, badgeStyle.radius, section.bcgColor);
-            //const sectionRect = SvgTagsHelper.createRoundedRect(badgeWidth, 0, sectionWidth, sectionHeight, 1, 3, 5, 7, section.bcgColor);
 
             badgeWidth += sectionWidth;
             if (badgeHeight < sectionHeight) {
@@ -96,6 +95,13 @@ class Badge implements IBadge{
             badgeMainGroup.appendChild(sectionText);
         }
 
+        const gradienId = "badge-gradient-id";
+        const badgeGradient = SvgTagsHelper.createLinearGradient(gradienId, "0%", "0%", "0%", "90%", "0%", "90%", "white", "black");
+
+        const badgeGradientRect = SvgTagsHelper.createSimpleRoundedRect(0, 0, badgeWidth, badgeHeight, badgeStyle.radius, `url(#${gradienId})`);
+        badgeMainGroup.appendChild(badgeGradientRect);
+
+        badge.appendChild(badgeGradient);
         badge.appendChild(badgeMainGroup);
 
         badge

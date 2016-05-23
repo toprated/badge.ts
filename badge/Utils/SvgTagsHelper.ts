@@ -22,6 +22,27 @@ class SvgTagsHelper {
         return x + " " + y + " ";
     }
 
+    static createLinearGradient(id: string, x1: string, y1: string, x2: string, y2: string,
+            offset1: string, offset2: string, stopColor1: string, stopColor2: string, opacity: string = "0.2"): SVGLinearGradientElement {
+        const el = document.createElementNS("http://www.w3.org/2000/svg", "linearGradient");
+        el.setAttribute("id", id);
+        el.setAttribute("x1", x1);
+        el.setAttribute("x2", x2);
+        el.setAttribute("y1", y1);
+        el.setAttribute("y2", y2);
+        const stop1 = document.createElementNS("http://www.w3.org/2000/svg", "stop");
+        stop1.setAttribute("offset", offset1);
+        stop1.setAttribute("stop-color", stopColor1);
+        stop1.setAttribute("stop-opacity", opacity);
+        const stop2 = document.createElementNS("http://www.w3.org/2000/svg", "stop");
+        stop2.setAttribute("offset", offset2);
+        stop2.setAttribute("stop-color", stopColor2);
+        stop2.setAttribute("stop-opacity", opacity);
+        el.appendChild(stop1);
+        el.appendChild(stop2);
+        return el;
+    }
+
     static createSection(sectionType: SectionType, x: number, y: number, w: number, h: number, r: number, color: string): SVGPathElement {
         switch (sectionType) {
             case SectionType.Left:
@@ -35,8 +56,12 @@ class SvgTagsHelper {
         }
     }
 
+    static createSimpleRoundedRect(x: number, y: number, w: number, h: number, r: number, color: string): SVGPathElement {
+        return this.createRoundedRect(x, y, w, h, r, r, r, r, color);
+    }
+
     static createRoundedRect(x: number, y: number, w: number, h: number,
-            r1: number, r2: number, r3: number, r4: number, color: string): SVGPathElement {
+        r1: number, r2: number, r3: number, r4: number, color: string): SVGPathElement {
         const el = document.createElementNS("http://www.w3.org/2000/svg", "path");
 
         let path = `M${this.p(x + r1, y)}`; //A
