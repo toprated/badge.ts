@@ -3,4 +3,5 @@
 interface IBadgeStyle {
     commonTextStyle: ISectionStyle;
     indent: number;
+    radius: number;
 }

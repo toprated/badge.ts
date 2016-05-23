@@ -6,6 +6,7 @@
 class BadgeStyle implements IBadgeStyle {
     commonTextStyle: ISectionStyle;
     indent = 3;
+    radius = 3;
     
     constructor() {
         const commonFontStyle = new FontStyle("Verdana", 11, Color.black, Color.gray);

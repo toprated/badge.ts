@@ -5,6 +5,7 @@
 class DarkBadgeStyle implements BadgeStyle {
     commonTextStyle: ISectionStyle;
     indent = 3;
+    radius = 3;
     
     constructor() {
         const commonFontStyle = new FontStyle("Verdana", 11, Color.white, Color.gray);

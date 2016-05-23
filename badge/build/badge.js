@@ -28,6 +28,7 @@ class SectionStyle {
 class BadgeStyle {
     constructor() {
         this.indent = 3;
+        this.radius = 3;
         const commonFontStyle = new FontStyle("Verdana", 11, Color.black, Color.gray);
         const commonBcgColor = Color.silver;
         this.commonTextStyle = new SectionStyle(commonFontStyle, commonBcgColor);
@@ -36,6 +37,7 @@ class BadgeStyle {
 class DarkBadgeStyle {
     constructor() {
         this.indent = 3;
+        this.radius = 3;
         const commonFontStyle = new FontStyle("Verdana", 11, Color.white, Color.gray);
         const commonBcgColor = Color.black;
         this.commonTextStyle = new SectionStyle(commonFontStyle, commonBcgColor);
@@ -44,6 +46,7 @@ class DarkBadgeStyle {
 class LightBadgeStyle {
     constructor() {
         this.indent = 3;
+        this.radius = 3;
         const commonFontStyle = new FontStyle("DejaVu Sans,Verdana,Geneva,sans-serif", 11, Color.black, Color.gray);
         const commonBcgColor = Color.silver;
         this.commonTextStyle = new SectionStyle(commonFontStyle, commonBcgColor);
@@ -78,6 +81,12 @@ class UrlHelper {
         }
     }
 }
+var SectionType;
+(function (SectionType) {
+    SectionType[SectionType["Left"] = 0] = "Left";
+    SectionType[SectionType["Right"] = 1] = "Right";
+    SectionType[SectionType["Middle"] = 2] = "Middle";
+})(SectionType || (SectionType = {}));
 SVGSVGElement.prototype.setWidth = function (value) {
     this.setAttribute("width", String(value));
     return this;
@@ -150,21 +159,6 @@ SVGRectElement.prototype.fill = function (value) {
     this.setAttribute("fill", value);
     return this;
 };
-class HtmlElementHelper {
-    constructor(el) {
-        this.e = el;
-        this.txt = el.innerText;
-        this.fontname = el.getAttribute("font-family");
-        this.fontsize = el.getAttribute("font-size");
-    }
-    getWidthOfText() {
-        const c = document.createElement("canvas");
-        const ctx = c.getContext("2d");
-        ctx.font = this.fontsize + "px" + this.fontname;
-        const length = ctx.measureText(this.txt).width;
-        return length;
-    }
-}
 class SvgTextElementHelper {
     constructor(el) {
         this.e = el;
@@ -199,13 +193,25 @@ class SvgTagsHelper {
     static p(x, y) {
         return x + " " + y + " ";
     }
+    static createSection(sectionType, x, y, w, h, r, color) {
+        switch (sectionType) {
+            case SectionType.Left:
+                return this.createRoundedRect(x, y, w + 1, h, r, 0, 0, r, color);
+            case SectionType.Right:
+                return this.createRoundedRect(x, y, w, h, 0, r, r, 0, color);
+            case SectionType.Middle:
+                return this.createRoundedRect(x, y, w + 1, h, 0, 0, 0, 0, color);
+            default:
+                throw Error("Unknown SectionType!");
+        }
+    }
     static createRoundedRect(x, y, w, h, r1, r2, r3, r4, color) {
         const el = document.createElementNS("http://www.w3.org/2000/svg", "path");
-        let path = "M" + this.p(x + r1, y);
-        path += "L" + this.p(x + w - r2, y) + "Q" + this.p(x + w, y) + this.p(x + w, y + r2);
-        path += "L" + this.p(x + w, y + h - r3) + "Q" + this.p(x + w, y + h) + this.p(x + w - r3, y + h);
-        path += "L" + this.p(x + r4, y + h) + "Q" + this.p(x, y + h) + this.p(x, y + h - r4);
-        path += "L" + this.p(x, y + r1) + "Q" + this.p(x, y) + this.p(x + r1, y);
+        let path = `M${this.p(x + r1, y)}`;
+        path += `L${this.p(x + w - r2, y)}Q${this.p(x + w, y)}${this.p(x + w, y + r2)}`;
+        path += `L${this.p(x + w, y + h - r3)}Q${this.p(x + w, y + h)}${this.p(x + w - r3, y + h)}`;
+        path += `L${this.p(x + r4, y + h)}Q${this.p(x, y + h)}${this.p(x, y + h - r4)}`;
+        path += `L${this.p(x, y + r1)}Q${this.p(x, y)}${this.p(x + r1, y)}`;
         path += "Z";
         el.setAttribute("d", path);
         el.setAttribute("fill", color);
@@ -233,6 +239,20 @@ class SvgTagsHelper {
             .fill(fontStyle.fontColor)
             .getTextRect();
         return rect;
+    }
+}
+class BadgeSectionHelper {
+    static getSectionType(currentSectionNumber, badgeSectionsCount) {
+        if (currentSectionNumber === 1) {
+            return SectionType.Left;
+        }
+        else if (currentSectionNumber >= 1 && currentSectionNumber < badgeSectionsCount) {
+            return SectionType.Middle;
+        }
+        else if (currentSectionNumber === badgeSectionsCount) {
+            return SectionType.Right;
+        }
+        throw Error(`Can not get SectionType for section ${currentSectionNumber} of total ${badgeSectionsCount} sections.`);
     }
 }
 class Badge {
@@ -263,7 +283,11 @@ class Badge {
         const badgeMainGroup = SvgTagsHelper.createG("main-group");
         let badgeWidth = 0;
         let badgeHeight = 0;
+        const sectionsCount = badgeData.sections.length;
+        let currentSection = 0;
         for (let section of badgeData.sections) {
+            currentSection++;
+            let sectionType = BadgeSectionHelper.getSectionType(currentSection, sectionsCount);
             const fontStyle = badgeStyle.commonTextStyle.fontStyle;
             const sectionTextRect = SvgTagsHelper.getRectText(section.text, fontStyle);
             const sectionWidth = badgeStyle.indent * 2 + sectionTextRect.width;
@@ -286,7 +310,7 @@ class Badge {
                 .setY(sectionHeight / 2 + 1);
             sectionTextShadow.setAttribute("text-anchor", "middle");
             sectionTextShadow.setAttribute("alignment-baseline", "central");
-            const sectionRect = SvgTagsHelper.createRoundedRect(badgeWidth, 0, sectionWidth, sectionHeight, 1, 3, 5, 7, section.bcgColor);
+            const sectionRect = SvgTagsHelper.createSection(sectionType, badgeWidth, 0, sectionWidth, sectionHeight, badgeStyle.radius, section.bcgColor);
             badgeWidth += sectionWidth;
             if (badgeHeight < sectionHeight) {
                 badgeHeight = sectionHeight;

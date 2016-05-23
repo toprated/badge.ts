@@ -7,7 +7,7 @@
 /// <reference path="./Interfaces/IBadgeDataSmall.ts"/>
 /// <reference path="./Interfaces/IBadgeData.ts"/>
 /// <reference path="./Interfaces/IBadge.ts"/>
-/// <reference path="./Utils/HtmlElementHelper.ts"/>
+/// <reference path="./Utils/BadgeSectionHelper.ts"/>
 /// <reference path="./Utils/SvgTextElementHelper.ts"/>
 /// <reference path="./Utils/SvgTagsHelper.ts"/>
 
@@ -50,7 +50,13 @@ class Badge implements IBadge{
         let badgeWidth = 0;
         let badgeHeight = 0;
 
+        const sectionsCount = badgeData.sections.length;
+        let currentSection = 0;
+
         for (let section of badgeData.sections) {
+
+            currentSection++;
+            let sectionType = BadgeSectionHelper.getSectionType(currentSection, sectionsCount);
 
             const fontStyle = badgeStyle.commonTextStyle.fontStyle;
             const sectionTextRect = SvgTagsHelper.getRectText(section.text, fontStyle);
@@ -76,16 +82,9 @@ class Badge implements IBadge{
                 .setY(sectionHeight / 2 + 1);
             sectionTextShadow.setAttribute("text-anchor", "middle");
             sectionTextShadow.setAttribute("alignment-baseline", "central");
-                
-            const sectionRect = SvgTagsHelper.createRoundedRect(badgeWidth, 0, sectionWidth, sectionHeight, 1, 3, 5, 7, section.bcgColor);
-            /*const sectionRect = SvgTagsHelper.createRect();
-            sectionRect
-                .fill(section.bcgColor)
-                .setWidth(sectionWidth)
-                .setHeight(sectionHeight)
-                .setX(badgeWidth)
-                .setY(0)
-                .setR(3);*/
+
+            const sectionRect = SvgTagsHelper.createSection(sectionType, badgeWidth, 0, sectionWidth, sectionHeight, badgeStyle.radius, section.bcgColor);
+            //const sectionRect = SvgTagsHelper.createRoundedRect(badgeWidth, 0, sectionWidth, sectionHeight, 1, 3, 5, 7, section.bcgColor);
 
             badgeWidth += sectionWidth;
             if (badgeHeight < sectionHeight) {
