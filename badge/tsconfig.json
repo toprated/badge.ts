@@ -19,6 +19,7 @@
         "./Enums/BuildType.ts",
         "./Enums/SectionType.ts",
         "./Enums/Theme.ts",
+        "./Extensions/HtmlElementExtensions.ts",
         "./Extensions/SvgElementExtensions.ts",
         "./Extensions/SvgTextElementExtensions.ts",
         "./Extensions/SvgRectElementExtensions.ts",

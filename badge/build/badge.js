@@ -92,6 +92,14 @@ var SectionType;
     SectionType[SectionType["Right"] = 1] = "Right";
     SectionType[SectionType["Middle"] = 2] = "Middle";
 })(SectionType || (SectionType = {}));
+HTMLElement.prototype.setWidth = function (value) {
+    this.setAttribute("width", String(value));
+    return this;
+};
+HTMLElement.prototype.setHeight = function (value) {
+    this.setAttribute("height", String(value));
+    return this;
+};
 SVGSVGElement.prototype.setWidth = function (value) {
     this.setAttribute("width", String(value));
     return this;
@@ -283,10 +291,15 @@ class BadgeSectionHelper {
     }
 }
 class Badge {
-    constructor(element) {
-        this.targetHtmlElement = element;
+    constructor() {
         const badgeStyle = this.getStyle();
         this.style = badgeStyle;
+    }
+    setHtmlTarget(target) {
+        this.targetHtmlElement = target;
+    }
+    setSvgTarget(target) {
+        this.targetSvgElement = target;
     }
     getStyle() {
         let style;
@@ -305,8 +318,7 @@ class Badge {
         }
         return style;
     }
-    buildSvg(badgeStyle, badgeData) {
-        const badge = SvgTagsHelper.createSvg("svg-badge");
+    buildSvg(badgeStyle, badgeData, buildType) {
         const badgeMainGroup = SvgTagsHelper.createG("main-group");
         let badgeWidth = 0;
         let badgeHeight = 0;
@@ -350,14 +362,32 @@ class Badge {
         const badgeGradient = SvgTagsHelper.createLinearGradient(gradienId, "0%", "0%", "0%", "90%", "0%", "90%", "white", "black");
         const badgeGradientRect = SvgTagsHelper.createSimpleRoundedRect(0, 0, badgeWidth, badgeHeight, badgeStyle.radius, `url(#${gradienId})`);
         badgeMainGroup.appendChild(badgeGradientRect);
-        badge.appendChild(badgeGradient);
-        badge.appendChild(badgeMainGroup);
-        badge
-            .setWidth(badgeWidth)
-            .setHeight(badgeHeight);
-        this.targetHtmlElement.appendChild(badge);
+        switch (buildType) {
+            case BuildType.Full:
+                {
+                    const badge = SvgTagsHelper.createSvg("svg-badge");
+                    badge.appendChild(badgeGradient);
+                    badge.appendChild(badgeMainGroup);
+                    badge
+                        .setWidth(badgeWidth)
+                        .setHeight(badgeHeight);
+                    this.targetHtmlElement.appendChild(badge);
+                    break;
+                }
+            case BuildType.InsideSvg:
+                {
+                    this.targetSvgElement.appendChild(badgeGradient);
+                    this.targetSvgElement.appendChild(badgeMainGroup);
+                    this.targetSvgElement
+                        .setWidth(badgeWidth)
+                        .setHeight(badgeHeight);
+                    break;
+                }
+            default:
+                throw Error("Unknown BuildType!");
+        }
     }
-    buildBadge(badgeDataPath) {
+    buildBadge(badgeDataPath, buildType) {
         let data;
         const req = new XMLHttpRequest();
         req.open("get", badgeDataPath, true);
@@ -370,19 +400,26 @@ class Badge {
             }
             else {
                 data = JSON.parse(req.responseText);
-                this.buildSvg(this.style, data);
+                this.buildSvg(this.style, data, buildType);
             }
         };
     }
 }
 function buildBadgeById(id) {
     const target = document.getElementById(id);
-    const badge = new Badge(target);
-    badge.buildBadge("./badgeData.json");
+    const badge = new Badge();
+    badge.setHtmlTarget(target);
+    badge.buildBadge("./badgeData.json", BuildType.Full);
 }
 function buildBadgeInsideSvg(svgId) {
     const target = document.getElementById(svgId);
-    const badge = new Badge(target);
-    badge.buildBadge("./badgeData.json");
+    const badge = new Badge();
+    badge.setSvgTarget(target);
+    badge.buildBadge("./badgeData.json", BuildType.InsideSvg);
+}
+function buildSvgBadge(el) {
+    const badge = new Badge();
+    badge.setSvgTarget(el);
+    badge.buildBadge("./badgeData.json", BuildType.InsideSvg);
 }
 //# sourceMappingURL=badge.js.map

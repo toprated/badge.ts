@@ -2,6 +2,7 @@
 /// <reference path="./Common/DarkBadgeStyle.ts"/>
 /// <reference path="./Common/LightBadgeStyle.ts"/>
 /// <reference path="./Enums/BuildType.ts"/>
+/// <reference path="./Extensions/HtmlElementExtensions.ts"/>
 /// <reference path="./Extensions/SvgElementExtensions.ts"/>
 /// <reference path="./Extensions/SvgTextElementExtensions.ts"/>
 /// <reference path="./Extensions/SvgRectElementExtensions.ts"/>
@@ -16,10 +17,17 @@ class Badge implements IBadge {
     targetSvgElement: HTMLElement;
     style: IBadgeStyle;
 
-    constructor(element: HTMLElement) {
-        this.targetHtmlElement = element;
+    constructor() {
         const badgeStyle = this.getStyle();
         this.style = badgeStyle;
+    }
+
+    setHtmlTarget(target: HTMLElement) {
+        this.targetHtmlElement = target;
+    }
+
+    setSvgTarget(target: HTMLElement) {
+        this.targetSvgElement = target;
     }
 
     getStyle(): IBadgeStyle {
@@ -43,9 +51,8 @@ class Badge implements IBadge {
         return style;
     }
     
-    buildSvg(badgeStyle: IBadgeStyle, badgeData: IBadgeData): void {
-
-        const badge = SvgTagsHelper.createSvg("svg-badge");
+    buildSvg(badgeStyle: IBadgeStyle, badgeData: IBadgeData, buildType: BuildType): void {
+        
         const badgeMainGroup = SvgTagsHelper.createG("main-group");
 
         let badgeWidth = 0;
@@ -102,17 +109,39 @@ class Badge implements IBadge {
         const badgeGradientRect = SvgTagsHelper.createSimpleRoundedRect(0, 0, badgeWidth, badgeHeight, badgeStyle.radius, `url(#${gradienId})`);
         badgeMainGroup.appendChild(badgeGradientRect);
 
-        badge.appendChild(badgeGradient);
-        badge.appendChild(badgeMainGroup);
+        switch (buildType) {
+            case BuildType.Full:
+                {
 
-        badge
-            .setWidth(badgeWidth)
-            .setHeight(badgeHeight);
+                    const badge = SvgTagsHelper.createSvg("svg-badge");
+                    badge.appendChild(badgeGradient);
+                    badge.appendChild(badgeMainGroup);
 
-        this.targetHtmlElement.appendChild(badge);
+                    badge
+                        .setWidth(badgeWidth)
+                        .setHeight(badgeHeight);
+
+                    this.targetHtmlElement.appendChild(badge);
+                    break;
+                }
+            case BuildType.InsideSvg:
+                {
+                    this.targetSvgElement.appendChild(badgeGradient);
+                    this.targetSvgElement.appendChild(badgeMainGroup);
+                    this.targetSvgElement
+                        .setWidth(badgeWidth)
+                        .setHeight(badgeHeight);
+
+
+                    break;
+                }
+        default:
+            throw Error("Unknown BuildType!");
+        }
+
     }
 
-    buildBadge(badgeDataPath: string): void {
+    buildBadge(badgeDataPath: string, buildType: BuildType): void {
 
         let data: IBadgeData;
 
@@ -125,7 +154,7 @@ class Badge implements IBadge {
                 console.log(`Error while loading .json data! Request status: ${req.status} : ${req.statusText}`);
             } else {
                 data = JSON.parse(req.responseText);
-                this.buildSvg(this.style, data);
+                this.buildSvg(this.style, data, buildType);
             }
         }
     }
@@ -133,12 +162,20 @@ class Badge implements IBadge {
 
 function buildBadgeById(id: string) {
     const target = document.getElementById(id);
-    const badge = new Badge(target);
-    badge.buildBadge("./badgeData.json");
+    const badge = new Badge();
+    badge.setHtmlTarget(target);
+    badge.buildBadge("./badgeData.json", BuildType.Full);
 }
 
 function buildBadgeInsideSvg(svgId: string) {
     const target = document.getElementById(svgId);
-    const badge = new Badge(target);
-    badge.buildBadge("./badgeData.json");
+    const badge = new Badge();
+    badge.setSvgTarget(target);
+    badge.buildBadge("./badgeData.json", BuildType.InsideSvg);
+}
+
+function buildSvgBadge(el: HTMLElement) {
+    const badge = new Badge();
+    badge.setSvgTarget(el);
+    badge.buildBadge("./badgeData.json", BuildType.InsideSvg);
 }

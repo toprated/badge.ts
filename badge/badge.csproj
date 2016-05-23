@@ -33,6 +33,7 @@
     <TypeScriptCompile Include="Enums\BuildType.ts" />
     <TypeScriptCompile Include="Enums\SectionType.ts" />
     <TypeScriptCompile Include="Enums\Theme.ts" />
+    <TypeScriptCompile Include="Extensions\HtmlElementExtensions.ts" />
     <TypeScriptCompile Include="Extensions\SvgElementExtensions.ts" />
     <TypeScriptCompile Include="Extensions\SvgRectElementExtensions.ts" />
     <TypeScriptCompile Include="Extensions\SvgTextElementExtensions.ts" />
