@@ -92,13 +92,13 @@ class SvgTagsHelper {
         return el;
     }
 
-    static getRectText(text: string, fontStyle: IFontStyle): SVGRect {
+    static getRectText(text: string, fontStyle: IFontStyle, caller: HTMLElement = undefined): SVGRect {
         const rect = this
             .createText(text)
             .fontFamily(fontStyle.fontFamily)
             .fontSize(fontStyle.fontSize)
             .fill(fontStyle.fontColor)
-            .getTextRect();
+            .getTextRect(caller);
         return rect;
     }
 }

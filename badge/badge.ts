@@ -13,12 +13,14 @@
 /// <reference path="./Utils/SvgTagsHelper.ts"/>
 
 class Badge implements IBadge {
+    caller: HTMLElement;
     targetHtmlElement: HTMLElement;
     targetSvgElement: HTMLElement;
     style: IBadgeStyle;
 
     constructor() {
         const badgeStyle = this.getStyle();
+
         this.style = badgeStyle;
     }
 
@@ -28,6 +30,10 @@ class Badge implements IBadge {
 
     setSvgTarget(target: HTMLElement) {
         this.targetSvgElement = target;
+    }
+
+    setCaller(caller: HTMLElement) {
+        this.caller = caller;
     }
 
     getStyle(): IBadgeStyle {
@@ -67,7 +73,7 @@ class Badge implements IBadge {
             const sectionType = BadgeSectionHelper.getSectionType(currentSection, sectionsCount);
 
             const fontStyle = badgeStyle.commonTextStyle.fontStyle;
-            const sectionTextRect = SvgTagsHelper.getRectText(section.text, fontStyle);
+            const sectionTextRect = SvgTagsHelper.getRectText(section.text, fontStyle, this.caller);
             const sectionWidth = badgeStyle.indent * 2 + sectionTextRect.width;
             const sectionHeight = badgeStyle.indent * 2 + sectionTextRect.height;
 
@@ -86,6 +92,7 @@ class Badge implements IBadge {
                 .fontFamily(fontStyle.fontFamily)
                 .fontSize(fontStyle.fontSize)
                 .fill(fontStyle.fontShadowColor)
+                .fillOpacity("0.3")
                 .setX(badgeWidth + sectionWidth / 2)
                 .setY(sectionHeight / 2 + 1);
             sectionTextShadow.setAttribute("text-anchor", "middle");
@@ -145,7 +152,7 @@ class Badge implements IBadge {
 
     }
 
-    buildBadge(badgeDataPath: string, buildType: BuildType): void {
+    buildBadgeFromJson(badgeDataPath: string, buildType: BuildType): void {
 
         let data: IBadgeData;
 
@@ -162,24 +169,4 @@ class Badge implements IBadge {
             }
         }
     }
-}
-
-function buildBadgeById(id: string) {
-    const target = document.getElementById(id);
-    const badge = new Badge();
-    badge.setHtmlTarget(target);
-    badge.buildBadge("./badgeData.json", BuildType.Full);
-}
-
-function buildBadgeInsideSvg(svgId: string) {
-    const target = document.getElementById(svgId);
-    const badge = new Badge();
-    badge.setSvgTarget(target);
-    badge.buildBadge("./badgeData.json", BuildType.InsideSvg);
-}
-
-function buildSvgBadge(el: HTMLElement) {
-    const badge = new Badge();
-    badge.setSvgTarget(el);
-    badge.buildBadge("./badgeData.json", BuildType.InsideSvg);
 }

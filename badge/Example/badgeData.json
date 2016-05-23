@@ -1,0 +1,9 @@
+{
+  "sections": [
+    { "text" :  "aa"},
+    { "text" :  "124", "bcgColor" : "white" },
+    { "text" :  "test3", "bcgColor" : "#355" },
+    { "text" :  "testing long word", "bcgColor" : "red" },
+    { "text" :  "42", "bcgColor" : "green" }
+  ]
+}

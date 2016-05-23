@@ -38,7 +38,7 @@ class DarkBadgeStyle {
     constructor() {
         this.indent = 3;
         this.radius = 3;
-        const commonFontStyle = new FontStyle("Verdana", 11, Color.white, Color.gray);
+        const commonFontStyle = new FontStyle("Verdana", 11, Color.white, Color.white);
         const commonBcgColor = Color.black;
         this.commonTextStyle = new SectionStyle(commonFontStyle, commonBcgColor);
     }
@@ -47,7 +47,7 @@ class LightBadgeStyle {
     constructor() {
         this.indent = 3;
         this.radius = 3;
-        const commonFontStyle = new FontStyle("DejaVu Sans,Verdana,Geneva,sans-serif", 11, Color.black, Color.gray);
+        const commonFontStyle = new FontStyle("DejaVu Sans,Verdana,Geneva,sans-serif", 11, Color.black, Color.black);
         const commonBcgColor = Color.silver;
         this.commonTextStyle = new SectionStyle(commonFontStyle, commonBcgColor);
     }
@@ -128,14 +128,25 @@ SVGTextElement.prototype.fill = function (value) {
     this.setAttribute("fill", value);
     return this;
 };
-SVGTextElement.prototype.getTextRect = function () {
+SVGTextElement.prototype.fillOpacity = function (value) {
+    this.setAttribute("fill-opacity", value);
+    return this;
+};
+SVGTextElement.prototype.getTextRect = function (caller = undefined) {
     const el = this;
+    let rect;
     const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
-    svg.id = "svg-id";
     svg.appendChild(el);
-    document.body.appendChild(svg);
-    const rect = el.getBBox();
-    document.body.removeChild(svg);
+    if (document.body === null) {
+        document.getElementById(caller.id).appendChild(svg);
+        rect = el.getBBox();
+        document.getElementById(caller.id).removeChild(svg);
+    }
+    else {
+        document.body.appendChild(svg);
+        rect = el.getBBox();
+        document.body.removeChild(svg);
+    }
     return rect;
 };
 SVGRectElement.prototype.setX = function (value) {
@@ -266,13 +277,13 @@ class SvgTagsHelper {
         }
         return el;
     }
-    static getRectText(text, fontStyle) {
+    static getRectText(text, fontStyle, caller = undefined) {
         const rect = this
             .createText(text)
             .fontFamily(fontStyle.fontFamily)
             .fontSize(fontStyle.fontSize)
             .fill(fontStyle.fontColor)
-            .getTextRect();
+            .getTextRect(caller);
         return rect;
     }
 }
@@ -301,6 +312,9 @@ class Badge {
     setSvgTarget(target) {
         this.targetSvgElement = target;
     }
+    setCaller(caller) {
+        this.caller = caller;
+    }
     getStyle() {
         let style;
         const urlHelper = new UrlHelper();
@@ -328,7 +342,7 @@ class Badge {
             currentSection++;
             const sectionType = BadgeSectionHelper.getSectionType(currentSection, sectionsCount);
             const fontStyle = badgeStyle.commonTextStyle.fontStyle;
-            const sectionTextRect = SvgTagsHelper.getRectText(section.text, fontStyle);
+            const sectionTextRect = SvgTagsHelper.getRectText(section.text, fontStyle, this.caller);
             const sectionWidth = badgeStyle.indent * 2 + sectionTextRect.width;
             const sectionHeight = badgeStyle.indent * 2 + sectionTextRect.height;
             const sectionText = SvgTagsHelper.createText(section.text);
@@ -345,6 +359,7 @@ class Badge {
                 .fontFamily(fontStyle.fontFamily)
                 .fontSize(fontStyle.fontSize)
                 .fill(fontStyle.fontShadowColor)
+                .fillOpacity("0.3")
                 .setX(badgeWidth + sectionWidth / 2)
                 .setY(sectionHeight / 2 + 1);
             sectionTextShadow.setAttribute("text-anchor", "middle");
@@ -390,7 +405,7 @@ class Badge {
                 throw Error("Unknown BuildType!");
         }
     }
-    buildBadge(badgeDataPath, buildType) {
+    buildBadgeFromJson(badgeDataPath, buildType) {
         let data;
         const req = new XMLHttpRequest();
         req.open("get", badgeDataPath, true);
@@ -408,21 +423,22 @@ class Badge {
         };
     }
 }
-function buildBadgeById(id) {
+function buildBadgeById(id, dataPath = "./badgeData.json") {
     const target = document.getElementById(id);
     const badge = new Badge();
     badge.setHtmlTarget(target);
-    badge.buildBadge("./badgeData.json", BuildType.Full);
+    badge.buildBadgeFromJson(dataPath, BuildType.Full);
 }
-function buildBadgeInsideSvg(svgId) {
+function buildBadgeInsideSvg(svgId, dataPath = "./badgeData.json") {
     const target = document.getElementById(svgId);
     const badge = new Badge();
     badge.setSvgTarget(target);
-    badge.buildBadge("./badgeData.json", BuildType.InsideSvg);
+    badge.buildBadgeFromJson(dataPath, BuildType.InsideSvg);
 }
-function buildSvgBadge(el) {
+function buildSvgBadge(el, dataPath = "./badgeData.json") {
     const badge = new Badge();
     badge.setSvgTarget(el);
-    badge.buildBadge("./badgeData.json", BuildType.InsideSvg);
+    badge.setCaller(el);
+    badge.buildBadgeFromJson(dataPath, BuildType.InsideSvg);
 }
 //# sourceMappingURL=badge.js.map

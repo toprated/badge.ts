@@ -32,6 +32,7 @@
         "./Interfaces/IUrlHelper.ts",
         "./Utils/SvgTextElementHelper.ts",
         "./Utils/SvgTagsHelper.ts",
-        "./Badge.ts"
+        "./Badge.ts",
+        "./Main.ts"
     ]
 }

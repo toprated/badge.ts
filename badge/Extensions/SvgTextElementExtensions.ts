@@ -4,7 +4,8 @@
     fontFamily(value: string): SVGTextElement;
     fontSize(value: number): SVGTextElement;
     fill(value: string): SVGTextElement;
-    getTextRect(): SVGRect;
+    fillOpacity(value: string): SVGTextElement;
+    getTextRect(caller: HTMLElement): SVGRect;
 }
 
 SVGTextElement.prototype.setX = function (value: number): SVGTextElement {
@@ -32,18 +33,27 @@ SVGTextElement.prototype.fill = function (value: string): SVGTextElement {
     return this;
 }
 
-SVGTextElement.prototype.getTextRect = function (): SVGRect {
+SVGTextElement.prototype.fillOpacity = function (value: string): SVGTextElement {
+    this.setAttribute("fill-opacity", value);
+    return this;
+}
+
+SVGTextElement.prototype.getTextRect = function (caller: HTMLElement = undefined): SVGRect {
 
     const el = this;
+    let rect: SVGRect;
     const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
-    svg.id = "svg-id";
     svg.appendChild(el);
-    document.body.appendChild(svg);
 
-    const rect = el.getBBox();
-    
-    document.body.removeChild(svg);
-
+    if (document.body === null) {
+        document.getElementById(caller.id).appendChild(svg);
+        rect = el.getBBox();
+        document.getElementById(caller.id).removeChild(svg);
+    } else {
+        document.body.appendChild(svg);
+        rect = el.getBBox();
+        document.body.removeChild(svg);
+    }
     return rect;
 }
 

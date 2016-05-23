@@ -44,11 +44,13 @@
     <TypeScriptCompile Include="Interfaces\ISectionStyle.ts" />
     <TypeScriptCompile Include="Interfaces\IFontStyle.ts" />
     <TypeScriptCompile Include="Interfaces\IUrlHelper.ts" />
+    <TypeScriptCompile Include="Main.ts" />
     <TypeScriptCompile Include="Utils\BadgeSectionHelper.ts" />
     <TypeScriptCompile Include="Utils\SvgTagsHelper.ts" />
     <TypeScriptCompile Include="Utils\SvgTextElementHelper.ts" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Example\badge.svg" />
     <Content Include="index.html" />
     <Content Include="svg.js" />
     <Content Include="tsconfig.json" />
@@ -64,7 +66,9 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="web.config" />
-    <Content Include="DataExample\badgeData.json" />
+    <Content Include="DataExample\badgeData1.json" />
+    <Content Include="DataExample\badgeStyle1.json" />
+    <Content Include="Example\badgeData.json" />
     <None Include="web.Debug.config">
       <DependentUpon>web.config</DependentUpon>
     </None>

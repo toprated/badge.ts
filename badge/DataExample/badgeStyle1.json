@@ -1,0 +1,14 @@
+{
+  "indent": "3",
+  "radius":  "3", 
+  "commonTextStyle": 
+    {
+      "fontStyle": {
+        "fontFamily": "DejaVu Sans,Verdana,Geneva,sans-serif",
+        "fontSize": "11",
+        "fontColor": "black",
+        "fontShadowColor": "grey"
+      },
+      "backgroundColor": "white"
+    }
+}
