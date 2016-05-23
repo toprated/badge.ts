@@ -1,18 +1,19 @@
 ﻿/// <reference path="./Common/UrlHelper.ts"/>
 /// <reference path="./Common/DarkBadgeStyle.ts"/>
 /// <reference path="./Common/LightBadgeStyle.ts"/>
+/// <reference path="./Enums/BuildType.ts"/>
 /// <reference path="./Extensions/SvgElementExtensions.ts"/>
 /// <reference path="./Extensions/SvgTextElementExtensions.ts"/>
 /// <reference path="./Extensions/SvgRectElementExtensions.ts"/>
-/// <reference path="./Interfaces/IBadgeDataSmall.ts"/>
 /// <reference path="./Interfaces/IBadgeData.ts"/>
 /// <reference path="./Interfaces/IBadge.ts"/>
 /// <reference path="./Utils/BadgeSectionHelper.ts"/>
 /// <reference path="./Utils/SvgTextElementHelper.ts"/>
 /// <reference path="./Utils/SvgTagsHelper.ts"/>
 
-class Badge implements IBadge{
+class Badge implements IBadge {
     targetHtmlElement: HTMLElement;
+    targetSvgElement: HTMLElement;
     style: IBadgeStyle;
 
     constructor(element: HTMLElement) {
@@ -88,7 +89,7 @@ class Badge implements IBadge{
             badgeWidth += sectionWidth;
             if (badgeHeight < sectionHeight) {
                 badgeHeight = sectionHeight;
-            } 
+            }
             
             badgeMainGroup.appendChild(sectionRect);
             badgeMainGroup.appendChild(sectionTextShadow);
@@ -130,77 +131,14 @@ class Badge implements IBadge{
     }
 }
 
-// ReSharper disable once InconsistentNaming
-declare function SVG(name: string): any;
-
-function buildSvgBadge(repoData: IBadgeDataSmall) {
-    const repoName = repoData.name;
-    const place = repoData.place;
-    const r = 3;
-    const h = 20;
-    const textSize = 11;
-
-    const draw = SVG("mysvg").size(200, h);
-
-    const str = repoName + " is #" + place;
-    const test = "test";
-    const fontFamily = "Verdana";
-
-    const txtRepoName = draw.text(str);
-    txtRepoName.size(textSize);
-    txtRepoName.x(5);
-    txtRepoName.fill(Color.black);
-    txtRepoName.font({
-        family: fontFamily,
-        y: 0
-    });
-
-    const txtRepoNameShadow = draw.text(str);
-    txtRepoNameShadow.size(textSize);
-    txtRepoNameShadow.x(5);
-    txtRepoNameShadow.fill(Color.white);
-    txtRepoNameShadow.font({
-        family: fontFamily,
-        y: 1
-    });
-
-    const rectRepoName = draw.rect(txtRepoName.length() + 10, h);
-    rectRepoName.attr({ fill: Color.silver });
-    rectRepoName.radius(r);
-
-    const txt = draw.text(test);
-    txt.x(rectRepoName.width());
-    txt.y(7);
-    txt.fill("#855");
-    txt.font({
-        background: "#155",
-        family: "Verdana",
-        size: 11
-    });
-
-    txtRepoNameShadow.front();
-    txtRepoName.front();
-    txt.front();
-}
-
-function onLoadFunc() {
-    const req = new XMLHttpRequest();
-    var data: IBadgeDataSmall;
-    req.open("get", "./data.json", true);
-    req.send();
-    req.onreadystatechange = () => {
-        if (req.readyState !== 4) return;
-        if (req.status !== 200) {
-            console.log(req.status + ": " + req.statusText);
-        } else {
-            data = JSON.parse(req.responseText);
-            buildSvgBadge(data);
-        }
-    }
-}
-
 function buildBadgeById(id: string) {
     const target = document.getElementById(id);
+    const badge = new Badge(target);
+    badge.buildBadge("./badgeData.json");
+}
+
+function buildBadgeInsideSvg(svgId: string) {
+    const target = document.getElementById(svgId);
     const badge = new Badge(target);
     badge.buildBadge("./badgeData.json");
 }

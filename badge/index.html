@@ -9,7 +9,8 @@
 </head>
 <body>
     <h1>Test Page</h1>
-    <svg id="mysvg" xmlns="http://www.w3.org/2000/svg" onload="onLoadFunc()">
+    <svg id="mysvg" xmlns="http://www.w3.org/2000/svg">
+        <script type="text/javascript">document.onload = buildBadgeById('mysvg');</script>
     </svg>
     <div id="badge1">1</div>
     <div id="badge"><script type="text/javascript">document.onload = buildBadgeById('badge');</script></div>

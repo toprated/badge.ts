@@ -30,13 +30,13 @@
     <TypeScriptCompile Include="Common\FontStyle.ts" />
     <TypeScriptCompile Include="Common\LightBadgeStyle.ts" />
     <TypeScriptCompile Include="Common\SectionStyle.ts" />
+    <TypeScriptCompile Include="Enums\BuildType.ts" />
     <TypeScriptCompile Include="Enums\SectionType.ts" />
     <TypeScriptCompile Include="Enums\Theme.ts" />
     <TypeScriptCompile Include="Extensions\SvgElementExtensions.ts" />
     <TypeScriptCompile Include="Extensions\SvgRectElementExtensions.ts" />
     <TypeScriptCompile Include="Extensions\SvgTextElementExtensions.ts" />
     <TypeScriptCompile Include="Interfaces\IBadge.ts" />
-    <TypeScriptCompile Include="Interfaces\IBadgeDataSmall.ts" />
     <TypeScriptCompile Include="Interfaces\IBadgeData.ts" />
     <TypeScriptCompile Include="Interfaces\IBadgeSection.ts" />
     <TypeScriptCompile Include="Interfaces\IBadgeStyle.ts" />

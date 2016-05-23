@@ -81,6 +81,11 @@ class UrlHelper {
         }
     }
 }
+var BuildType;
+(function (BuildType) {
+    BuildType[BuildType["Full"] = 0] = "Full";
+    BuildType[BuildType["InsideSvg"] = 1] = "InsideSvg";
+})(BuildType || (BuildType = {}));
 var SectionType;
 (function (SectionType) {
     SectionType[SectionType["Left"] = 0] = "Left";
@@ -370,67 +375,13 @@ class Badge {
         };
     }
 }
-function buildSvgBadge(repoData) {
-    const repoName = repoData.name;
-    const place = repoData.place;
-    const r = 3;
-    const h = 20;
-    const textSize = 11;
-    const draw = SVG("mysvg").size(200, h);
-    const str = repoName + " is #" + place;
-    const test = "test";
-    const fontFamily = "Verdana";
-    const txtRepoName = draw.text(str);
-    txtRepoName.size(textSize);
-    txtRepoName.x(5);
-    txtRepoName.fill(Color.black);
-    txtRepoName.font({
-        family: fontFamily,
-        y: 0
-    });
-    const txtRepoNameShadow = draw.text(str);
-    txtRepoNameShadow.size(textSize);
-    txtRepoNameShadow.x(5);
-    txtRepoNameShadow.fill(Color.white);
-    txtRepoNameShadow.font({
-        family: fontFamily,
-        y: 1
-    });
-    const rectRepoName = draw.rect(txtRepoName.length() + 10, h);
-    rectRepoName.attr({ fill: Color.silver });
-    rectRepoName.radius(r);
-    const txt = draw.text(test);
-    txt.x(rectRepoName.width());
-    txt.y(7);
-    txt.fill("#855");
-    txt.font({
-        background: "#155",
-        family: "Verdana",
-        size: 11
-    });
-    txtRepoNameShadow.front();
-    txtRepoName.front();
-    txt.front();
-}
-function onLoadFunc() {
-    const req = new XMLHttpRequest();
-    var data;
-    req.open("get", "./data.json", true);
-    req.send();
-    req.onreadystatechange = () => {
-        if (req.readyState !== 4)
-            return;
-        if (req.status !== 200) {
-            console.log(req.status + ": " + req.statusText);
-        }
-        else {
-            data = JSON.parse(req.responseText);
-            buildSvgBadge(data);
-        }
-    };
-}
 function buildBadgeById(id) {
     const target = document.getElementById(id);
+    const badge = new Badge(target);
+    badge.buildBadge("./badgeData.json");
+}
+function buildBadgeInsideSvg(svgId) {
+    const target = document.getElementById(svgId);
     const badge = new Badge(target);
     badge.buildBadge("./badgeData.json");
 }
