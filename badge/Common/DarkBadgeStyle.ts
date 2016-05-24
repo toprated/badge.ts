@@ -4,7 +4,7 @@
 
 class DarkBadgeStyle implements BadgeStyle {
     commonTextStyle: ISectionStyle;
-    indent = 3;
+    indent = 5;
     radius = 3;
     
     constructor() {

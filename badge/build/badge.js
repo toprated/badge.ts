@@ -21,7 +21,7 @@ class SectionStyle {
 }
 class BadgeStyle {
     constructor() {
-        this.indent = 3;
+        this.indent = 5;
         this.radius = 3;
         const commonFontStyle = new FontStyle("Verdana", 11, Color.black, Color.gray);
         const commonBcgColor = Color.silver;
@@ -30,47 +30,80 @@ class BadgeStyle {
 }
 class DarkBadgeStyle {
     constructor() {
-        this.indent = 3;
+        this.indent = 5;
         this.radius = 3;
         const commonFontStyle = new FontStyle("Verdana", 11, Color.white, Color.white);
         const commonBcgColor = Color.black;
         this.commonTextStyle = new SectionStyle(commonFontStyle, commonBcgColor);
     }
 }
-class LanguageColor {
+class Languages {
+    static getLanguage(sectionType) {
+        switch (sectionType) {
+            case SectionType.ActionScript: return this.actionScript;
+            case SectionType.C: return this.c;
+            case SectionType.CSharp: return this.cSharp;
+            case SectionType.Cpp: return this.cpp;
+            case SectionType.Clojure: return this.clojure;
+            case SectionType.CoffeeScript: return this.coffeeScript;
+            case SectionType.Css: return this.css;
+            case SectionType.Go: return this.go;
+            case SectionType.Haskell: return this.haskell;
+            case SectionType.Html: return this.html;
+            case SectionType.Java: return this.java;
+            case SectionType.JavaScript: return this.javaScript;
+            case SectionType.Lua: return this.lua;
+            case SectionType.Matlab: return this.matlab;
+            case SectionType.ObjC: return this.objC;
+            case SectionType.Perl: return this.perl;
+            case SectionType.Php: return this.php;
+            case SectionType.Python: return this.python;
+            case SectionType.R: return this.r;
+            case SectionType.Ruby: return this.ruby;
+            case SectionType.Scala: return this.scala;
+            case SectionType.Shell: return this.shell;
+            case SectionType.Swift: return this.swift;
+            case SectionType.Tex: return this.tex;
+            case SectionType.TypeScript: return this.typeScript;
+            case SectionType.Viml: return this.viml;
+            case SectionType.Text: break;
+            default:
+                throw Error("Unknown SectionType, can not get corresponding Language!");
+        }
+    }
 }
-LanguageColor.actionScript = "#882B0F";
-LanguageColor.c = "#555555";
-LanguageColor.cSharp = "#178600";
-LanguageColor.cpp = "#f34b7d";
-LanguageColor.clojure = "#db5855";
-LanguageColor.coffeeScript = "#244776";
-LanguageColor.css = "#563d7c";
-LanguageColor.go = "#375eab";
-LanguageColor.haskell = "#29b544";
-LanguageColor.html = "#e44b23";
-LanguageColor.java = "#b07219";
-LanguageColor.javaScript = "#f1e05a";
-LanguageColor.lua = "#000080";
-LanguageColor.matlab = "#bb92ac";
-LanguageColor.objC = "#438eff";
-LanguageColor.perl = "#0298c3";
-LanguageColor.php = "#4F5D95";
-LanguageColor.pyton = "#3572A5";
-LanguageColor.r = "#198ce7";
-LanguageColor.ruby = "#701516";
-LanguageColor.scala = "#DC322F";
-LanguageColor.shell = "#89e051";
-LanguageColor.swift = "#ffac45";
-LanguageColor.tex = "#3D6117";
-LanguageColor.viml = "#199f4b";
-LanguageColor.typeScript = "#2b7489";
+Languages.actionScript = { name: "ActionScript", color: "#882B0F" };
+Languages.c = { name: "C", color: "#555555" };
+Languages.cSharp = { name: "CSharp", color: "#178600" };
+Languages.cpp = { name: "Cpp", color: "#f34b7d" };
+Languages.clojure = { name: "Clojure", color: "#db5855" };
+Languages.coffeeScript = { name: "CoffeeScript", color: "#244776" };
+Languages.css = { name: "Css", color: "#563d7c" };
+Languages.go = { name: "Go", color: "#375eab" };
+Languages.haskell = { name: "Haskell", color: "#29b544" };
+Languages.html = { name: "Html", color: "#e44b23" };
+Languages.java = { name: "Java", color: "#b07219" };
+Languages.javaScript = { name: "JavaScript", color: "#f1e05a" };
+Languages.lua = { name: "Lua", color: "#000080" };
+Languages.matlab = { name: "Matlab", color: "#bb92ac" };
+Languages.objC = { name: "ObjC", color: "#438eff" };
+Languages.perl = { name: "Perl", color: "#0298c3" };
+Languages.php = { name: "Php", color: "#4F5D95" };
+Languages.python = { name: "Python", color: "#3572A5" };
+Languages.r = { name: "R", color: "#198ce7" };
+Languages.ruby = { name: "Ruby", color: "#701516" };
+Languages.scala = { name: "Scala", color: "#DC322F" };
+Languages.shell = { name: "Shell", color: "#89e051" };
+Languages.swift = { name: "Swift", color: "#ffac45" };
+Languages.tex = { name: "Tex", color: "#3D6117" };
+Languages.viml = { name: "Viml", color: "#199f4b" };
+Languages.typeScript = { name: "TypeScript", color: "#2b7489" };
 class LightBadgeStyle {
     constructor() {
-        this.indent = 3;
+        this.indent = 5;
         this.radius = 3;
-        const commonFontStyle = new FontStyle("DejaVu Sans,Verdana,Geneva,sans-serif", 11, Color.black, Color.black);
-        const commonBcgColor = Color.silver;
+        const commonFontStyle = new FontStyle("DejaVu Sans,Verdana,Geneva,sans-serif", 11, Color.black, Color.white);
+        const commonBcgColor = Color.white;
         this.commonTextStyle = new SectionStyle(commonFontStyle, commonBcgColor);
     }
 }
@@ -135,7 +168,7 @@ var SectionType;
     SectionType[SectionType["ObjC"] = 16] = "ObjC";
     SectionType[SectionType["Perl"] = 17] = "Perl";
     SectionType[SectionType["Php"] = 18] = "Php";
-    SectionType[SectionType["Pyton"] = 19] = "Pyton";
+    SectionType[SectionType["Python"] = 19] = "Python";
     SectionType[SectionType["R"] = 20] = "R";
     SectionType[SectionType["Ruby"] = 21] = "Ruby";
     SectionType[SectionType["Scala"] = 22] = "Scala";
@@ -353,13 +386,24 @@ class BadgeSectionHelper {
         }
         throw Error(`Can not get SectionType for section ${currentSectionNumber} of total ${badgeSectionsCount} sections.`);
     }
-    static getSection(section, currentSection, sectionsCount, badgeWidth, badgeHeight, badgeStyle, caller) {
-        const sectionGroup = SvgTagsHelper.createG("section-group");
-        const sectionPosition = BadgeSectionHelper.getSectionPosition(currentSection, sectionsCount);
-        const fontStyle = badgeStyle.commonTextStyle.fontStyle;
-        const sectionTextRect = SvgTagsHelper.getRectText(section.text, fontStyle, caller);
-        const sectionWidth = badgeStyle.indent * 2 + sectionTextRect.width;
-        const sectionHeight = badgeStyle.indent * 2 + sectionTextRect.height;
+    static checkBadgeSection(section) {
+        if (section.type === undefined)
+            section.type = SectionType.Text;
+        return section;
+    }
+    static checkBadgeStyle(section, badgeStyle) {
+        if (section.type === SectionType.Text) {
+            return badgeStyle;
+        }
+        const lang = Languages.getLanguage(section.type);
+        if (section.text === undefined) {
+            section.text = lang.name;
+        }
+        badgeStyle.commonTextStyle.backgroundColor = lang.color;
+        return badgeStyle;
+    }
+    static getSectionText(section, sectionWidth, sectionHeight, badgeWidth, fontStyle) {
+        const sectionTextGroup = SvgTagsHelper.createG("section-text-group");
         const sectionText = SvgTagsHelper.createText(section.text);
         sectionText
             .fontFamily(fontStyle.fontFamily)
@@ -374,18 +418,31 @@ class BadgeSectionHelper {
             .fontFamily(fontStyle.fontFamily)
             .fontSize(fontStyle.fontSize)
             .fill(fontStyle.fontShadowColor)
-            .fillOpacity("0.3")
-            .setX(badgeWidth + sectionWidth / 2)
+            .fillOpacity("0.4")
+            .setX(badgeWidth + sectionWidth / 2 + 1)
             .setY(sectionHeight / 2 + 1);
         sectionTextShadow.setAttribute("text-anchor", "middle");
         sectionTextShadow.setAttribute("alignment-baseline", "central");
+        sectionTextGroup.appendChild(sectionTextShadow);
+        sectionTextGroup.appendChild(sectionText);
+        return sectionTextGroup;
+    }
+    static getSection(section, currentSection, sectionsCount, badgeWidth, badgeHeight, badgeStyle, caller) {
+        section = this.checkBadgeSection(section);
+        badgeStyle = this.checkBadgeStyle(section, badgeStyle);
+        const sectionGroup = SvgTagsHelper.createG("section-group");
+        const sectionPosition = BadgeSectionHelper.getSectionPosition(currentSection, sectionsCount);
+        const fontStyle = badgeStyle.commonTextStyle.fontStyle;
+        const sectionTextRect = SvgTagsHelper.getRectText(section.text, fontStyle, caller);
+        const sectionWidth = badgeStyle.indent * 2 + sectionTextRect.width;
+        const sectionHeight = badgeStyle.indent * 2 + sectionTextRect.height;
+        const sectionTextGroup = this.getSectionText(section, sectionWidth, sectionHeight, badgeWidth, fontStyle);
         if (section.bcgColor === undefined) {
             section.bcgColor = badgeStyle.commonTextStyle.backgroundColor;
         }
         const sectionRect = SvgTagsHelper.createSection(sectionPosition, badgeWidth, 0, sectionWidth, sectionHeight, badgeStyle.radius, section.bcgColor);
         sectionGroup.appendChild(sectionRect);
-        sectionGroup.appendChild(sectionTextShadow);
-        sectionGroup.appendChild(sectionText);
+        sectionGroup.appendChild(sectionTextGroup);
         return {
             node: sectionGroup,
             rect: {
@@ -436,13 +493,13 @@ class Badge {
         let currentSection = 0;
         for (let section of badgeData.sections) {
             currentSection++;
-            const sectionGroup = BadgeSectionHelper
+            const sectionResult = BadgeSectionHelper
                 .getSection(section, currentSection, sectionsCount, badgeWidth, badgeHeight, badgeStyle, this.caller);
-            badgeWidth += sectionGroup.rect.width;
-            if (badgeHeight < sectionGroup.rect.height) {
-                badgeHeight = sectionGroup.rect.height;
+            badgeWidth += sectionResult.rect.width;
+            if (badgeHeight < sectionResult.rect.height) {
+                badgeHeight = sectionResult.rect.height;
             }
-            badgeMainGroup.appendChild(sectionGroup.node);
+            badgeMainGroup.appendChild(sectionResult.node);
         }
         const gradienId = "badge-gradient-id";
         const badgeGradient = SvgTagsHelper.createLinearGradient(gradienId, "0%", "0%", "0%", "90%", "10%", "90%", "white", "black");
@@ -472,6 +529,9 @@ class Badge {
             default:
                 throw Error("Unknown BuildType!");
         }
+    }
+    buildBadgeByData(data, buildType) {
+        this.buildSvg(this.style, data, buildType);
     }
     buildBadgeFromJson(badgeDataPath, buildType) {
         let data;
@@ -545,5 +605,25 @@ function buildSvgBadgeFullJson(el, dataPath = "./badgeData.json", stylePath = ".
     badge.setSvgTarget(el);
     badge.setCaller(el);
     badge.buildBadgeFromJsons(stylePath, dataPath, BuildType.InsideSvg);
+}
+function languageBadge(el, type) {
+    const badge = new Badge();
+    badge.setSvgTarget(el);
+    badge.setCaller(el);
+    const data = {
+        sections: [
+            {
+                type: SectionType.Text,
+                text: "language",
+                bcgColor: undefined
+            },
+            {
+                type: type,
+                text: undefined,
+                bcgColor: undefined
+            }
+        ]
+    };
+    badge.buildBadgeByData(data, BuildType.InsideSvg);
 }
 //# sourceMappingURL=badge.js.map

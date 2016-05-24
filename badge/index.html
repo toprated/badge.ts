@@ -8,21 +8,48 @@
 </head>
 <body>
 <h1>Test Page</h1>
-    <div>
-        <a href="./Example/badge.svg">View badge example with JSON data</a>
-    </div>
-    <div>
-        <a href="./DataExample/badge.svg">View badge example with two JSONs</a>
-    </div>
-    <svg id="mysvg" xmlns="http://www.w3.org/2000/svg">
-        <script type="text/javascript">document.onload = buildBadgeInsideSvg('mysvg');</script>
-    </svg>
-    <svg xmlns="http://www.w3.org/2000/svg" onload="buildSvgBadge(this)">
-    </svg>
-    <svg id="mysvg2" xmlns="http://www.w3.org/2000/svg" onload="buildBadgeInsideSvg('mysvg2')">
-    </svg>
-    <div id="badge1">1</div>
-    <div id="badge"><script type="text/javascript">document.onload = buildBadgeById('badge');</script></div>
-    <div id="badge2">3</div>
+    <svg xmlns="http://www.w3.org/2000/svg" onload="languageBadge(this, SectionType.ActionScript)"></svg>
+    <svg xmlns="http://www.w3.org/2000/svg" onload="languageBadge(this, SectionType.C)"></svg>
+    <svg xmlns="http://www.w3.org/2000/svg" onload="languageBadge(this, SectionType.CSharp)"></svg>
+    <svg xmlns="http://www.w3.org/2000/svg" onload="languageBadge(this, SectionType.Cpp)"></svg>
+    <svg xmlns="http://www.w3.org/2000/svg" onload="languageBadge(this, SectionType.Clojure)"></svg>
+    <svg xmlns="http://www.w3.org/2000/svg" onload="languageBadge(this, SectionType.CoffeeScript)"></svg>
+    <svg xmlns="http://www.w3.org/2000/svg" onload="languageBadge(this, SectionType.Css)"></svg>
+    <svg xmlns="http://www.w3.org/2000/svg" onload="languageBadge(this, SectionType.Go)"></svg>
+    <svg xmlns="http://www.w3.org/2000/svg" onload="languageBadge(this, SectionType.Haskell)"></svg>
+    <svg xmlns="http://www.w3.org/2000/svg" onload="languageBadge(this, SectionType.Html)"></svg>
+    <svg xmlns="http://www.w3.org/2000/svg" onload="languageBadge(this, SectionType.Java)"></svg>
+    <svg xmlns="http://www.w3.org/2000/svg" onload="languageBadge(this, SectionType.JavaScript)"></svg>
+    <svg xmlns="http://www.w3.org/2000/svg" onload="languageBadge(this, SectionType.Lua)"></svg>
+    <svg xmlns="http://www.w3.org/2000/svg" onload="languageBadge(this, SectionType.Matlab)"></svg>
+    <svg xmlns="http://www.w3.org/2000/svg" onload="languageBadge(this, SectionType.ObjC)"></svg>
+    <svg xmlns="http://www.w3.org/2000/svg" onload="languageBadge(this, SectionType.Perl)"></svg>
+    <svg xmlns="http://www.w3.org/2000/svg" onload="languageBadge(this, SectionType.Php)"></svg>
+    <svg xmlns="http://www.w3.org/2000/svg" onload="languageBadge(this, SectionType.Python)"></svg>
+    <svg xmlns="http://www.w3.org/2000/svg" onload="languageBadge(this, SectionType.R)"></svg>
+    <svg xmlns="http://www.w3.org/2000/svg" onload="languageBadge(this, SectionType.Ruby)"></svg>
+    <svg xmlns="http://www.w3.org/2000/svg" onload="languageBadge(this, SectionType.Scala)"></svg>
+    <svg xmlns="http://www.w3.org/2000/svg" onload="languageBadge(this, SectionType.Shell)"></svg>
+    <svg xmlns="http://www.w3.org/2000/svg" onload="languageBadge(this, SectionType.Swift)"></svg>
+    <svg xmlns="http://www.w3.org/2000/svg" onload="languageBadge(this, SectionType.Tex)"></svg>
+    <svg xmlns="http://www.w3.org/2000/svg" onload="languageBadge(this, SectionType.TypeScript)"></svg>
+    <svg xmlns="http://www.w3.org/2000/svg" onload="languageBadge(this, SectionType.Viml)"></svg>
+        <div>                                                                       
+            <a href="./Example/badge.svg">View badge example with JSON data</a>           
+        </div>
+        <div>
+            <a href="./DataExample/badge.svg">View badge example with two JSONs</a>
+        </div>
+        <svg id="mysvg" xmlns="http://www.w3.org/2000/svg">
+            <script type="text/javascript">document.onload = buildBadgeInsideSvg('mysvg');</script>
+        </svg>
+        <svg xmlns="http://www.w3.org/2000/svg" onload="buildSvgBadge(this)">
+        </svg>
+        <svg id="mysvg2" xmlns="http://www.w3.org/2000/svg" onload="buildBadgeInsideSvg('mysvg2')"></svg>
+        <div id="badge1">1</div>
+        <div id="badge">
+            <script type="text/javascript">document.onload = buildBadgeById('badge');</script>
+        </div>
+        <div id="badge2">3</div>
 </body>
 </html>

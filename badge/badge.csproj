@@ -27,7 +27,7 @@
     <TypeScriptCompile Include="Common\Color.ts" />
     <TypeScriptCompile Include="Common\DarkBadgeStyle.ts" />
     <TypeScriptCompile Include="Common\FontStyle.ts" />
-    <TypeScriptCompile Include="Common\LanguageColor.ts" />
+    <TypeScriptCompile Include="Common\Languages.ts" />
     <TypeScriptCompile Include="Common\LightBadgeStyle.ts" />
     <TypeScriptCompile Include="Common\SectionStyle.ts" />
     <TypeScriptCompile Include="Enums\BuildType.ts" />
@@ -42,6 +42,7 @@
     <TypeScriptCompile Include="Interfaces\IBadgeData.ts" />
     <TypeScriptCompile Include="Interfaces\IBadgeSection.ts" />
     <TypeScriptCompile Include="Interfaces\IBadgeStyle.ts" />
+    <TypeScriptCompile Include="Interfaces\ILanguage.ts" />
     <TypeScriptCompile Include="Interfaces\ISectionResult.ts" />
     <TypeScriptCompile Include="Interfaces\ISectionStyle.ts" />
     <TypeScriptCompile Include="Interfaces\IFontStyle.ts" />

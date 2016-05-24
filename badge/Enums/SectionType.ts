@@ -20,7 +20,7 @@
     ObjC,
     Perl,
     Php,
-    Pyton,
+    Python,
     R,
     Ruby,
     Scala,

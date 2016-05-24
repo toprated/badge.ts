@@ -68,7 +68,7 @@ class Badge implements IBadge {
         let currentSection = 0;
 
         for (let section of badgeData.sections) {
-            
+        
             currentSection++;
             const sectionResult = BadgeSectionHelper
                 .getSection(section, currentSection, sectionsCount, badgeWidth, badgeHeight, badgeStyle, this.caller);
@@ -117,6 +117,10 @@ class Badge implements IBadge {
             throw Error("Unknown BuildType!");
         }
 
+    }
+
+    buildBadgeByData(data: IBadgeData, buildType: BuildType): void {
+        this.buildSvg(this.style, data, buildType);
     }
 
     buildBadgeFromJson(badgeDataPath: string, buildType: BuildType): void {

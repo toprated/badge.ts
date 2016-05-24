@@ -27,3 +27,24 @@ function buildSvgBadgeFullJson(el: HTMLElement, dataPath: string = "./badgeData.
     badge.setCaller(el);
     badge.buildBadgeFromJsons(stylePath, dataPath, BuildType.InsideSvg);
 }
+
+function languageBadge(el: HTMLElement, type: SectionType) {
+    const badge = new Badge();
+    badge.setSvgTarget(el);
+    badge.setCaller(el);
+    const data: IBadgeData = {
+        sections: [
+            {
+                type: SectionType.Text,
+                text: "language",
+                bcgColor: undefined
+            },
+            {
+                type: type,
+                text: undefined,
+                bcgColor: undefined
+            }
+        ]
+    };
+    badge.buildBadgeByData(data, BuildType.InsideSvg);
+}

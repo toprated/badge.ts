@@ -4,12 +4,12 @@
 
 class LightBadgeStyle implements BadgeStyle {
     commonTextStyle: ISectionStyle;
-    indent = 3;
+    indent = 5;
     radius = 3;
 
     constructor() {
-        const commonFontStyle = new FontStyle("DejaVu Sans,Verdana,Geneva,sans-serif", 11, Color.black, Color.black);
-        const commonBcgColor = Color.silver;
+        const commonFontStyle = new FontStyle("DejaVu Sans,Verdana,Geneva,sans-serif", 11, Color.black, Color.white);
+        const commonBcgColor = Color.white;
         this.commonTextStyle = new SectionStyle(commonFontStyle, commonBcgColor);
     }
 }
