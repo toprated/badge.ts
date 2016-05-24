@@ -69,8 +69,10 @@ class Badge implements IBadge {
 
         for (let section of badgeData.sections) {
 
+            const sectionGroup = SvgTagsHelper.createG("section-group");
+
             currentSection++;
-            const sectionType = BadgeSectionHelper.getSectionType(currentSection, sectionsCount);
+            const sectionPosition = BadgeSectionHelper.getSectionPosition(currentSection, sectionsCount);
 
             const fontStyle = badgeStyle.commonTextStyle.fontStyle;
             const sectionTextRect = SvgTagsHelper.getRectText(section.text, fontStyle, this.caller);
@@ -93,7 +95,7 @@ class Badge implements IBadge {
                 .fontSize(fontStyle.fontSize)
                 .fill(fontStyle.fontShadowColor)
                 .fillOpacity("0.3")
-                .setX(badgeWidth + sectionWidth / 2)
+                .setX(badgeWidth + sectionWidth / 2 + 1)
                 .setY(sectionHeight / 2 + 1);
             sectionTextShadow.setAttribute("text-anchor", "middle");
             sectionTextShadow.setAttribute("alignment-baseline", "central");
@@ -102,20 +104,22 @@ class Badge implements IBadge {
                 section.bcgColor = badgeStyle.commonTextStyle.backgroundColor;
             }
 
-            const sectionRect = SvgTagsHelper.createSection(sectionType, badgeWidth, 0, sectionWidth, sectionHeight, badgeStyle.radius, section.bcgColor);
+            const sectionRect = SvgTagsHelper.createSection(sectionPosition, badgeWidth, 0, sectionWidth, sectionHeight, badgeStyle.radius, section.bcgColor);
 
             badgeWidth += sectionWidth;
             if (badgeHeight < sectionHeight) {
                 badgeHeight = sectionHeight;
             }
-            
-            badgeMainGroup.appendChild(sectionRect);
-            badgeMainGroup.appendChild(sectionTextShadow);
-            badgeMainGroup.appendChild(sectionText);
+
+            sectionGroup.appendChild(sectionRect);
+            sectionGroup.appendChild(sectionTextShadow);
+            sectionGroup.appendChild(sectionText);
+
+            badgeMainGroup.appendChild(sectionGroup);
         }
 
         const gradienId = "badge-gradient-id";
-        const badgeGradient = SvgTagsHelper.createLinearGradient(gradienId, "0%", "0%", "0%", "90%", "0%", "90%", "white", "black");
+        const badgeGradient = SvgTagsHelper.createLinearGradient(gradienId, "0%", "0%", "0%", "90%", "10%", "90%", "white", "black");
 
         const badgeGradientRect = SvgTagsHelper.createSimpleRoundedRect(0, 0, badgeWidth, badgeHeight, badgeStyle.radius, `url(#${gradienId})`);
         badgeMainGroup.appendChild(badgeGradientRect);

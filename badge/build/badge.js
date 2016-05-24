@@ -1,9 +1,3 @@
-class BadgeSection {
-    constructor(text, bcgColor) {
-        this.text = text;
-        this.bcgColor = bcgColor;
-    }
-}
 class Color {
 }
 Color.silver = "#C0C0C0";
@@ -86,11 +80,16 @@ var BuildType;
     BuildType[BuildType["Full"] = 0] = "Full";
     BuildType[BuildType["InsideSvg"] = 1] = "InsideSvg";
 })(BuildType || (BuildType = {}));
+var SectionPosition;
+(function (SectionPosition) {
+    SectionPosition[SectionPosition["Left"] = 0] = "Left";
+    SectionPosition[SectionPosition["Right"] = 1] = "Right";
+    SectionPosition[SectionPosition["Middle"] = 2] = "Middle";
+})(SectionPosition || (SectionPosition = {}));
 var SectionType;
 (function (SectionType) {
-    SectionType[SectionType["Left"] = 0] = "Left";
-    SectionType[SectionType["Right"] = 1] = "Right";
-    SectionType[SectionType["Middle"] = 2] = "Middle";
+    SectionType[SectionType["Text"] = 0] = "Text";
+    SectionType[SectionType["Triangle"] = 1] = "Triangle";
 })(SectionType || (SectionType = {}));
 HTMLElement.prototype.setWidth = function (value) {
     this.setAttribute("width", String(value));
@@ -236,13 +235,13 @@ class SvgTagsHelper {
         el.appendChild(stop2);
         return el;
     }
-    static createSection(sectionType, x, y, w, h, r, color) {
-        switch (sectionType) {
-            case SectionType.Left:
+    static createSection(sectionPosition, x, y, w, h, r, color) {
+        switch (sectionPosition) {
+            case SectionPosition.Left:
                 return this.createRoundedRect(x, y, w + 1, h, r, 0, 0, r, color);
-            case SectionType.Right:
+            case SectionPosition.Right:
                 return this.createRoundedRect(x, y, w, h, 0, r, r, 0, color);
-            case SectionType.Middle:
+            case SectionPosition.Middle:
                 return this.createRoundedRect(x, y, w + 1, h, 0, 0, 0, 0, color);
             default:
                 throw Error("Unknown SectionType!");
@@ -288,15 +287,15 @@ class SvgTagsHelper {
     }
 }
 class BadgeSectionHelper {
-    static getSectionType(currentSectionNumber, badgeSectionsCount) {
+    static getSectionPosition(currentSectionNumber, badgeSectionsCount) {
         if (currentSectionNumber === 1) {
-            return SectionType.Left;
+            return SectionPosition.Left;
         }
         else if (currentSectionNumber >= 1 && currentSectionNumber < badgeSectionsCount) {
-            return SectionType.Middle;
+            return SectionPosition.Middle;
         }
         else if (currentSectionNumber === badgeSectionsCount) {
-            return SectionType.Right;
+            return SectionPosition.Right;
         }
         throw Error(`Can not get SectionType for section ${currentSectionNumber} of total ${badgeSectionsCount} sections.`);
     }
@@ -339,8 +338,9 @@ class Badge {
         const sectionsCount = badgeData.sections.length;
         let currentSection = 0;
         for (let section of badgeData.sections) {
+            const sectionGroup = SvgTagsHelper.createG("section-group");
             currentSection++;
-            const sectionType = BadgeSectionHelper.getSectionType(currentSection, sectionsCount);
+            const sectionPosition = BadgeSectionHelper.getSectionPosition(currentSection, sectionsCount);
             const fontStyle = badgeStyle.commonTextStyle.fontStyle;
             const sectionTextRect = SvgTagsHelper.getRectText(section.text, fontStyle, this.caller);
             const sectionWidth = badgeStyle.indent * 2 + sectionTextRect.width;
@@ -360,24 +360,25 @@ class Badge {
                 .fontSize(fontStyle.fontSize)
                 .fill(fontStyle.fontShadowColor)
                 .fillOpacity("0.3")
-                .setX(badgeWidth + sectionWidth / 2)
+                .setX(badgeWidth + sectionWidth / 2 + 1)
                 .setY(sectionHeight / 2 + 1);
             sectionTextShadow.setAttribute("text-anchor", "middle");
             sectionTextShadow.setAttribute("alignment-baseline", "central");
             if (section.bcgColor === undefined) {
                 section.bcgColor = badgeStyle.commonTextStyle.backgroundColor;
             }
-            const sectionRect = SvgTagsHelper.createSection(sectionType, badgeWidth, 0, sectionWidth, sectionHeight, badgeStyle.radius, section.bcgColor);
+            const sectionRect = SvgTagsHelper.createSection(sectionPosition, badgeWidth, 0, sectionWidth, sectionHeight, badgeStyle.radius, section.bcgColor);
             badgeWidth += sectionWidth;
             if (badgeHeight < sectionHeight) {
                 badgeHeight = sectionHeight;
             }
-            badgeMainGroup.appendChild(sectionRect);
-            badgeMainGroup.appendChild(sectionTextShadow);
-            badgeMainGroup.appendChild(sectionText);
+            sectionGroup.appendChild(sectionRect);
+            sectionGroup.appendChild(sectionTextShadow);
+            sectionGroup.appendChild(sectionText);
+            badgeMainGroup.appendChild(sectionGroup);
         }
         const gradienId = "badge-gradient-id";
-        const badgeGradient = SvgTagsHelper.createLinearGradient(gradienId, "0%", "0%", "0%", "90%", "0%", "90%", "white", "black");
+        const badgeGradient = SvgTagsHelper.createLinearGradient(gradienId, "0%", "0%", "0%", "90%", "10%", "90%", "white", "black");
         const badgeGradientRect = SvgTagsHelper.createSimpleRoundedRect(0, 0, badgeWidth, badgeHeight, badgeStyle.radius, `url(#${gradienId})`);
         badgeMainGroup.appendChild(badgeGradientRect);
         switch (buildType) {

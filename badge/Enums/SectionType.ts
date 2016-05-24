@@ -1,5 +1,4 @@
 ﻿enum SectionType {
-    Left,
-    Right,
-    Middle
+    Text,
+    Triangle//TODO
 } 

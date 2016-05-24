@@ -1,14 +1,14 @@
-﻿/// <reference path="./../Enums/SectionType.ts"/>
+﻿/// <reference path="./../Enums/SectionPosition.ts"/>
 
 class BadgeSectionHelper {
 
-    static getSectionType(currentSectionNumber: number, badgeSectionsCount: number): SectionType {
+    static getSectionPosition(currentSectionNumber: number, badgeSectionsCount: number): SectionPosition {
         if (currentSectionNumber === 1) {
-            return SectionType.Left;
+            return SectionPosition.Left;
         } else if (currentSectionNumber >= 1 && currentSectionNumber < badgeSectionsCount) {
-            return SectionType.Middle;
+            return SectionPosition.Middle;
         } else if (currentSectionNumber === badgeSectionsCount) {
-            return SectionType.Right;
+            return SectionPosition.Right;
         }
         throw Error(`Can not get SectionType for section ${currentSectionNumber} of total ${badgeSectionsCount} sections.`);
     }

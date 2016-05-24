@@ -43,13 +43,13 @@ class SvgTagsHelper {
         return el;
     }
 
-    static createSection(sectionType: SectionType, x: number, y: number, w: number, h: number, r: number, color: string): SVGPathElement {
-        switch (sectionType) {
-            case SectionType.Left:
+    static createSection(sectionPosition: SectionPosition, x: number, y: number, w: number, h: number, r: number, color: string): SVGPathElement {
+        switch (sectionPosition) {
+            case SectionPosition.Left:
                 return this.createRoundedRect(x, y, w + 1, h, r, 0, 0, r, color);
-            case SectionType.Right:
+            case SectionPosition.Right:
                 return this.createRoundedRect(x, y, w, h, 0, r, r, 0, color);
-            case SectionType.Middle:
+            case SectionPosition.Middle:
                 return this.createRoundedRect(x, y, w + 1, h, 0, 0, 0, 0, color);
             default:
                 throw Error("Unknown SectionType!");

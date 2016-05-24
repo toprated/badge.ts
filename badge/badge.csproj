@@ -23,7 +23,6 @@
   </ItemGroup>
   <ItemGroup>
     <TypeScriptCompile Include="Badge.ts" />
-    <TypeScriptCompile Include="Common\BadgeSection.ts" />
     <TypeScriptCompile Include="Common\BadgeStyle.ts" />
     <TypeScriptCompile Include="Common\Color.ts" />
     <TypeScriptCompile Include="Common\DarkBadgeStyle.ts" />
@@ -31,6 +30,7 @@
     <TypeScriptCompile Include="Common\LightBadgeStyle.ts" />
     <TypeScriptCompile Include="Common\SectionStyle.ts" />
     <TypeScriptCompile Include="Enums\BuildType.ts" />
+    <TypeScriptCompile Include="Enums\SectionPosition.ts" />
     <TypeScriptCompile Include="Enums\SectionType.ts" />
     <TypeScriptCompile Include="Enums\Theme.ts" />
     <TypeScriptCompile Include="Extensions\HtmlElementExtensions.ts" />

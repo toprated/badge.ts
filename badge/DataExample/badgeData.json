@@ -1,6 +1,6 @@
 {
   "sections": [
-    { "text" :  "aa", "bcgColor" : "#555" },
+    { "type" :  "Text" , "text" :  "aa", "bcgColor" : "#555" },
     { "text" :  "124", "bcgColor" : "white" },
     { "text" :  "test3", "bcgColor" : "#355" },
     { "text" :  "testing long word", "bcgColor" : "red" },
