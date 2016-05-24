@@ -82,7 +82,7 @@ class Badge implements IBadge {
         }
 
         const gradienId = "badge-gradient-id";
-        const badgeGradient = SvgTagsHelper.createLinearGradient(gradienId, "0%", "0%", "0%", "90%", "10%", "90%", "white", "black");
+        const badgeGradient = SvgTagsHelper.createLinearGradient(gradienId, "0%", "0%", "0%", "90%", "10%", "90%", "white", "black", "0.1");
 
         const badgeGradientRect = SvgTagsHelper.createSimpleRoundedRect(0, 0, badgeWidth, badgeHeight, badgeStyle.radius, `url(#${gradienId})`);
         badgeMainGroup.appendChild(badgeGradientRect);

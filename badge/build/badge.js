@@ -1,6 +1,6 @@
 class Color {
 }
-Color.silver = "#C0C0C0";
+Color.silver = "#f2f2f2";
 Color.gray = "#808080";
 Color.white = "#FFF";
 Color.black = "#000";
@@ -68,42 +68,42 @@ class Languages {
             case SectionType.Viml: return this.viml;
             case SectionType.Text: break;
             default:
-                throw Error("Unknown SectionType, can not get corresponding Language!");
+                throw Error(`Unknown SectionType, can not get corresponding Language! Type: ${sectionType}`);
         }
     }
 }
-Languages.actionScript = { name: "ActionScript", color: "#882B0F" };
-Languages.c = { name: "C", color: "#555555" };
-Languages.cSharp = { name: "CSharp", color: "#178600" };
-Languages.cpp = { name: "Cpp", color: "#f34b7d" };
-Languages.clojure = { name: "Clojure", color: "#db5855" };
-Languages.coffeeScript = { name: "CoffeeScript", color: "#244776" };
-Languages.css = { name: "Css", color: "#563d7c" };
-Languages.go = { name: "Go", color: "#375eab" };
-Languages.haskell = { name: "Haskell", color: "#29b544" };
-Languages.html = { name: "Html", color: "#e44b23" };
-Languages.java = { name: "Java", color: "#b07219" };
-Languages.javaScript = { name: "JavaScript", color: "#f1e05a" };
-Languages.lua = { name: "Lua", color: "#000080" };
-Languages.matlab = { name: "Matlab", color: "#bb92ac" };
-Languages.objC = { name: "ObjC", color: "#438eff" };
-Languages.perl = { name: "Perl", color: "#0298c3" };
-Languages.php = { name: "Php", color: "#4F5D95" };
-Languages.python = { name: "Python", color: "#3572A5" };
-Languages.r = { name: "R", color: "#198ce7" };
-Languages.ruby = { name: "Ruby", color: "#701516" };
-Languages.scala = { name: "Scala", color: "#DC322F" };
-Languages.shell = { name: "Shell", color: "#89e051" };
-Languages.swift = { name: "Swift", color: "#ffac45" };
-Languages.tex = { name: "Tex", color: "#3D6117" };
-Languages.viml = { name: "Viml", color: "#199f4b" };
-Languages.typeScript = { name: "TypeScript", color: "#2b7489" };
+Languages.actionScript = { name: "ActionScript", color: "#882B0F", textColor: Color.white };
+Languages.c = { name: "C", color: "#555555", textColor: Color.white };
+Languages.cSharp = { name: "CSharp", color: "#178600", textColor: Color.white };
+Languages.cpp = { name: "Cpp", color: "#f34b7d", textColor: Color.white };
+Languages.clojure = { name: "Clojure", color: "#db5855", textColor: Color.white };
+Languages.coffeeScript = { name: "CoffeeScript", color: "#244776", textColor: Color.white };
+Languages.css = { name: "Css", color: "#563d7c", textColor: Color.white };
+Languages.go = { name: "Go", color: "#375eab", textColor: Color.white };
+Languages.haskell = { name: "Haskell", color: "#29b544", textColor: Color.white };
+Languages.html = { name: "Html", color: "#e44b23", textColor: Color.white };
+Languages.java = { name: "Java", color: "#b07219", textColor: Color.white };
+Languages.javaScript = { name: "JavaScript", color: "#f1e05a", textColor: Color.white };
+Languages.lua = { name: "Lua", color: "#000080", textColor: Color.white };
+Languages.matlab = { name: "Matlab", color: "#bb92ac", textColor: Color.white };
+Languages.objC = { name: "ObjC", color: "#438eff", textColor: Color.white };
+Languages.perl = { name: "Perl", color: "#0298c3", textColor: Color.white };
+Languages.php = { name: "Php", color: "#4F5D95", textColor: Color.white };
+Languages.python = { name: "Python", color: "#3572A5", textColor: Color.white };
+Languages.r = { name: "R", color: "#198ce7", textColor: Color.white };
+Languages.ruby = { name: "Ruby", color: "#701516", textColor: Color.white };
+Languages.scala = { name: "Scala", color: "#DC322F", textColor: Color.white };
+Languages.shell = { name: "Shell", color: "#89e051", textColor: Color.white };
+Languages.swift = { name: "Swift", color: "#ffac45", textColor: Color.white };
+Languages.tex = { name: "Tex", color: "#3D6117", textColor: Color.white };
+Languages.viml = { name: "Viml", color: "#199f4b", textColor: Color.white };
+Languages.typeScript = { name: "TypeScript", color: "#2b7489", textColor: Color.white };
 class LightBadgeStyle {
     constructor() {
         this.indent = 5;
         this.radius = 3;
-        const commonFontStyle = new FontStyle("DejaVu Sans,Verdana,Geneva,sans-serif", 11, Color.black, Color.white);
-        const commonBcgColor = Color.white;
+        const commonFontStyle = new FontStyle("DejaVu Sans,Verdana,Geneva,sans-serif", 11, Color.black, Color.black);
+        const commonBcgColor = Color.silver;
         this.commonTextStyle = new SectionStyle(commonFontStyle, commonBcgColor);
     }
 }
@@ -387,12 +387,13 @@ class BadgeSectionHelper {
         throw Error(`Can not get SectionType for section ${currentSectionNumber} of total ${badgeSectionsCount} sections.`);
     }
     static checkBadgeSection(section) {
-        if (section.type === undefined)
+        if (section.type === undefined || section.type.toString() === "Text") {
             section.type = SectionType.Text;
+        }
         return section;
     }
     static checkBadgeStyle(section, badgeStyle) {
-        if (section.type === SectionType.Text) {
+        if (section.type === SectionType.Text || section.type === undefined) {
             return badgeStyle;
         }
         const lang = Languages.getLanguage(section.type);
@@ -400,6 +401,8 @@ class BadgeSectionHelper {
             section.text = lang.name;
         }
         badgeStyle.commonTextStyle.backgroundColor = lang.color;
+        badgeStyle.commonTextStyle.fontStyle.fontColor = lang.textColor;
+        badgeStyle.commonTextStyle.fontStyle.fontShadowColor = lang.textColor;
         return badgeStyle;
     }
     static getSectionText(section, sectionWidth, sectionHeight, badgeWidth, fontStyle) {
@@ -419,8 +422,8 @@ class BadgeSectionHelper {
             .fontSize(fontStyle.fontSize)
             .fill(fontStyle.fontShadowColor)
             .fillOpacity("0.4")
-            .setX(badgeWidth + sectionWidth / 2 + 1)
-            .setY(sectionHeight / 2 + 1);
+            .setX(badgeWidth + sectionWidth / 2 + 0.5)
+            .setY(sectionHeight / 2 + 0.5);
         sectionTextShadow.setAttribute("text-anchor", "middle");
         sectionTextShadow.setAttribute("alignment-baseline", "central");
         sectionTextGroup.appendChild(sectionTextShadow);
@@ -428,8 +431,11 @@ class BadgeSectionHelper {
         return sectionTextGroup;
     }
     static getSection(section, currentSection, sectionsCount, badgeWidth, badgeHeight, badgeStyle, caller) {
+        console.log("--1: " + section.type);
         section = this.checkBadgeSection(section);
+        console.log("--2: " + section.type);
         badgeStyle = this.checkBadgeStyle(section, badgeStyle);
+        console.log("--3: " + section.type);
         const sectionGroup = SvgTagsHelper.createG("section-group");
         const sectionPosition = BadgeSectionHelper.getSectionPosition(currentSection, sectionsCount);
         const fontStyle = badgeStyle.commonTextStyle.fontStyle;
@@ -502,7 +508,7 @@ class Badge {
             badgeMainGroup.appendChild(sectionResult.node);
         }
         const gradienId = "badge-gradient-id";
-        const badgeGradient = SvgTagsHelper.createLinearGradient(gradienId, "0%", "0%", "0%", "90%", "10%", "90%", "white", "black");
+        const badgeGradient = SvgTagsHelper.createLinearGradient(gradienId, "0%", "0%", "0%", "90%", "10%", "90%", "white", "black", "0.1");
         const badgeGradientRect = SvgTagsHelper.createSimpleRoundedRect(0, 0, badgeWidth, badgeHeight, badgeStyle.radius, `url(#${gradienId})`);
         badgeMainGroup.appendChild(badgeGradientRect);
         switch (buildType) {

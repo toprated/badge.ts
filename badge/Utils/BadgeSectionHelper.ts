@@ -16,12 +16,15 @@ class BadgeSectionHelper {
 
     static checkBadgeSection(section: IBadgeSection): IBadgeSection {
 
-        if (section.type === undefined) section.type = SectionType.Text;
+        if (section.type === undefined || section.type.toString() === "Text") {
+            section.type = SectionType.Text;
+        }
+        
         return section;
     }
 
     static checkBadgeStyle(section: IBadgeSection, badgeStyle: IBadgeStyle): IBadgeStyle {
-        if (section.type === SectionType.Text) {
+        if (section.type === SectionType.Text || section.type === undefined) {
             return badgeStyle;
         }
         const lang = Languages.getLanguage(section.type);
@@ -29,6 +32,8 @@ class BadgeSectionHelper {
             section.text = lang.name;
         }
         badgeStyle.commonTextStyle.backgroundColor = lang.color;
+        badgeStyle.commonTextStyle.fontStyle.fontColor = lang.textColor;
+        badgeStyle.commonTextStyle.fontStyle.fontShadowColor = lang.textColor;
         return badgeStyle;
     }
 
@@ -56,8 +61,8 @@ class BadgeSectionHelper {
             .fontSize(fontStyle.fontSize)
             .fill(fontStyle.fontShadowColor)
             .fillOpacity("0.4")
-            .setX(badgeWidth + sectionWidth / 2 + 1)
-            .setY(sectionHeight / 2 + 1);
+            .setX(badgeWidth + sectionWidth / 2 + 0.5)
+            .setY(sectionHeight / 2 + 0.5);
         sectionTextShadow.setAttribute("text-anchor", "middle");
         sectionTextShadow.setAttribute("alignment-baseline", "central");
 
@@ -71,9 +76,11 @@ class BadgeSectionHelper {
         currentSection: number, sectionsCount: number,
         badgeWidth: number, badgeHeight: number, badgeStyle: IBadgeStyle,
         caller: HTMLElement): ISectionResult {
-
+        console.log("--1: " + section.type);
         section = this.checkBadgeSection(section);
+        console.log("--2: " + section.type);
         badgeStyle = this.checkBadgeStyle(section, badgeStyle);
+        console.log("--3: " + section.type);
 
         const sectionGroup = SvgTagsHelper.createG("section-group");
         const sectionPosition = BadgeSectionHelper.getSectionPosition(currentSection, sectionsCount);
