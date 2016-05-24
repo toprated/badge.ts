@@ -68,54 +68,17 @@ class Badge implements IBadge {
         let currentSection = 0;
 
         for (let section of badgeData.sections) {
-
-            const sectionGroup = SvgTagsHelper.createG("section-group");
-
+            
             currentSection++;
-            const sectionPosition = BadgeSectionHelper.getSectionPosition(currentSection, sectionsCount);
+            const sectionResult = BadgeSectionHelper
+                .getSection(section, currentSection, sectionsCount, badgeWidth, badgeHeight, badgeStyle, this.caller);
 
-            const fontStyle = badgeStyle.commonTextStyle.fontStyle;
-            const sectionTextRect = SvgTagsHelper.getRectText(section.text, fontStyle, this.caller);
-            const sectionWidth = badgeStyle.indent * 2 + sectionTextRect.width;
-            const sectionHeight = badgeStyle.indent * 2 + sectionTextRect.height;
-
-            const sectionText = SvgTagsHelper.createText(section.text);
-            sectionText
-                .fontFamily(fontStyle.fontFamily)
-                .fontSize(fontStyle.fontSize)
-                .fill(fontStyle.fontColor)
-                .setX(badgeWidth + sectionWidth / 2)
-                .setY(sectionHeight / 2);
-            sectionText.setAttribute("text-anchor", "middle");
-            sectionText.setAttribute("alignment-baseline", "central");
-
-            const sectionTextShadow = SvgTagsHelper.createText(section.text);
-            sectionTextShadow
-                .fontFamily(fontStyle.fontFamily)
-                .fontSize(fontStyle.fontSize)
-                .fill(fontStyle.fontShadowColor)
-                .fillOpacity("0.3")
-                .setX(badgeWidth + sectionWidth / 2 + 1)
-                .setY(sectionHeight / 2 + 1);
-            sectionTextShadow.setAttribute("text-anchor", "middle");
-            sectionTextShadow.setAttribute("alignment-baseline", "central");
-
-            if (section.bcgColor === undefined) {
-                section.bcgColor = badgeStyle.commonTextStyle.backgroundColor;
+            badgeWidth += sectionResult.rect.width;
+            if (badgeHeight < sectionResult.rect.height) {
+                badgeHeight = sectionResult.rect.height;
             }
-
-            const sectionRect = SvgTagsHelper.createSection(sectionPosition, badgeWidth, 0, sectionWidth, sectionHeight, badgeStyle.radius, section.bcgColor);
-
-            badgeWidth += sectionWidth;
-            if (badgeHeight < sectionHeight) {
-                badgeHeight = sectionHeight;
-            }
-
-            sectionGroup.appendChild(sectionRect);
-            sectionGroup.appendChild(sectionTextShadow);
-            sectionGroup.appendChild(sectionText);
-
-            badgeMainGroup.appendChild(sectionGroup);
+            
+            badgeMainGroup.appendChild(sectionResult.node);
         }
 
         const gradienId = "badge-gradient-id";

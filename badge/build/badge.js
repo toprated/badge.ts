@@ -37,6 +37,34 @@ class DarkBadgeStyle {
         this.commonTextStyle = new SectionStyle(commonFontStyle, commonBcgColor);
     }
 }
+class LanguageColor {
+}
+LanguageColor.actionScript = "#882B0F";
+LanguageColor.c = "#555555";
+LanguageColor.cSharp = "#178600";
+LanguageColor.cpp = "#f34b7d";
+LanguageColor.clojure = "#db5855";
+LanguageColor.coffeeScript = "#244776";
+LanguageColor.css = "#563d7c";
+LanguageColor.go = "#375eab";
+LanguageColor.haskell = "#29b544";
+LanguageColor.html = "#e44b23";
+LanguageColor.java = "#b07219";
+LanguageColor.javaScript = "#f1e05a";
+LanguageColor.lua = "#000080";
+LanguageColor.matlab = "#bb92ac";
+LanguageColor.objC = "#438eff";
+LanguageColor.perl = "#0298c3";
+LanguageColor.php = "#4F5D95";
+LanguageColor.pyton = "#3572A5";
+LanguageColor.r = "#198ce7";
+LanguageColor.ruby = "#701516";
+LanguageColor.scala = "#DC322F";
+LanguageColor.shell = "#89e051";
+LanguageColor.swift = "#ffac45";
+LanguageColor.tex = "#3D6117";
+LanguageColor.viml = "#199f4b";
+LanguageColor.typeScript = "#2b7489";
 class LightBadgeStyle {
     constructor() {
         this.indent = 3;
@@ -90,6 +118,32 @@ var SectionType;
 (function (SectionType) {
     SectionType[SectionType["Text"] = 0] = "Text";
     SectionType[SectionType["Triangle"] = 1] = "Triangle";
+    SectionType[SectionType["ActionScript"] = 2] = "ActionScript";
+    SectionType[SectionType["C"] = 3] = "C";
+    SectionType[SectionType["CSharp"] = 4] = "CSharp";
+    SectionType[SectionType["Cpp"] = 5] = "Cpp";
+    SectionType[SectionType["Clojure"] = 6] = "Clojure";
+    SectionType[SectionType["CoffeeScript"] = 7] = "CoffeeScript";
+    SectionType[SectionType["Css"] = 8] = "Css";
+    SectionType[SectionType["Go"] = 9] = "Go";
+    SectionType[SectionType["Haskell"] = 10] = "Haskell";
+    SectionType[SectionType["Html"] = 11] = "Html";
+    SectionType[SectionType["Java"] = 12] = "Java";
+    SectionType[SectionType["JavaScript"] = 13] = "JavaScript";
+    SectionType[SectionType["Lua"] = 14] = "Lua";
+    SectionType[SectionType["Matlab"] = 15] = "Matlab";
+    SectionType[SectionType["ObjC"] = 16] = "ObjC";
+    SectionType[SectionType["Perl"] = 17] = "Perl";
+    SectionType[SectionType["Php"] = 18] = "Php";
+    SectionType[SectionType["Pyton"] = 19] = "Pyton";
+    SectionType[SectionType["R"] = 20] = "R";
+    SectionType[SectionType["Ruby"] = 21] = "Ruby";
+    SectionType[SectionType["Scala"] = 22] = "Scala";
+    SectionType[SectionType["Shell"] = 23] = "Shell";
+    SectionType[SectionType["Swift"] = 24] = "Swift";
+    SectionType[SectionType["Tex"] = 25] = "Tex";
+    SectionType[SectionType["TypeScript"] = 26] = "TypeScript";
+    SectionType[SectionType["Viml"] = 27] = "Viml";
 })(SectionType || (SectionType = {}));
 HTMLElement.prototype.setWidth = function (value) {
     this.setAttribute("width", String(value));
@@ -299,6 +353,49 @@ class BadgeSectionHelper {
         }
         throw Error(`Can not get SectionType for section ${currentSectionNumber} of total ${badgeSectionsCount} sections.`);
     }
+    static getSection(section, currentSection, sectionsCount, badgeWidth, badgeHeight, badgeStyle, caller) {
+        const sectionGroup = SvgTagsHelper.createG("section-group");
+        const sectionPosition = BadgeSectionHelper.getSectionPosition(currentSection, sectionsCount);
+        const fontStyle = badgeStyle.commonTextStyle.fontStyle;
+        const sectionTextRect = SvgTagsHelper.getRectText(section.text, fontStyle, caller);
+        const sectionWidth = badgeStyle.indent * 2 + sectionTextRect.width;
+        const sectionHeight = badgeStyle.indent * 2 + sectionTextRect.height;
+        const sectionText = SvgTagsHelper.createText(section.text);
+        sectionText
+            .fontFamily(fontStyle.fontFamily)
+            .fontSize(fontStyle.fontSize)
+            .fill(fontStyle.fontColor)
+            .setX(badgeWidth + sectionWidth / 2)
+            .setY(sectionHeight / 2);
+        sectionText.setAttribute("text-anchor", "middle");
+        sectionText.setAttribute("alignment-baseline", "central");
+        const sectionTextShadow = SvgTagsHelper.createText(section.text);
+        sectionTextShadow
+            .fontFamily(fontStyle.fontFamily)
+            .fontSize(fontStyle.fontSize)
+            .fill(fontStyle.fontShadowColor)
+            .fillOpacity("0.3")
+            .setX(badgeWidth + sectionWidth / 2)
+            .setY(sectionHeight / 2 + 1);
+        sectionTextShadow.setAttribute("text-anchor", "middle");
+        sectionTextShadow.setAttribute("alignment-baseline", "central");
+        if (section.bcgColor === undefined) {
+            section.bcgColor = badgeStyle.commonTextStyle.backgroundColor;
+        }
+        const sectionRect = SvgTagsHelper.createSection(sectionPosition, badgeWidth, 0, sectionWidth, sectionHeight, badgeStyle.radius, section.bcgColor);
+        sectionGroup.appendChild(sectionRect);
+        sectionGroup.appendChild(sectionTextShadow);
+        sectionGroup.appendChild(sectionText);
+        return {
+            node: sectionGroup,
+            rect: {
+                height: sectionHeight,
+                width: sectionWidth,
+                x: badgeWidth,
+                y: 0
+            }
+        };
+    }
 }
 class Badge {
     constructor() {
@@ -338,44 +435,14 @@ class Badge {
         const sectionsCount = badgeData.sections.length;
         let currentSection = 0;
         for (let section of badgeData.sections) {
-            const sectionGroup = SvgTagsHelper.createG("section-group");
             currentSection++;
-            const sectionPosition = BadgeSectionHelper.getSectionPosition(currentSection, sectionsCount);
-            const fontStyle = badgeStyle.commonTextStyle.fontStyle;
-            const sectionTextRect = SvgTagsHelper.getRectText(section.text, fontStyle, this.caller);
-            const sectionWidth = badgeStyle.indent * 2 + sectionTextRect.width;
-            const sectionHeight = badgeStyle.indent * 2 + sectionTextRect.height;
-            const sectionText = SvgTagsHelper.createText(section.text);
-            sectionText
-                .fontFamily(fontStyle.fontFamily)
-                .fontSize(fontStyle.fontSize)
-                .fill(fontStyle.fontColor)
-                .setX(badgeWidth + sectionWidth / 2)
-                .setY(sectionHeight / 2);
-            sectionText.setAttribute("text-anchor", "middle");
-            sectionText.setAttribute("alignment-baseline", "central");
-            const sectionTextShadow = SvgTagsHelper.createText(section.text);
-            sectionTextShadow
-                .fontFamily(fontStyle.fontFamily)
-                .fontSize(fontStyle.fontSize)
-                .fill(fontStyle.fontShadowColor)
-                .fillOpacity("0.3")
-                .setX(badgeWidth + sectionWidth / 2 + 1)
-                .setY(sectionHeight / 2 + 1);
-            sectionTextShadow.setAttribute("text-anchor", "middle");
-            sectionTextShadow.setAttribute("alignment-baseline", "central");
-            if (section.bcgColor === undefined) {
-                section.bcgColor = badgeStyle.commonTextStyle.backgroundColor;
+            const sectionGroup = BadgeSectionHelper
+                .getSection(section, currentSection, sectionsCount, badgeWidth, badgeHeight, badgeStyle, this.caller);
+            badgeWidth += sectionGroup.rect.width;
+            if (badgeHeight < sectionGroup.rect.height) {
+                badgeHeight = sectionGroup.rect.height;
             }
-            const sectionRect = SvgTagsHelper.createSection(sectionPosition, badgeWidth, 0, sectionWidth, sectionHeight, badgeStyle.radius, section.bcgColor);
-            badgeWidth += sectionWidth;
-            if (badgeHeight < sectionHeight) {
-                badgeHeight = sectionHeight;
-            }
-            sectionGroup.appendChild(sectionRect);
-            sectionGroup.appendChild(sectionTextShadow);
-            sectionGroup.appendChild(sectionText);
-            badgeMainGroup.appendChild(sectionGroup);
+            badgeMainGroup.appendChild(sectionGroup.node);
         }
         const gradienId = "badge-gradient-id";
         const badgeGradient = SvgTagsHelper.createLinearGradient(gradienId, "0%", "0%", "0%", "90%", "10%", "90%", "white", "black");

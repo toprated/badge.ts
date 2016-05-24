@@ -4,4 +4,5 @@
     static white = "#FFF";
     static black = "#000";
     static gold = "#FFD700";
+    
 }

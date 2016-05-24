@@ -1,6 +1,4 @@
-﻿
-
-class SvgTagsHelper {
+﻿class SvgTagsHelper {
 
     static createSvg(id: string = ""): SVGSVGElement {
         const el = document.createElementNS("http://www.w3.org/2000/svg", "svg");
