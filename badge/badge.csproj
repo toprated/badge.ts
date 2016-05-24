@@ -50,6 +50,7 @@
     <TypeScriptCompile Include="Utils\SvgTextElementHelper.ts" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="DataExample\badge.svg" />
     <Content Include="Example\badge.svg" />
     <Content Include="index.html" />
     <Content Include="svg.js" />
@@ -66,8 +67,8 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="web.config" />
-    <Content Include="DataExample\badgeData1.json" />
-    <Content Include="DataExample\badgeStyle1.json" />
+    <Content Include="DataExample\badgeData.json" />
+    <Content Include="DataExample\badgeStyle.json" />
     <Content Include="Example\badgeData.json" />
     <None Include="web.Debug.config">
       <DependentUpon>web.config</DependentUpon>

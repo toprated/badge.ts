@@ -20,3 +20,10 @@ function buildSvgBadge(el: HTMLElement, dataPath: string = "./badgeData.json") {
     badge.setCaller(el);
     badge.buildBadgeFromJson(dataPath, BuildType.InsideSvg);
 }
+
+function buildSvgBadgeFullJson(el: HTMLElement, dataPath: string = "./badgeData.json", stylePath: string = "./badgeStyle.json") {
+    const badge = new Badge();
+    badge.setSvgTarget(el);
+    badge.setCaller(el);
+    badge.buildBadgeFromJsons(stylePath, dataPath, BuildType.InsideSvg);
+}

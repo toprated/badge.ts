@@ -4,6 +4,7 @@
     targetSvgElement: HTMLElement;
 
     buildBadgeFromJson(badgeDataPath: string, buildType: BuildType): void;
+    buildBadgeFromJsons(badgeStylePath: string, badgeDataPath: string, buildType: BuildType): void;
 
     getStyle(): IBadgeStyle;
 

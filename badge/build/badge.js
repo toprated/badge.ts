@@ -422,6 +422,37 @@ class Badge {
             }
         };
     }
+    buildBadgeFromJsons(badgeStylePath, badgeDataPath, buildType) {
+        let data;
+        let style;
+        const req1 = new XMLHttpRequest();
+        req1.open("get", badgeDataPath, true);
+        req1.send();
+        req1.onreadystatechange = () => {
+            if (req1.readyState !== 4)
+                return;
+            if (req1.status !== 200) {
+                console.log(`Error while loading .json data! Request status: ${req1.status} : ${req1.statusText}`);
+            }
+            else {
+                data = JSON.parse(req1.responseText);
+                const req2 = new XMLHttpRequest();
+                req2.open("get", badgeStylePath, true);
+                req2.send();
+                req2.onreadystatechange = () => {
+                    if (req2.readyState !== 4)
+                        return;
+                    if (req2.status !== 200) {
+                        console.log(`Error while loading .json style! Request status: ${req2.status} : ${req2.statusText}`);
+                    }
+                    else {
+                        style = JSON.parse(req2.responseText);
+                        this.buildSvg(style, data, buildType);
+                    }
+                };
+            }
+        };
+    }
 }
 function buildBadgeById(id, dataPath = "./badgeData.json") {
     const target = document.getElementById(id);
@@ -440,5 +471,11 @@ function buildSvgBadge(el, dataPath = "./badgeData.json") {
     badge.setSvgTarget(el);
     badge.setCaller(el);
     badge.buildBadgeFromJson(dataPath, BuildType.InsideSvg);
+}
+function buildSvgBadgeFullJson(el, dataPath = "./badgeData.json", stylePath = "./badgeStyle.json") {
+    const badge = new Badge();
+    badge.setSvgTarget(el);
+    badge.setCaller(el);
+    badge.buildBadgeFromJsons(stylePath, dataPath, BuildType.InsideSvg);
 }
 //# sourceMappingURL=badge.js.map
