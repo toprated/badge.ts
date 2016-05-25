@@ -19,7 +19,6 @@ class BadgeSectionHelper {
         if (section.type === undefined || section.type.toString() === "Text") {
             section.type = SectionType.Text;
         }
-        
         return section;
     }
 
@@ -76,11 +75,8 @@ class BadgeSectionHelper {
         currentSection: number, sectionsCount: number,
         badgeWidth: number, badgeHeight: number, badgeStyle: IBadgeStyle,
         caller: HTMLElement): ISectionResult {
-        console.log("--1: " + section.type);
         section = this.checkBadgeSection(section);
-        console.log("--2: " + section.type);
         badgeStyle = this.checkBadgeStyle(section, badgeStyle);
-        console.log("--3: " + section.type);
 
         const sectionGroup = SvgTagsHelper.createG("section-group");
         const sectionPosition = BadgeSectionHelper.getSectionPosition(currentSection, sectionsCount);

@@ -73,9 +73,37 @@ class Languages {
         }
     }
 }
+Languages.all = [
+    { name: "ActionScript", color: "#882B0F", textColor: Color.white },
+    { name: "C", color: "#555555", textColor: Color.white },
+    { name: "C#", color: "#178600", textColor: Color.white },
+    { name: "Cpp", color: "#f34b7d", textColor: Color.white },
+    { name: "Clojure", color: "#db5855", textColor: Color.white },
+    { name: "CoffeeScript", color: "#244776", textColor: Color.white },
+    { name: "Css", color: "#563d7c", textColor: Color.white },
+    { name: "Go", color: "#375eab", textColor: Color.white },
+    { name: "Haskell", color: "#29b544", textColor: Color.white },
+    { name: "Html", color: "#e44b23", textColor: Color.white },
+    { name: "Java", color: "#b07219", textColor: Color.white },
+    { name: "JavaScript", color: "#f1e05a", textColor: Color.white },
+    { name: "Lua", color: "#000080", textColor: Color.white },
+    { name: "Matlab", color: "#bb92ac", textColor: Color.white },
+    { name: "ObjC", color: "#438eff", textColor: Color.white },
+    { name: "Perl", color: "#0298c3", textColor: Color.white },
+    { name: "Php", color: "#4F5D95", textColor: Color.white },
+    { name: "Python", color: "#3572A5", textColor: Color.white },
+    { name: "R", color: "#198ce7", textColor: Color.white },
+    { name: "Ruby", color: "#701516", textColor: Color.white },
+    { name: "Scala", color: "#DC322F", textColor: Color.white },
+    { name: "Shell", color: "#89e051", textColor: Color.white },
+    { name: "Swift", color: "#ffac45", textColor: Color.white },
+    { name: "Tex", color: "#3D6117", textColor: Color.white },
+    { name: "Viml", color: "#199f4b", textColor: Color.white },
+    { name: "TypeScript", color: "#2b7489", textColor: Color.white }
+];
 Languages.actionScript = { name: "ActionScript", color: "#882B0F", textColor: Color.white };
 Languages.c = { name: "C", color: "#555555", textColor: Color.white };
-Languages.cSharp = { name: "CSharp", color: "#178600", textColor: Color.white };
+Languages.cSharp = { name: "C#", color: "#178600", textColor: Color.white };
 Languages.cpp = { name: "Cpp", color: "#f34b7d", textColor: Color.white };
 Languages.clojure = { name: "Clojure", color: "#db5855", textColor: Color.white };
 Languages.coffeeScript = { name: "CoffeeScript", color: "#244776", textColor: Color.white };
@@ -135,6 +163,12 @@ class UrlHelper {
             default:
                 return Theme.Light;
         }
+    }
+    getUserName() {
+        return this.getParameter("user");
+    }
+    getRepoName() {
+        return this.getParameter("repo");
     }
 }
 var BuildType;
@@ -432,11 +466,8 @@ class BadgeSectionHelper {
         return sectionTextGroup;
     }
     static getSection(section, currentSection, sectionsCount, badgeWidth, badgeHeight, badgeStyle, caller) {
-        console.log("--1: " + section.type);
         section = this.checkBadgeSection(section);
-        console.log("--2: " + section.type);
         badgeStyle = this.checkBadgeStyle(section, badgeStyle);
-        console.log("--3: " + section.type);
         const sectionGroup = SvgTagsHelper.createG("section-group");
         const sectionPosition = BadgeSectionHelper.getSectionPosition(currentSection, sectionsCount);
         const fontStyle = badgeStyle.commonTextStyle.fontStyle;
@@ -463,6 +494,8 @@ class BadgeSectionHelper {
 }
 class Badge {
     constructor() {
+        this.urlHelper = new UrlHelper();
+        this.theme = this.urlHelper.getTheme();
         const badgeStyle = this.getStyle();
         this.style = badgeStyle;
     }
@@ -477,9 +510,7 @@ class Badge {
     }
     getStyle() {
         let style;
-        const urlHelper = new UrlHelper();
-        const theme = urlHelper.getTheme();
-        switch (theme) {
+        switch (this.theme) {
             case Theme.Dark:
                 style = new DarkBadgeStyle();
                 break;
@@ -612,6 +643,46 @@ function buildSvgBadgeFullJson(el, dataPath = "./badgeData.json", stylePath = ".
     badge.setSvgTarget(el);
     badge.setCaller(el);
     badge.buildBadgeFromJsons(stylePath, dataPath, BuildType.InsideSvg);
+}
+function myLanguageBadge(el) {
+    const badge = new Badge();
+    const user = badge.urlHelper.getUserName();
+    const repo = badge.urlHelper.getRepoName();
+    const reqUrl = `https://api.github.com/repos/${user}/${repo}`;
+    var lang;
+    const req = new XMLHttpRequest();
+    req.open("get", reqUrl, true);
+    req.send();
+    req.onreadystatechange = () => {
+        if (req.readyState !== 4)
+            return;
+        if (req.status !== 200) {
+            console.log(`Error while loading .json data! Request status: ${req.status} : ${req.statusText}`);
+        }
+        else {
+            lang = JSON.parse(req.responseText)["language"];
+            console.log(lang);
+            console.log(Languages.all.find(l => (l.name === "C#")));
+            var sectionType = SectionType.CSharp;
+            badge.setSvgTarget(el);
+            badge.setCaller(el);
+            const data = {
+                sections: [
+                    {
+                        type: SectionType.Text,
+                        text: "language",
+                        bcgColor: undefined
+                    },
+                    {
+                        type: sectionType,
+                        text: undefined,
+                        bcgColor: undefined
+                    }
+                ]
+            };
+            badge.buildBadgeByData(data, BuildType.InsideSvg);
+        }
+    };
 }
 function languageBadge(el, type) {
     const badge = new Badge();

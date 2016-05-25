@@ -1,7 +1,39 @@
 ﻿class Languages {
+
+    static all: ILanguage[] = [
+        { name: "ActionScript", color: "#882B0F", textColor: Color.white },
+        { name: "C",            color: "#555555", textColor: Color.white },
+        { name: "C#",           color: "#178600", textColor: Color.white },
+        { name: "Cpp",          color: "#f34b7d", textColor: Color.white },
+        { name: "Clojure",      color: "#db5855", textColor: Color.white },
+        { name: "CoffeeScript", color: "#244776", textColor: Color.white },
+        { name: "Css",          color: "#563d7c", textColor: Color.white },
+        { name: "Go",           color: "#375eab", textColor: Color.white },
+        { name: "Haskell",      color: "#29b544", textColor: Color.white },
+        { name: "Html",         color: "#e44b23", textColor: Color.white },
+        { name: "Java",         color: "#b07219", textColor: Color.white },
+        { name: "JavaScript",   color: "#f1e05a", textColor: Color.white },
+        { name: "Lua",          color: "#000080", textColor: Color.white },
+        { name: "Matlab",       color: "#bb92ac", textColor: Color.white },
+        { name: "ObjC",         color: "#438eff", textColor: Color.white },
+        { name: "Perl",         color: "#0298c3", textColor: Color.white },
+        { name: "Php",          color: "#4F5D95", textColor: Color.white },
+        { name: "Python",       color: "#3572A5", textColor: Color.white },
+        { name: "R",            color: "#198ce7", textColor: Color.white },
+        { name: "Ruby",         color: "#701516", textColor: Color.white },
+        { name: "Scala",        color: "#DC322F", textColor: Color.white },
+        { name: "Shell",        color: "#89e051", textColor: Color.white },
+        { name: "Swift",        color: "#ffac45", textColor: Color.white },
+        { name: "Tex",          color: "#3D6117", textColor: Color.white },
+        { name: "Viml",         color: "#199f4b", textColor: Color.white },
+        { name: "TypeScript",   color: "#2b7489", textColor: Color.white }
+    ];
+
+
+
     static actionScript : ILanguage = { name: "ActionScript", color: "#882B0F", textColor: Color.white };
     static c            : ILanguage = { name: "C",            color: "#555555", textColor: Color.white };
-    static cSharp       : ILanguage = { name: "CSharp",       color: "#178600", textColor: Color.white };
+    static cSharp       : ILanguage = { name: "C#",           color: "#178600", textColor: Color.white };
     static cpp          : ILanguage = { name: "Cpp",          color: "#f34b7d", textColor: Color.white };
     static clojure      : ILanguage = { name: "Clojure",      color: "#db5855", textColor: Color.white };
     static coffeeScript : ILanguage = { name: "CoffeeScript", color: "#244776", textColor: Color.white };

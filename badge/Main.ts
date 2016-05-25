@@ -28,7 +28,54 @@ function buildSvgBadgeFullJson(el: HTMLElement, dataPath: string = "./badgeData.
     badge.buildBadgeFromJsons(stylePath, dataPath, BuildType.InsideSvg);
 }
 
+function myLanguageBadge(el: HTMLElement) {
+
+    const badge = new Badge();
+    const user = badge.urlHelper.getUserName();
+    const repo = badge.urlHelper.getRepoName();
+
+    const reqUrl = `https://api.github.com/repos/${user}/${repo}`;
+
+    var lang: string;
+
+    const req = new XMLHttpRequest();
+    req.open("get", reqUrl, true);
+    req.send();
+    req.onreadystatechange = () => {
+        if (req.readyState !== 4) return;
+        if (req.status !== 200) {
+            console.log(`Error while loading .json data! Request status: ${req.status} : ${req.statusText}`);
+        } else {
+            lang = JSON.parse(req.responseText)["language"];
+
+            console.log(lang);
+            console.log(Languages.all.find(l => (l.name === "C#")));
+
+            var sectionType = SectionType.CSharp;
+
+            badge.setSvgTarget(el);
+            badge.setCaller(el);
+            const data: IBadgeData = {
+                sections: [
+                    {
+                        type: SectionType.Text,
+                        text: "language",
+                        bcgColor: undefined
+                    },
+                    {
+                        type: sectionType,
+                        text: undefined,
+                        bcgColor: undefined
+                    }
+                ]
+            };
+            badge.buildBadgeByData(data, BuildType.InsideSvg);
+        }
+    }
+}
+
 function languageBadge(el: HTMLElement, type: SectionType) {
+
     const badge = new Badge();
     badge.setSvgTarget(el);
     badge.setCaller(el);

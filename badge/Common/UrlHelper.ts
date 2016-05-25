@@ -6,6 +6,7 @@ class UrlHelper implements IUrlHelper {
         const regexS = `[\\?&]${name}=([^&#]*)`;
         const regex = new RegExp(regexS);
         const results = regex.exec(window.location.href);
+        
         if (results == null)
             return "";
         else
@@ -22,5 +23,13 @@ class UrlHelper implements IUrlHelper {
             default:
                 return Theme.Light;
         }
+    }
+
+    getUserName(): string {
+        return this.getParameter("user");
+    }
+
+    getRepoName(): string {
+        return this.getParameter("repo");
     }
 }

@@ -17,10 +17,14 @@ class Badge implements IBadge {
     targetHtmlElement: HTMLElement;
     targetSvgElement: HTMLElement;
     style: IBadgeStyle;
+    theme: Theme;
+    urlHelper: IUrlHelper;
 
     constructor() {
-        const badgeStyle = this.getStyle();
+        this.urlHelper = new UrlHelper();
+        this.theme = this.urlHelper.getTheme();
 
+        const badgeStyle = this.getStyle();
         this.style = badgeStyle;
     }
 
@@ -38,11 +42,8 @@ class Badge implements IBadge {
 
     getStyle(): IBadgeStyle {
         let style: IBadgeStyle;
-
-        const urlHelper = new UrlHelper();
-        const theme = urlHelper.getTheme();
-
-        switch (theme) {
+        
+        switch (this.theme) {
             case Theme.Dark:
                 style = new DarkBadgeStyle();
                 break;
