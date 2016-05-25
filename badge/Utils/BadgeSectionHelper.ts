@@ -33,7 +33,7 @@ class BadgeSectionHelper {
         }
         badgeStyle.commonTextStyle.backgroundColor = lang.color;
         badgeStyle.commonTextStyle.fontStyle.fontColor = lang.textColor;
-        badgeStyle.commonTextStyle.fontStyle.fontShadowColor = lang.textColor;
+        badgeStyle.commonTextStyle.fontStyle.fontShadowColor = "black";//lang.textColor;
         return badgeStyle;
     }
 

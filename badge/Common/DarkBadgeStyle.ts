@@ -8,8 +8,8 @@ class DarkBadgeStyle implements BadgeStyle {
     radius = 3;
     
     constructor() {
-        const commonFontStyle = new FontStyle("Verdana", 11, Color.white, Color.white);
-        const commonBcgColor = Color.black;
+        const commonFontStyle = new FontStyle("DejaVu Sans,Verdana,Geneva,sans-serif", 11, Color.white, Color.black);
+        const commonBcgColor = Color.darkGrey;
         this.commonTextStyle = new SectionStyle(commonFontStyle, commonBcgColor);
     }
 

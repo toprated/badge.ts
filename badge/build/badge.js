@@ -1,6 +1,7 @@
 class Color {
 }
 Color.silver = "#f2f2f2";
+Color.darkGrey = "#595959";
 Color.gray = "#808080";
 Color.white = "#FFF";
 Color.black = "#000";
@@ -32,8 +33,8 @@ class DarkBadgeStyle {
     constructor() {
         this.indent = 5;
         this.radius = 3;
-        const commonFontStyle = new FontStyle("Verdana", 11, Color.white, Color.white);
-        const commonBcgColor = Color.black;
+        const commonFontStyle = new FontStyle("DejaVu Sans,Verdana,Geneva,sans-serif", 11, Color.white, Color.black);
+        const commonBcgColor = Color.darkGrey;
         this.commonTextStyle = new SectionStyle(commonFontStyle, commonBcgColor);
     }
 }
@@ -102,7 +103,7 @@ class LightBadgeStyle {
     constructor() {
         this.indent = 5;
         this.radius = 3;
-        const commonFontStyle = new FontStyle("DejaVu Sans,Verdana,Geneva,sans-serif", 11, Color.black, Color.black);
+        const commonFontStyle = new FontStyle("DejaVu Sans,Verdana,Geneva,sans-serif", 11, Color.black, Color.gray);
         const commonBcgColor = Color.silver;
         this.commonTextStyle = new SectionStyle(commonFontStyle, commonBcgColor);
     }
@@ -402,7 +403,7 @@ class BadgeSectionHelper {
         }
         badgeStyle.commonTextStyle.backgroundColor = lang.color;
         badgeStyle.commonTextStyle.fontStyle.fontColor = lang.textColor;
-        badgeStyle.commonTextStyle.fontStyle.fontShadowColor = lang.textColor;
+        badgeStyle.commonTextStyle.fontStyle.fontShadowColor = "black";
         return badgeStyle;
     }
     static getSectionText(section, sectionWidth, sectionHeight, badgeWidth, fontStyle) {

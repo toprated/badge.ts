@@ -37,5 +37,5 @@
         "./Utils/SvgTagsHelper.ts",
         "./Badge.ts",
         "./Main.ts"
-    ]
+  ]
 }
