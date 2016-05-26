@@ -91,15 +91,12 @@ class Badge implements IBadge {
         switch (buildType) {
             case BuildType.Full:
                 {
-
                     const badge = SvgTagsHelper.createSvg("svg-badge");
                     badge.appendChild(badgeGradient);
                     badge.appendChild(badgeMainGroup);
-
                     badge
                         .setWidth(badgeWidth)
                         .setHeight(badgeHeight);
-
                     this.targetHtmlElement.appendChild(badge);
                     break;
                 }
@@ -110,8 +107,6 @@ class Badge implements IBadge {
                     this.targetSvgElement
                         .setWidth(badgeWidth)
                         .setHeight(badgeHeight);
-
-
                     break;
                 }
         default:

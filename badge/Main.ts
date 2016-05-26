@@ -71,11 +71,15 @@ function myLanguageBadge(el: HTMLElement) {
     }
 }
 
-function languageBadge(el: HTMLElement, type: SectionType) {
+function languageBadge(el: HTMLElement, langName: string) {
 
     const badge = new Badge();
     badge.setSvgTarget(el);
     badge.setCaller(el);
+
+    const lang = Languages.getLangByName(langName);
+    const langSectionType = lang.sectionType;
+
     const data: IBadgeData = {
         sections: [
             {
@@ -84,7 +88,7 @@ function languageBadge(el: HTMLElement, type: SectionType) {
                 bcgColor: undefined
             },
             {
-                type: type,
+                type: langSectionType,
                 text: undefined,
                 bcgColor: undefined
             }

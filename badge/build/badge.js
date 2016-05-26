@@ -629,10 +629,12 @@ function myLanguageBadge(el) {
         }
     };
 }
-function languageBadge(el, type) {
+function languageBadge(el, langName) {
     const badge = new Badge();
     badge.setSvgTarget(el);
     badge.setCaller(el);
+    const lang = Languages.getLangByName(langName);
+    const langSectionType = lang.sectionType;
     const data = {
         sections: [
             {
@@ -641,7 +643,7 @@ function languageBadge(el, type) {
                 bcgColor: undefined
             },
             {
-                type: type,
+                type: langSectionType,
                 text: undefined,
                 bcgColor: undefined
             }
