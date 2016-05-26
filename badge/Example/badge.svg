@@ -1,3 +1,8 @@
-﻿<svg id = "awesome-badge" xmlns="http://www.w3.org/2000/svg" onload="buildSvgBadge(this)">
-	<script type="text/javascript" href="./../build/badge.js"></script>
+﻿<svg id = "awesome-badge" xmlns="http://www.w3.org/2000/svg">
+  <script type="text/javascript" href="./../build/badge.js">
+  </script>
+  <script type="text/javascript">
+    var el = document.getElementById("awesome-badge");
+    el.addEventListener("onload", buildSvgBadge(el));
+  </script>
 </svg>
