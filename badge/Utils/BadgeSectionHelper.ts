@@ -26,13 +26,13 @@ class BadgeSectionHelper {
         if (section.type === SectionType.Text || section.type === undefined) {
             return badgeStyle;
         }
-        const lang = Languages.getLanguage(section.type);
+        const lang = Languages.getLangByType(section.type);
         if (section.text === undefined) {
             section.text = lang.name;
         }
         badgeStyle.commonTextStyle.backgroundColor = lang.color;
         badgeStyle.commonTextStyle.fontStyle.fontColor = lang.textColor;
-        badgeStyle.commonTextStyle.fontStyle.fontShadowColor = "black";//lang.textColor;
+        badgeStyle.commonTextStyle.fontStyle.fontShadowColor = "black";
         return badgeStyle;
     }
 

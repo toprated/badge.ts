@@ -47,11 +47,8 @@ function myLanguageBadge(el: HTMLElement) {
             console.log(`Error while loading .json data! Request status: ${req.status} : ${req.statusText}`);
         } else {
             lang = JSON.parse(req.responseText)["language"];
-
-            console.log(lang);
-            console.log(Languages.all.find(l => (l.name === "C#")));
-
-            var sectionType = SectionType.CSharp;
+            
+            const sectionType = SectionType.CSharp;
 
             badge.setSvgTarget(el);
             badge.setCaller(el);
